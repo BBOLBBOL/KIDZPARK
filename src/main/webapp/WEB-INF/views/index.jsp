@@ -34,7 +34,7 @@
 
 <body>
     <div class="container-xxl bg-white p-0">
-      <%@include file="/include/nav.jsp"%>
+      <%@include file="/WEB-INF/views/include/nav.jsp"%>
         <!-- Header Start -->
         <div class="container-fluid header bg-white p-0">
             <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
