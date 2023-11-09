@@ -55,7 +55,7 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
                         <a href="/" class="nav-item nav-link active">Home</a>
-                        <a href="#" class="nav-item nav-link">YES 키즈존</a>
+                        <a href="/Kidzzone" class="nav-item nav-link">YES 키즈존</a>
                         <a href="#" class="nav-item nav-link">공지사항</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">게시판 목록</a>

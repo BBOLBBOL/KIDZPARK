@@ -33,7 +33,20 @@
     
     <style>
     
-  
+    .row1 {
+    display: flex;
+    flex-wrap: wrap;
+     margin: 10px 10px auto;
+}
+
+.row1>* {
+    width: 100%;
+    max-width: 230px;
+    padding-right: calc(var(--bs-gutter-x) / 2);
+    padding-left: calc(var(--bs-gutter-x) / 2);
+    margin: 10px 10px auto;
+   
+}
 
 
     
@@ -44,9 +57,9 @@
 
 <body>
     <div class="container-xxl bg-white p-0">
-        <div class="container-fluid nav-bar bg-transparent">
-      <%@include file="/WEB-INF/views/include/nav.jsp"%> 
-      </div>
+	<div class="container-fluid nav-bar bg-transparent">
+			<%@include file="/WEB-INF/views/include/nav.jsp"%>
+		</div>
         <!-- Header Start -->
         <div class="container-fluid header bg-white p-0">
             <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
@@ -117,8 +130,8 @@
                 </div>
                 <div class="row1 g-4">
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/Freeboard">
-                            <div class="rounded p-4">
+                        <a class="cat-item d-block bg-light text-center rounded p-3" href="">
+                            <div class="rounded p-4 contain">
                                 <div class="icon mb-3 ">
                                     <img class="img-fluid1" src="img/baby1.jpg" alt="Icon" width="45" height="50">
                                 </div>
@@ -129,7 +142,7 @@
                     </div>
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
                         <a class="cat-item d-block bg-light text-center rounded p-3" href="">
-                            <div class="rounded p-4">
+                            <div class="rounded p-4 contain">
                                 <div class="icon mb-3">
                                     <img class="img-fluid1" src="img/baby2.jpg" alt="Icon" width="45" height="50">
                                 </div>
@@ -140,7 +153,7 @@
                     </div>
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
                         <a class="cat-item d-block bg-light text-center rounded p-3" href="">
-                            <div class="rounded p-4">
+                            <div class="rounded p-4 contain">
                                 <div class="icon mb-3">
                                     <img class="img-fluid1" src="img/baby3.jpg" alt="Icon" width="45" height="50">
                                 </div>
@@ -151,7 +164,7 @@
                     </div>
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
                         <a class="cat-item d-block bg-light text-center rounded p-3" href="">
-                            <div class="rounded p-4">
+                            <div class="rounded p-4 contain">
                                 <div class="icon mb-3">
                                     <img class="img-fluid1" src="img/baby4.jpg" alt="Icon" width="45" height="50">
                                 </div>
@@ -162,7 +175,7 @@
                     </div>
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
                         <a class="cat-item d-block bg-light text-center rounded p-3" href="">
-                            <div class="rounded p-4">
+                            <div class="rounded p-4 contain">
                                 <div class="icon mb-3">
                                     <img class="img-fluid1" src="img/baby5.jpg" alt="Icon" width="45" height="50">
                                 </div>
