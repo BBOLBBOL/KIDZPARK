@@ -1,12 +1,11 @@
-package com.board.mapper;
+package com.kidzpark.board.mapper;
 
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.board.domain.BoardVo;
+import com.kidzpark.board.domain.BoardVo;
 
 @Mapper
 public interface BoardMapper {

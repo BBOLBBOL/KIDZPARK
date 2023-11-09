@@ -1,4 +1,4 @@
-package com.board;
+package com.kidzpark;
 
 import javax.sql.DataSource;
 
@@ -13,11 +13,11 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 @SpringBootApplication
-@MapperScan(value = {"com.board.mapper"} )
-public class BoardApplication {
+@MapperScan(value = {"com.kidzpark.board.mapper"} )
+public class KidzparkApplication {
 
    public static void main(String[] args) {
-      SpringApplication.run(BoardApplication.class, args);
+      SpringApplication.run(KidzparkApplication.class, args);
    }
    
    @Bean

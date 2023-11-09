@@ -1,4 +1,4 @@
-package com.board.domain;
+package com.kidzpark.board.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

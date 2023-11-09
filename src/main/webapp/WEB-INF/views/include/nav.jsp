@@ -42,9 +42,8 @@
 
 
         <!-- Navbar Start -->
-        <div class="container-fluid nav-bar bg-transparent">
-            <nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
-                <a href="index.html" class="navbar-brand d-flex align-items-center text-center">
+            <nav class="navbar navbar-expand-lg navbar-light py-0 px-4">
+                <a href="/" class="navbar-brand d-flex align-items-center text-center">
                     <div class="p-2">
                         <img class="img-fluid" src="img/kidzpark.png" alt="Icon" style="width: 40px; height: 40px; margin-right:10px;">
                     </div>
@@ -55,29 +54,25 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
-                        <a href="index.html" class="nav-item nav-link active">Home</a>
-                        <a href="about.html" class="nav-item nav-link">About</a>
+                        <a href="/" class="nav-item nav-link active">Home</a>
+                        <a href="#" class="nav-item nav-link">YES 키즈존</a>
+                        <a href="#" class="nav-item nav-link">공지사항</a>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Property</a>
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">게시판 목록</a>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a href="property-list.html" class="dropdown-item">Property List</a>
-                                <a href="property-type.html" class="dropdown-item">Property Type</a>
-                                <a href="property-agent.html" class="dropdown-item">Property Agent</a>
+                                <a href="/Freeboard" class="dropdown-item">자유</a>
+                                <a href="#" class="dropdown-item">건강</a>
+                                <a href="#" class="dropdown-item">요리</a>
+                                <a href="#" class="dropdown-item">육아</a>
+                                <a href="#" class="dropdown-item">교육</a>
                             </div>
                         </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                <a href="404.html" class="dropdown-item">404 Error</a>
-                            </div>
-                        </div>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        <a href="#" class="nav-item nav-link">채팅</a>
+                        <a href="#" class="nav-item nav-link">고객센터</a>
                     </div>
-                    <a href="" class="btn btn-primary px-3 d-none d-lg-flex">Add Property</a>
+                    <a href="/Mypage" class="btn btn-primary px-3 d-none d-lg-flex">로그인</a>
                 </div>
             </nav>
-        </div>
         <!-- Navbar End -->
 
         <!-- Back to Top -->

@@ -1,4 +1,4 @@
-package com.board;
+package com.kidzpark.board;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.board.domain.BoardVo;
-import com.board.mapper.BoardMapper;
+import com.kidzpark.board.domain.BoardVo;
+import com.kidzpark.board.mapper.BoardMapper;
 
 @SpringBootTest
 class BoardApplicationTests {
