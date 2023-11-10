@@ -55,7 +55,7 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
                         <a href="/" class="nav-item nav-link active">Home</a>
-                        <a href="#" class="nav-item nav-link">YES 키즈존</a>
+                        <a href="/Kidzone" class="nav-item nav-link">YES 키즈존</a>
                         <a href="#" class="nav-item nav-link">공지사항</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">게시판 목록</a>
@@ -67,7 +67,7 @@
                                 <a href="#" class="dropdown-item">교육</a>
                             </div>
                         </div>
-                        <a href="#" class="nav-item nav-link">채팅</a>
+                        <a href="/ChatList" class="nav-item nav-link">채팅</a>
                         <a href="#" class="nav-item nav-link">고객센터</a>
                     </div>
                     <a href="/Mypage" class="btn btn-primary px-3 d-none d-lg-flex">로그인</a>
