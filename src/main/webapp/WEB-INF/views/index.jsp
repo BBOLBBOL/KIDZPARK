@@ -89,23 +89,23 @@
                 <div class="row g-2">
                     <div class="col-md-10">
                         <div class="row g-2">
+                           <div class="col-md-4">
+								<select class="form-select border-0 py-3" name="kz_location">
+									<option selected>지역</option>
+									<option value="서울">서울</option>
+									<option value="부산">부산</option>
+									<option value="인천">인천</option>
+									<option value="대구">대구</option>
+									<option value="대전">대전</option>
+									<option value="광주">광주</option>
+									<option value="울산">울산</option>
+								</select>
+							</div>
                             <div class="col-md-4">
-                                <select class="form-select border-0 py-3">
-                                    <option selected>지역 전체</option>
-                                    <option value="1">서울</option>
-                                    <option value="2">부산</option>
-                                    <option value="3">대구</option>
-                                    <option value="4">대전</option>
-                                    <option value="5">광주</option>
-                                    <option value="6">울산</option>
-                                    <option value="7">인천</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3">
-                                    <option selected>매장 검색</option>
-                                    <option value="1">매장 이름</option>
-                                    <option value="2">매장 주소</option>
+                                <select class="form-select border-0 py-3" name="selectoption">
+                                    <option value="all" selected >매장 검색</option>
+                                    <option value="kz_name">매장 이름</option>
+                                    <option value="kz_address">매장 주소</option>
                                 </select>
                             </div>
                             <div class="col-md-4">

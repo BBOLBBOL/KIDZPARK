@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="utf-8">
 
@@ -44,15 +45,16 @@ body {
 	background-color: #f4f4f4;
 }
 
-.row1 { 
+.row1 {
 	display: flex;
 	flex-wrap: wrap;
-	margin : 25px 25px auto;
-	
+	margin: 25px 25px auto;
 }
-#map{
-margin: auto;
+
+#map {
+	margin: auto;
 }
+
 .chat-list {
 	width: 400px;
 	margin: auto;
@@ -108,55 +110,101 @@ margin: auto;
 						style="margin-top: 13%; text-align: center;">Yes키즈존</h1>
 				</div>
 			</div>
-			<hr>
-			<hr>
 		</div>
 		<!-- Header End -->
+
+		<!-- Search Start -->
+		<div class="container-fluid bg-primary mb-5 wow fadeIn"
+			data-wow-delay="0.1s" style="padding: 35px;">
+			<div class="container">
+				<div class="row g-2">
+					<div class="col-md-10">
+						<div class="row g-2">
+							<div class="col-md-4">
+								<select class="form-select border-0 py-3" name="kz_location">
+									<option value="all"selected>지역</option>
+									<option value="서울">서울</option>
+									<option value="부산">부산</option>
+									<option value="인천">인천</option>
+									<option value="대구">대구</option>
+									<option value="대전">대전</option>
+									<option value="광주">광주</option>
+									<option value="울산">울산</option>
+								</select>
+							</div>
+							<div class="col-md-4">
+								<select class="form-select border-0 py-3" name="kz_category">
+									<option value="all"selected>카테고리</option>
+									<option value="카페">카페</option>
+									<option value="음식점">음식점</option>
+									<option value="키즈카페">키즈카페</option>
+									<option value="체험활동">체험활동</option>
+								</select>
+							</div>
+							 <div class="col-md-4">
+                                <select class="form-select border-0 py-3" name="searchoption">
+                                    <option value="all" selected >매장 검색</option>
+                                    <option value="kz_name">매장 이름</option>
+                                    <option value="kz_address">매장 주소</option>
+                                </select>
+                            </div>
+							<div class="col-md-4">
+								<input type="text" class="form-control border-0 py-3" name="searchKeyword"
+									placeholder="Search Keyword">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<button class="btn btn-dark border-0 w-100 py-3">Search</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Search End -->
 		<!-- 지도 화면 구현 -->
 
-		<script type="text/javascript"
-			src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9498e4a9ccb49a333639cda66a55991c"></script>
-  <div class="container-xxl py-5">
-   <div class="container">
-		<div class="row1">
-			<div id="map"
-				style="width: 500px; height: 450px; margin-top: 3%; border-radius: 10px; border: 2px solid #000;">
-			</div>
+		<div class="container-xxl py-5">
+			<div class="container">
+				<div class="row1">
+					<div id="map"
+						style="width: 500px; height: 450px; margin-top: 3%; border-radius: 10px; border: 2px solid #000;">
+					</div>
 
-			<!-- 지도 화면 구현 끝 -->
-			<div class="chat-list"
-				style="margin-top: 3%; max-width: 300px;">
-				<div class="chat-room">
-					<a href="">
-						<h3>키즈존1</h3>
-						<p class="last-message">키즈존1</p>
-						<p class="timestamp">키즈존 입니다</p>
-					</a>
+					<!-- 지도 화면 구현 끝 -->
+					<div class="chat-list" style="margin-top: 3%; max-width: 300px;">
+						<div>
+						<c:forEach var="zone" items="${selectkiddzone}">
+						<div class="chat-room">
+							<a href="">
+								<h3>${zone.kz_name}</h3>
+								<p class="timestamp">${zone.kz_explanation}</p>
+								<p class="last-message">${zone.kz_openingtime}</p>
+							</a>
+						</div>
+						<!-- 다른 채팅방들을 나열하십시오 -->
+						</c:forEach>
+						</div>
+						  <div class="pagination">
+
+    <c:if test="${not empty pg && pg.startPage != 1 }">
+    <a href="/Kidzzone?nowPage=${pg.startPage - 1 }&cntPerPage=${pg.cntPerPage}">&lt;</a>
+    </c:if>
+    <c:forEach begin="${pg.startPage }" end="${pg.endPage }" var="p">
+      <c:choose>
+       <c:when test="${p == pg.nowPage }">
+         <a>${p}</a> 
+       </c:when>
+        <c:when test="${p != pg.nowPage }">
+          <a href="/Kidzzone?nowPage=${p }&cntPerPage=${pg.cntPerPage}">${p }</a>
+        </c:when>
+      </c:choose>
+    </c:forEach>
+ <c:if test="${pg.endPage != pg.lastPage }">
+   <a href="/Kidzzone?nowPage=${pg.endPage+1 }&cenPerPage${pg.cntPerPage}">&gt;</a>
+ </c:if>
+</div>
+					</div>
 				</div>
-				<div class="chat-room">
-					<a href="">
-						<h3>키즈존2</h3>
-						<p class="last-message">키즈존2</p>
-						<p class="timestamp">키즈존 입니다</p>
-					</a>
-				</div>
-				<div class="chat-room">
-					<a href="">
-						<h3>키즈존3</h3>
-						<p class="last-message">키즈존3</p>
-						<p class="timestamp">키즈존 입니다</p>
-					</a>
-				</div>
-				<div class="chat-room">
-					<a href="">
-						<h3>키즈존4</h3>
-						<p class="last-message">키즈존4</p>
-						<p class="timestamp">키즈존 입니다</p>
-					</a>
-				</div>
-				<!-- 다른 채팅방들을 나열하십시오 -->
-			</div>
-			</div>
 			</div>
 		</div>
 		<!-- Footer Start -->
@@ -249,62 +297,63 @@ margin: auto;
 
 	<!-- Template Javascript -->
 	<script src="js/main.js"></script>
-<script>
-  var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-          mapOption = {
-            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-            level: 3 // 지도의 확대 레벨
-          };
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fad561524453bbd8238a7dec3e7acb20&libraries=services"></script>
+	<script>
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+		mapOption = {
+			center : new kakao.maps.LatLng(35.157759003, 129.059317193), // 지도의 중심좌표
+			level : 3
+		// 지도의 확대 레벨
+		};
 
-  // 지도를 생성합니다
-  var map = new kakao.maps.Map(mapContainer, mapOption);
+		// 지도를 생성합니다
+		var map = new kakao.maps.Map(mapContainer, mapOption);
 
-  // 주소-좌표 변환 객체를 생성합니다
-  var geocoder = new kakao.maps.services.Geocoder();
+		// 주소-좌표 변환 객체를 생성합니다
+		var geocoder = new kakao.maps.services.Geocoder();
 
-  var positions = [
-    {
-      title: '카카오',
-      address: '제주특별자치도 제주시 첨단로 242'
-    },
-    {
-      title: '생태연못',
-      address: '경기 남양주시 조안면 능내리 50'
-    },
-    {
-      title: '근린공원',
-      address: '경기 남양주시 별내면 청학로68번길 40'
-    }
-  ];
+		var jsonStr = '${json}';
+		jsonStr = jsonStr.replace(/\n/g, "\\n");
+		var data = JSON.parse(jsonStr);
+		
+		var positions = data.selectkiddzone;
+		
+		console.log(data);
+			
 
-  positions.forEach(function (position) { //추가한 코드
-    // 주소로 좌표를 검색합니다
-    geocoder.addressSearch(position.address, function(result, status) {
+		positions
+				.forEach(function(position) { //추가한 코드
+					// 주소로 좌표를 검색합니다
+					geocoder.addressSearch(position.kz_address, function(result, status) {
+										console.log(result, status);
+										// 정상적으로 검색이 완료됐으면
+										if (status === kakao.maps.services.Status.OK) {
+											var coords = new kakao.maps.LatLng(
+													result[0].y, result[0].x);
+											// 결과값으로 받은 위치를 마커로 표시합니다
+											var marker = new kakao.maps.Marker(
+													{
+														map : map,
+														position : coords
+													});
 
-      // 정상적으로 검색이 완료됐으면
-      if (status === kakao.maps.services.Status.OK) {
+											// 인포윈도우로 장소에 대한 설명을 표시합니다
+											//변경한 코드
+											var infowindow = new kakao.maps.InfoWindow(
+													{
+														content : '<div style="width:150px;text-align:center;padding:6px 0;">'
+																+ position.kz_name
+																+ '</div>'
+													});
+											infowindow.open(map, marker);
 
-        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-        // 결과값으로 받은 위치를 마커로 표시합니다
-        var marker = new kakao.maps.Marker({
-          map: map,
-          position: coords
-        });
-
-        // 인포윈도우로 장소에 대한 설명을 표시합니다
-        //변경한 코드
-        var infowindow = new kakao.maps.InfoWindow({
-          content: '<div style="width:150px;text-align:center;padding:6px 0;">' + position.title + '</div>'
-        });
-        infowindow.open(map, marker);
-
-        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-        map.setCenter(coords);
-      }
-    });
-  });
-</script>
+											// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+											map.setCenter(coords);
+										}
+									});
+				});
+	</script>
 </body>
 
 </html>

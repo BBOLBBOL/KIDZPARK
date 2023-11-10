@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kidzpark.kidzzone.mapper.KidzzoneMapper">
+
+  <select id="selectKiddzone"
+  resultType="com.kidzpark.kidzzone.domain.KidzzoneVo">
+   
+ SELECT *
+FROM (
+    SELECT ROWNUM RN, A.*
+    FROM (
+SELECT *
+    FROM KIDZZONE
+
+    ) A
+)
+WHERE RN BETWEEN #{start} AND #{end} 
+	
+</select>
+
+<select id="countKiddzone" resultType="int">
+ 
+SELECT COUNT(*) FROM KIDZZONE
+ 
+ </select>
+ 
+ <!-- <select id="selectKiddzone2"
+  resultType="com.kidzpark.kidzzone.domain.KidzzoneVo">
+   
+ 
+   SELECT *
+FROM (
+    SELECT ROWNUM RN, A.*
+    FROM (
+SELECT *
+    FROM KIDZZONE
+    WHERE KZ_NO != NULL
+    <if test="searchOption != 'all' || searchKeyword != 'all' " >
+        AND  ${searchOption} LIKE '%' || INITCAP(#{searchKeyword}) || '%'
+    </if>
+    <if test="kz_location != 'all'">
+           AND KZ_LOCATION = #{kz_location}
+    </if>
+    <if test="kz_category != 'all'">
+           AND KZ_CATEGORY = #{kz_category}
+    </if>
+    ) A
+)
+WHERE RN BETWEEN #{start} AND #{end} 
+	
+</select> -->
+
+
+
+</mapper>

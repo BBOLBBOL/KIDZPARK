@@ -13,6 +13,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 @SpringBootApplication
+@MapperScan(value = {"com.kidzpark.kidzzone.mapper"} )
 @MapperScan(value = {"com.kidzpark.board.mapper"} )
 public class KidzparkApplication {
 
