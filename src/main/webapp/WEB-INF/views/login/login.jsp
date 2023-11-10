@@ -182,7 +182,7 @@ label {
  		    <br>
           </form> 
         	<div class="join">
-           	  <a href="/Join">회원가입</a>
+           	  <a href="/JoinForm">회원가입</a>
       	    </div>     
         </div>
        </div>

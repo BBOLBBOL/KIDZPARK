@@ -118,7 +118,7 @@ input[type="text"], input[type="password"] {
                 
                 
           <div class="container-xxl py-5">
-            <form action="" method="" enctype="multipart/form-data" onsubmit="validateForm()">  
+            <form action="/Join" method="POST" enctype="multipart/form-data" onsubmit="validateForm()">  
              <table class="tb1">
 				<colgroup>
 					<col width="25%">
@@ -142,7 +142,7 @@ input[type="text"], input[type="password"] {
 				</tr>
 				<tr>
 					<td><span class="redFont">*</span>비밀번호 확인:</td>
-					<td><input type="password" id="user_pw2" style="width: 200px" onKeyUp="fn_compare_pwd();" required> 
+					<td><input type="password" id="user_pw2" style="width: 200px" required> 
 						<span id="pwdcheck_2"></span></td>
 				</tr>
 				<tr>
@@ -151,12 +151,14 @@ input[type="text"], input[type="password"] {
 				</tr>
 				<tr>
 					<td><span class="redFont">*</span>이메일:</td>
-					<td><input type="text" name="u_email" id="u_email" style="width: 200px" required>
+					<td><input type="text" name="u_email" id="u_email" onBlur="email()" style="width: 200px" required>
+						<span id="email_m"></span>
 					</td>
 				</tr>
 				<tr>
 					<td><span class="redFont">*</span>닉네임:</td>
-					<td><input type="text" name="u_nickname" id="u_nickname" style="width: 200px" required></td>
+					<td><input type="text" name="u_nickname" id="u_nickname" onBlur="nickname()" style="width: 200px" required>
+						<span id="nick_m"></span></td>
 				</tr>
 				<tr>
 					<td><span class="redFont">*</span>주소:</td>
@@ -164,9 +166,9 @@ input[type="text"], input[type="password"] {
 						<div>
 							<input type="text" id="u_postcode"      name="u_postcode"      placeholder="우편번호" style="width: 200px" required>
 						    <input type="button" onclick="u_execDaumPostcode()" value="우편번호 찾기"><br>
-							<input type="text" id="u_address"       name="u_address"       placeholder="주소" style="width: 100%;"><br>
-							<input type="text" id="u_detailAddress" name="u_detailAddress" placeholder="상세주소" style="width: 55%;" required><br>
-							<input type="text" id="u_extraAddress"  name="u_extraAddress"  placeholder="참고항목" style="width: 55%;">
+							<input type="text" id="u_address"       name="u_address"       placeholder="주소" style="width: 100%;" required><br>
+							<input type="text" id="u_detailaddress" name="u_detailaddress" placeholder="상세주소" style="width: 55%;"><br>
+							<input type="text" id="u_extraaddress"  name="u_extraaddress"  placeholder="참고항목" style="width: 55%;">
 						</div>
 					</td>
 				</tr>
@@ -271,10 +273,142 @@ input[type="text"], input[type="password"] {
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/waypoints/waypoints.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-
+	
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
     <script>
+    
+ $("#user_pw1")
+.blur(
+		function() {
+			let pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
+
+			if ($("#user_pw1").val() == "") {
+				$("#pwdcheck_1").text("비밀번호를 입력하세요.");
+				user_pwd1 = false;
+			} else if (!pwdCheck.test($("#user_pw1").val())) {
+				$("#pwdcheck_1").text(
+						"문자,숫자,특수문자를 포함한 8글자 이상 사용하여주세요");
+				user_pwd1 = false;
+			} else {
+				$("#pwdcheck_1").text("안전한 비밀번호 입니다")
+				user_pwd1 = true;
+			}
+}); // pw1 blur end
+
+$("#user_pw2").blur(
+	function() {
+		if ($("#user_pw2").val() == "") {
+			$("#pwdcheck_2").css("color", "red");
+			$("#pwdcheck_2").text("필수정보입니다");
+			user_pw2 = false;
+		} else if (user_pwd1 == true
+				&& $("#user_pw1").val() == $("#user_pw2").val()) {
+			$("#pwdcheck_2").css("color", "blue");
+			$("#pwdcheck_2").text("비밀번호 일치");
+			user_pw2 = true;
+		} else {
+			$("#pwdcheck_2").text("비밀번호 다시 확인해주세요");
+			$("#pwdcheck_2").css("color", "red");
+			$("#user_pw2").val("");
+			user_pw2 = false;
+		}
+	}); // pw2 blur end   
+    	function checkId(){
+    		var u_id = $('#u_id').val();
+    		$.ajax({
+    			url  : '/IdCheck',
+    			type : 'get',
+    			data : { u_id : u_id },
+    				success : function(result){
+    					if(result == 0){
+    						alert("중복되지 않은 아이디입니다");
+    						isIdAvailable = true;
+    					} else {
+    						alert("아이디를 다시 입력해주세요");
+    						isIdAvailable = false;
+    						$('#u_id').val('');
+    					}
+    					$('#u_id').prop('readonly', isIdAvailable);
+    				},
+    				error : function() {
+    					alert("error");
+    				}
+    			}); // ajax end
+    	} // idcheck end
+    	
+    	function checkEmailAvailability() {
+    	    var u_email = $('#u_email').val();
+
+    	    $.ajax({
+    	        url: '/ECheck',
+    	        type: 'get',
+    	        data: { u_email: u_email },
+    	        success: function (result) {
+    	            var message = (result == 0) ? "중복되지 않은 이메일입니다" : "이메일을 다시 입력해주세요";
+    	            $("#email_m").text(message);
+
+    	            if (result != 0) {
+    	                $('#u_email').val('');
+    	            }
+    	        },
+    	        error: function () {
+    	            alert("error");
+    	        }
+    	    });
+    	}
+
+    	function validateEmail(email) {
+    	    var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    	    return emailRegex.test(email);
+    	}
+
+    	$('#u_email').blur(function () {
+    	    var emailInput = $(this).val();
+
+    	    if (!validateEmail(emailInput)) {
+    	        $("#email_m").text("이메일을 다시 입력해주세요");
+    	        return;
+    	    }
+
+    	    checkEmailAvailability();
+    	});
+    	
+    	function checkNickname() {
+    	    var u_nickname = $('#u_nickname').val();
+
+    	    // 닉네임이 한글 단어 완성, 영어, 숫자 중 하나만 포함되었는지 확인
+    	    var regex = /^[가-힣a-zA-Z0-9]*[가-힣]+[가-힣a-zA-Z0-9]*|[a-zA-Z0-9]*[a-zA-Z]+[가-힣a-zA-Z0-9]*|[a-zA-Z0-9]*[0-9]+[가-힣a-zA-Z0-9]*$/;
+    	    if (!regex.test(u_nickname)) {
+    	        $("#nick_m").text("1자 이상 20자 이하로 입력해주세요");
+    	        return;
+    	    }
+
+    	    $.ajax({
+    	        url: '/NCheck',
+    	        type: 'get',
+    	        data: { u_nickname: u_nickname },
+    	        success: function (result) {
+    	            if (result == 0) {
+    	                $("#nick_m").text("중복되지 않은 닉네임입니다");
+    	            } else {
+    	                $("#nick_m").text("닉네임을 다시 입력해주세요");
+    	                $('#u_nickname').val('');
+    	            }
+    	        },
+    	        error: function () {
+    	            alert("error");
+    	        }
+    	    });
+    	}
+
+    	// 닉네임 체크 함수를 blur 이벤트에 연결
+    	$('#u_nickname').blur(checkNickname);
+    </script>
+    <script>
+    function checkIdcg() {
+		$('#u_id').prop('readonly', false);
+	}
     function u_execDaumPostcode() {
 		new daum.Postcode(
 				{
@@ -313,20 +447,75 @@ input[type="text"], input[type="password"] {
 								extraAddr = ' (' + extraAddr + ')';
 							}
 							// 조합된 참고항목을 해당 필드에 넣는다.
-							document.getElementById("u_extraAddress").value = extraAddr;
+							document.getElementById("u_extraaddress").value = extraAddr;
 
 						} else {
-							document.getElementById("u_extraAddress").value = '';
+							document.getElementById("u_extraaddress").value = '';
 						}
 
 						// 우편번호와 주소 정보를 해당 필드에 넣는다.
 						document.getElementById('u_postcode').value = data.zonecode;
 						document.getElementById("u_address").value = addr;
 						// 커서를 상세주소 필드로 이동한다.
-						document.getElementById("u_detailAddress").focus();
+						document.getElementById("u_detailaddress").focus();
 					}
 				}).open();
 	}
+    
+    function readURL(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				document.getElementById('preview').src = e.target.result;
+			};
+			reader.readAsDataURL(input.files[0]);
+		} else {
+			document.getElementById('preview').src = "";
+		}
+	}
+    
+    var isIdChecked  =  false;
+	   
+	   function validateForm() {
+	      var requiredFields = document.querySelectorAll('input[required]');
+	      for (var i = 0; i < requiredFields.length; i++) {
+	          if (requiredFields[i].value.trim() === '') {
+	              alert("필수 입력란을 작성하세요.");
+	              event.preventDefault();
+	              return false;
+	          }
+	      }
+	      if (!$('#u_id').prop('readonly')){
+	         alert('아이디 중복 체크를 먼저 진행하세요');
+	         event.preventDefault();
+	         return false;
+	      }
+	      return true;
+	  }
+	   
+	   
+	   $('form').submit(function (event) {
+		    event.preventDefault(); // 기본 동작 중단
+
+		    // AJAX로 서버에 폼 데이터 전송
+		    $.ajax({
+		        url: '/Join',
+		        type: 'POST',
+		        data: new FormData(this),
+		        contentType: false,
+		        processData: false,
+		        success: function (response) {
+		            // 가입 성공 시
+		            alert('회원가입이 완료되었습니다.');
+		            // 다른 동작 수행 (예: 페이지 이동 등)
+		        },
+		        error: function (xhr, status, error) {
+		            // 가입 실패 시
+		            alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+		            console.error(xhr, status, error);
+		        }
+		    });
+		}); 
     </script>
     
 </body>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kidzpark.user.mapper.LoginMapper">
+
+ 
+<select id="idCheck"
+  parameterType="com.kidzpark.user.domain.UserVo"
+  resultType = "int">
+   
+   SELECT COUNT(U_ID) FROM PUSER 
+    WHERE U_ID  =  #{u_id}
+	
+</select>
+
+<select id="NCheck"
+  parameterType="com.kidzpark.user.domain.UserVo"
+  resultType = "int">
+   SELECT COUNT(U_NICKNAME) FROM PUSER 
+    WHERE U_NICKNAME  =  #{u_nickname}
+</select>
+
+<select id="ECheck"
+  parameterType="com.kidzpark.user.domain.UserVo"
+  resultType = "int">
+   SELECT COUNT(U_EMAIL) FROM PUSER 
+    WHERE U_EMAIL  =  #{u_email}
+</select>
+
+<insert id ="insertJoin1" parameterType="map">
+INSERT INTO PUSER (
+     U_NO
+    ,U_ID
+    ,U_PW
+    ,U_NAME
+    ,U_POSTCODE
+    ,U_ADDRESS
+    ,U_DETAILADDRESS
+    ,U_EXTRAADDRESS
+    ,U_NICKNAME
+    ,U_PHONE
+    ,U_EMAIL
+    ,U_LOGINCOUNT
+    ,U_WRITECOUNT
+    ,U_GRADE
+) VALUES (
+    ( SELECT NVL(MAX(U_NO),0)+1 FROM PUSER)
+    ,#{u_id}
+    ,#{u_pw}
+    ,#{u_name}
+    ,#{u_postcode}
+    ,#{u_address}
+    ,#{u_detailaddress}
+    ,#{u_extraaddress}
+    ,#{u_nickname}
+    ,#{u_phone}
+    ,#{u_email}
+    ,0
+    ,0
+    ,0
+)
+</insert>
+
+<insert id ="insertJoin2" parameterType="map">
+INSERT INTO PUSER (
+     U_NO
+    ,U_ID
+    ,U_PW
+    ,U_NAME
+    ,U_POSTCODE
+    ,U_ADDRESS
+    ,U_DETAILADDRESS
+    ,U_EXTRAADDRESS
+    ,U_NICKNAME
+    ,U_PHONE
+    ,U_PROFILEIMG
+    ,U_EMAIL
+    ,U_LOGINCOUNT
+    ,U_WRITECOUNT
+    ,U_GRADE
+) VALUES (
+    ( SELECT NVL(MAX(U_NO),0)+1 FROM PUSER)
+    ,#{u_id}
+    ,#{u_pw}
+    ,#{u_name}
+    ,#{u_postcode}
+    ,#{u_address}
+    ,#{u_detailaddress}
+    ,#{u_extraaddress}
+    ,#{u_nickname}
+    ,#{u_phone}
+    ,#{u_profileimg, jdbcType=VARCHAR}
+    ,#{u_email}
+    ,0
+    ,0
+    ,0
+)
+</insert>
+
+
+</mapper>
