@@ -508,6 +508,7 @@ $("#user_pw2").blur(
 		            // 가입 성공 시
 		            alert('회원가입이 완료되었습니다.');
 		            // 다른 동작 수행 (예: 페이지 이동 등)
+		            window.location.href = 'redirect:/Login';
 		        },
 		        error: function (xhr, status, error) {
 		            // 가입 실패 시

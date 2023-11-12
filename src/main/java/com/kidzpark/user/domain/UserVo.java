@@ -23,7 +23,7 @@ public class UserVo {
 	private String u_address;
 	private String u_detailaddress;
 	private String u_extraaddress;
-	private String u_profileimg;
+	private byte[] u_profileimg;
 	private String u_email;
 	private int    u_logincount;
 	private int    u_writecount;

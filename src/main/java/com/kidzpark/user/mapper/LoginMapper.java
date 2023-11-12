@@ -2,6 +2,8 @@ package com.kidzpark.user.mapper;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kidzpark.user.domain.UserVo;
