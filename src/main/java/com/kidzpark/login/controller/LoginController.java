@@ -42,7 +42,7 @@ public class LoginController {
 		// 로그인 입력값으로 DB조회후 확인
 		UserVo loginVo = loginMapper.login( vo );
 		if ( loginVo != null ) {
-			session.setAttribute("sloginVo", loginVo);
+			session.setAttribute("loginVo", loginVo);
 			returnURL = "redirect:/";
 		} else {
 			model.addAttribute("loginFail", "아이디나 비밀번호가 잘못되었습니다. 다시 시도하세요.");
@@ -51,7 +51,13 @@ public class LoginController {
 		
 		return returnURL;
 	}
-	
+	// 로그아웃
+	@RequestMapping("/LogOut")
+	public String logout( HttpSession session ) {
+		session.invalidate();
+		return "/login/login";
+	}
+
 	@RequestMapping("/JoinForm")
 	public String joinForm(){
 		return "login/join";
@@ -61,9 +67,6 @@ public class LoginController {
 			@RequestParam HashMap<String, Object> map
 			,HttpServletRequest   request){
 		String u_profileimg = String.valueOf(map.get("u_profileimg"));
-		//String u_profileimg = (String) map.get("u_profileimg");
-		//String u_profileimg = vo.getU_profileimg();
-		//Object profileImgObject = map.get("u_profileimg");
 		if(u_profileimg == null || u_profileimg.isEmpty()) {
 			ImgFile.save( map, request );
 			System.out.println("map: " + map);
