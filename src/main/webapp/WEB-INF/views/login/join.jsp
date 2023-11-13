@@ -90,10 +90,47 @@ input[type="text"], input[type="password"] {
 	max-width: 300px;
 	margin-top: 10px;
 }
-#u_extraAddress {
-
+@media (max-width: 768px) {
+  /* 768px보다 작은 화면 크기에 대한 스타일 설정 */
+  .container-xxl, .form, .button, .tr, .td, .span, .input {
+    width: auto;
+    height: auto;
+  }
+  
+  .form, button, tr, td {
+    width: 80%;
+    height: 35px;
+    margin-top: 5px;
+    font-size: 0.8em;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  span {
+    font-size: 0.8em;
+  }
 }
 
+@media (max-width: 480px) {
+  /* 480px보다 작은 화면 크기에 대한 스타일 설정 */
+  .container-xxl, .form, .button, .tr, .td, .span, .input {
+    width: auto;
+    height: auto;
+  }
+  
+  .form, button, tr, td {
+    width: 85%;
+    height: 30px;
+    margin-top: 5px;
+    font-size: 0.7em;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  span {
+    font-size: 0.7em;
+  }
+}
 </style>
 </head>
 
