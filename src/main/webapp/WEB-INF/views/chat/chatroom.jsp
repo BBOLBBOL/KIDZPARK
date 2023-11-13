@@ -291,6 +291,7 @@
 			<div class="chat">
 				<div class="header">
 					<span class="title"> (이름변경) 채팅방 </span>
+					<a href="/ChatRoomOut?chr_no=${chr_no}">채팅방 나가기</a>
 				</div>
 				<ul id="msgArea" class="messages">
 				</ul>

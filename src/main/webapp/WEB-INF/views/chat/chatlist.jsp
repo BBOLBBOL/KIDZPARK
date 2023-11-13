@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="utf-8">
 
@@ -86,39 +87,19 @@
                 </div>
 
       <hr>
-        <!-- Header End -->       
+        
+        <!-- Header End -->
+        <c:forEach var="room" items="${list }">       
        <div class="chat-list" style="margin-top: 3%;">
         <div class="chat-room">
-        <a href="/ChatRoom{ID}">
-            <h3>잡담 채팅방</h3>
-            <p class="last-message">최근 메시지 내용</p>
-            <p class="timestamp">2 분 전</p>
-            </a>
-        </div>
-        <div class="chat-room">
-           <a href="/ChatRoom">
-            <h3>건강 채팅방</h3>
-            <p class="last-message">최근 메시지 내용</p>
-            <p class="timestamp">2 분 전</p>
-            </a>
-        </div>
-        <div class="chat-room">
-           <a href="/ChatRoom">
-            <h3>육아 채팅방</h3>
-            <p class="last-message">최근 메시지 내용</p>
-            <p class="timestamp">5 분 전</p>
-            </a>
-        </div>
-        <div class="chat-room">
-           <a href="/ChatRoom">
-            <h3>요리 채팅방</h3>
-            <p class="last-message">최근 메시지 내용</p>
-            <p class="timestamp">5 분 전</p>
+        <a href="/ChatRoom?chr_no=${room.chr_no}">
+            <h3>${room.chr_title }</h3>
+            <p class="timestamp">${room.chr_peoplecount }</p>
             </a>
         </div>
         <!-- 다른 채팅방들을 나열하십시오 -->
     </div>
-      
+      </c:forEach>
       
       
       

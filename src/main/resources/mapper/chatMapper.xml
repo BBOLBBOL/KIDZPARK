@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kidzpark.chat.mapper.ChatMapper">
+
+<select id="chatList" resultType="com.kidzpark.chat.controller.ChatVo">
+SELECT *
+FROM CHATROOM
+
+</select>
+
+<insert id="joinChatRoom">
+
+UPDATE CHATROOM
+SET CHR_PEOPLECOUNT = CHR_PEOPLECOUNT + 1
+WHERE CHR_NO = #{chr_no}
+
+
+</insert>
+
+<insert id="outChatRoom">
+
+UPDATE CHATROOM
+SET CHR_PEOPLECOUNT = CHR_PEOPLECOUNT - 1
+WHERE CHR_NO = #{chr_no}
+
+
+</insert>
+
+
+
+
+</mapper>
