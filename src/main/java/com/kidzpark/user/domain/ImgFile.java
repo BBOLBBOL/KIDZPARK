@@ -11,9 +11,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 public class ImgFile {
-	 public static void save(HashMap<String, Object> map, HttpServletRequest request) {
+	 public static void save(//UserVo vo,
+			HashMap<String,Object> map,
+			 HttpServletRequest request) {
 	        // 자료실에 파일이 저장될 경로(디렉토리) 지정 없으면 생성
-	        String filePath = "I:\\dev\\data";
+	        String filePath = "D:\\dev\\data";
+	        //upload.path=E:/study/imageTest/
+
 	        File dir = new File(filePath);
 	        if (!dir.exists()) {
 	            dir.mkdir(); // make directory
@@ -47,16 +51,19 @@ public class ImgFile {
 	              
 	                u_profileimg = checkFile.getCheckFileName(filePath, orgFileName, u_imgext);
 
-	                // 파일 저장
 	                File file = new File(filePath + u_profileimg);
 	                try {
-	                    multipartFile.transferTo(file); // 실제 파일 저장
+	                    multipartFile.transferTo(file); 
 	                } catch (IllegalStateException | IOException e) {
 	                    e.printStackTrace();
 	                }
 	                
 	            }
 	        }
+	        
 	        map.put("u_profileimg", u_profileimg);
+	      //  System.out.println("map2 : " + map);
+	       // u_profileimg = vo.getU_id();
+	       // vo.setU_profileimg(u_profileimg);
 	 }
 }

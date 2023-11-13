@@ -166,7 +166,7 @@ label {
         <!-- Header End -->     
        <div class="wrap">
         <div class="login">
-          <form action="">
+          <form action="/Login">
         	<div class="login_id">
 		      <label for="u_id" id="label1">사용자 아이디</label>
 		      <input type="text" id="u_id" name="u_id" placeholder="ID" autocomplete="on" required>

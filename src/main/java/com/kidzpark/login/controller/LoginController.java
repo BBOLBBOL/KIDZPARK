@@ -3,11 +3,12 @@ package com.kidzpark.login.controller;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,35 +24,56 @@ public class LoginController {
 	@Autowired
 	private LoginMapper loginMapper;
 	
-	@RequestMapping("/Login")  
-	   public String login() {
+	@RequestMapping("/LoginForm")  
+	   public String loginForm() {
 	      return "login/login";
 	   }
+	@RequestMapping("/Login")
+		public String login(
+				UserVo vo, HttpServletRequest request, Model model) {
+		
+		HttpSession session = request.getSession();
+		String returnURL = "";
+
+		if( session.getAttribute("loginVo") != null ) {
+			session.removeAttribute("loginVo");
+		}
+		
+		// 로그인 입력값으로 DB조회후 확인
+		UserVo loginVo = loginMapper.login( vo );
+		if ( loginVo != null ) {
+			session.setAttribute("sloginVo", loginVo);
+			returnURL = "redirect:/";
+		} else {
+			model.addAttribute("loginFail", "아이디나 비밀번호가 잘못되었습니다. 다시 시도하세요.");
+			returnURL = "redirect:/LoginForm";
+		}
+		
+		return returnURL;
+	}
 	
 	@RequestMapping("/JoinForm")
 	public String joinForm(){
 		return "login/join";
 	}
-	@PostMapping("/Join")
+	@RequestMapping("/Join")
 	public ModelAndView join(
-			@RequestParam HashMap<String, Object> map,
-			HttpServletRequest   request){
-		
+			@RequestParam HashMap<String, Object> map
+			,HttpServletRequest   request){
 		String u_profileimg = String.valueOf(map.get("u_profileimg"));
+		//String u_profileimg = (String) map.get("u_profileimg");
 		//String u_profileimg = vo.getU_profileimg();
-		System.out.println("map : " + map);
-		//System.out.println("vo : " + vo);
-		System.out.println("u_profileimg : " + u_profileimg);
-		
+		//Object profileImgObject = map.get("u_profileimg");
 		if(u_profileimg == null || u_profileimg.isEmpty()) {
 			ImgFile.save( map, request );
-			loginMapper.insertJoin1(map);
-		} else {
+			System.out.println("map: " + map);
 			loginMapper.insertJoin2(map);
+		} else {
+			loginMapper.insertJoin1(map);
 		}
 		
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("redirect:/Login");
+		mv.setViewName("login/login");
 		return mv;
 	}
 	

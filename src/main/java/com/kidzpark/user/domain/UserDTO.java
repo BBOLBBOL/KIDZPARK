@@ -1,20 +1,11 @@
 package com.kidzpark.user.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
-
-public class UserVo {
+public class UserDTO {
 	private int    u_no;
 	private String u_id;
 	private String u_pw;
@@ -30,5 +21,4 @@ public class UserVo {
 	private int    u_grade;
 	private String u_nickname;
 	private String u_phone;
-
 }

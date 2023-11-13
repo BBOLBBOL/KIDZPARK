@@ -118,7 +118,7 @@ input[type="text"], input[type="password"] {
                 
                 
           <div class="container-xxl py-5">
-            <form action="/Join" method="POST" enctype="multipart/form-data" onsubmit="validateForm()">  
+            <form action="/Join" method="POST" enctype="multipart/form-data" onsubmit="validateForm()">
              <table class="tb1">
 				<colgroup>
 					<col width="25%">
@@ -130,45 +130,45 @@ input[type="text"], input[type="password"] {
 				</tr>
 				<tr>
 					<td><span class="redFont">*</span>아이디:</td>
-					<td><input type="text" name="u_id" id="u_id" style="width: 200px" required>
+					<td><input type="text" name="u_id" id="u_id" style="width: 200px" value="sky" required>
 						<button type="button" onclick="checkId()" class="btn btn-dark">중복체크</button>
 					</td>
 				</tr>
 				<tr>
 					<td><span class="redFont">*</span>비밀번호:</td>
-					<td><input type="password" name="u_pw" id="user_pw1" style="width: 200px" required>
+					<td><input type="password" name="u_pw" id="user_pw1" style="width: 200px" value="qwer1234!" required>
 						<span id=pwdcheck_1></span>
 					</td>
 				</tr>
 				<tr>
 					<td><span class="redFont">*</span>비밀번호 확인:</td>
-					<td><input type="password" id="user_pw2" style="width: 200px" required> 
+					<td><input type="password" id="user_pw2" style="width: 200px" value="qwer1234!" required> 
 						<span id="pwdcheck_2"></span></td>
 				</tr>
 				<tr>
 					<td><span class="redFont">*</span>이름:</td>
-					<td><input type="text" name="u_name" id="u_name" style="width: 200px" required></td>
+					<td><input type="text" name="u_name" id="u_name" style="width: 200px" value="하늘" required></td>
 				</tr>
 				<tr>
 					<td><span class="redFont">*</span>이메일:</td>
-					<td><input type="text" name="u_email" id="u_email" onBlur="email()" style="width: 200px" required>
+					<td><input type="text" name="u_email" id="u_email" onBlur="email()" style="width: 200px" value="sky@nate.com" required>
 						<span id="email_m"></span>
 					</td>
 				</tr>
 				<tr>
 					<td><span class="redFont">*</span>닉네임:</td>
-					<td><input type="text" name="u_nickname" id="u_nickname" onBlur="nickname()" style="width: 200px" required>
+					<td><input type="text" name="u_nickname" id="u_nickname" onBlur="nickname()" style="width: 200px" value="하늘하늘" required>
 						<span id="nick_m"></span></td>
 				</tr>
 				<tr>
 					<td><span class="redFont">*</span>주소:</td>
 					<td>
 						<div>
-							<input type="text" id="u_postcode"      name="u_postcode"      placeholder="우편번호" style="width: 200px" required>
+							<input type="text" id="u_postcode"      name="u_postcode"      placeholder="우편번호" value="38054" style="width: 200px" required>
 						    <input type="button" onclick="u_execDaumPostcode()" value="우편번호 찾기"><br>
-							<input type="text" id="u_address"       name="u_address"       placeholder="주소" style="width: 100%;" required><br>
-							<input type="text" id="u_detailaddress" name="u_detailaddress" placeholder="상세주소" style="width: 55%;"><br>
-							<input type="text" id="u_extraaddress"  name="u_extraaddress"  placeholder="참고항목" style="width: 55%;">
+							<input type="text" id="u_address"       name="u_address"       placeholder="주소" value="경북 경주시 건천읍 하늘마루길 18-10" style="width: 100%;"  required><br>
+							<input type="text" id="u_detailaddress" name="u_detailaddress" placeholder="상세주소" value="하늘" style="width: 55%;"><br>
+							<input type="text" id="u_extraaddress"  name="u_extraaddress"  placeholder="참고항목" value="하늘" style="width: 55%;">
 						</div>
 					</td>
 				</tr>
@@ -176,7 +176,7 @@ input[type="text"], input[type="password"] {
 					<td><span class="redFont">*</span>연락처:</td>
 					<td>
 						<div>
-							<input type="text" name="u_phone" placeholder="(-)빼고 입력" style="width: 200px;" required>
+							<input type="text" name="u_phone" placeholder="(-)빼고 입력" style="width: 200px;" value="01000000000" required>
 						</div>
 					</td>
 				</tr>
@@ -494,7 +494,7 @@ $("#user_pw2").blur(
 	  }
 	   
 	   
-	   $('form').submit(function (event) {
+	  $('form').submit(function (event) {
 		    event.preventDefault(); // 기본 동작 중단
 
 		    // AJAX로 서버에 폼 데이터 전송
@@ -508,7 +508,7 @@ $("#user_pw2").blur(
 		            // 가입 성공 시
 		            alert('회원가입이 완료되었습니다.');
 		            // 다른 동작 수행 (예: 페이지 이동 등)
-		            window.location.href = 'redirect:/Login';
+		            window.location.href = '/LoginForm';
 		        },
 		        error: function (xhr, status, error) {
 		            // 가입 실패 시
@@ -516,7 +516,7 @@ $("#user_pw2").blur(
 		            console.error(xhr, status, error);
 		        }
 		    });
-		}); 
+		});
     </script>
     
 </body>

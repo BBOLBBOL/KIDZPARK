@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.kidzpark.user.domain.UserDTO;
 import com.kidzpark.user.domain.UserVo;
 
 @Mapper
@@ -20,5 +21,7 @@ public interface LoginMapper {
 	void insertJoin1(HashMap<String, Object> map);
 
 	void insertJoin2(HashMap<String, Object> map);
+
+	UserVo login(UserVo vo);
 	
 }

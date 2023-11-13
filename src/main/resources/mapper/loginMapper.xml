@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kidzpark.user.mapper.LoginMapper">
 
+<select id="login"
+      resultType="com.kidzpark.user.domain.UserVo">
+      SELECT *
+       FROM  PUSER
+      WHERE U_ID = #{ u_id }
+       AND  U_PW = #{ u_pw }
+</select>
  
 <select id="idCheck"
   parameterType="com.kidzpark.user.domain.UserVo"
@@ -26,7 +33,7 @@
     WHERE U_EMAIL  =  #{u_email}
 </select>
 
-<insert id ="insertJoin1" parameterType="map">
+<insert id ="insertJoin1" >
 INSERT INTO PUSER (
      U_NO
     ,U_ID
@@ -60,7 +67,7 @@ INSERT INTO PUSER (
 )
 </insert>
 
-<insert id ="insertJoin2" parameterType="map">
+<insert id ="insertJoin2" >
 INSERT INTO PUSER (
      U_NO
     ,U_ID
@@ -88,7 +95,7 @@ INSERT INTO PUSER (
     ,#{u_extraaddress}
     ,#{u_nickname}
     ,#{u_phone}
-    ,#{u_profileimg, jdbcType=VARCHAR}
+    ,#{u_profileimg}
     ,#{u_email}
     ,0
     ,0
