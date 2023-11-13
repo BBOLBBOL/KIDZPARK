@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="utf-8">
 
@@ -122,7 +122,7 @@ body {
 						<div class="row g-2">
 							<div class="col-md-4">
 								<select class="form-select border-0 py-3" name="kz_location">
-									<option value="all"selected>지역</option>
+									<option value="all" selected>지역</option>
 									<option value="서울">서울</option>
 									<option value="부산">부산</option>
 									<option value="인천">인천</option>
@@ -134,23 +134,23 @@ body {
 							</div>
 							<div class="col-md-4">
 								<select class="form-select border-0 py-3" name="kz_category">
-									<option value="all"selected>카테고리</option>
+									<option value="all" selected>카테고리</option>
 									<option value="카페">카페</option>
 									<option value="음식점">음식점</option>
 									<option value="키즈카페">키즈카페</option>
 									<option value="체험활동">체험활동</option>
 								</select>
 							</div>
-							 <div class="col-md-4">
-                                <select class="form-select border-0 py-3" name="searchoption">
-                                    <option value="all" selected >매장 검색</option>
-                                    <option value="kz_name">매장 이름</option>
-                                    <option value="kz_address">매장 주소</option>
-                                </select>
-                            </div>
 							<div class="col-md-4">
-								<input type="text" class="form-control border-0 py-3" name="searchKeyword"
-									placeholder="Search Keyword">
+								<select class="form-select border-0 py-3" name="searchoption">
+									<option value="all" selected>매장 검색</option>
+									<option value="kz_name">매장 이름</option>
+									<option value="kz_address">매장 주소</option>
+								</select>
+							</div>
+							<div class="col-md-4">
+								<input type="text" class="form-control border-0 py-3"
+									name="searchKeyword" placeholder="Search Keyword">
 							</div>
 						</div>
 					</div>
@@ -172,37 +172,10 @@ body {
 
 					<!-- 지도 화면 구현 끝 -->
 					<div class="chat-list" style="margin-top: 3%; max-width: 300px;">
-						<div>
-						<c:forEach var="zone" items="${selectkiddzone}">
-						<div class="chat-room">
-							<a href="">
-								<h3>${zone.kz_name}</h3>
-								<p class="timestamp">${zone.kz_explanation}</p>
-								<p class="last-message">${zone.kz_openingtime}</p>
-							</a>
+						<div id="content"></div>
+						<div class="pagination">
+							<div id="pageNum"></div>
 						</div>
-						<!-- 다른 채팅방들을 나열하십시오 -->
-						</c:forEach>
-						</div>
-						  <div class="pagination">
-
-    <c:if test="${not empty pg && pg.startPage != 1 }">
-    <a href="/Kidzzone?nowPage=${pg.startPage - 1 }&cntPerPage=${pg.cntPerPage}">&lt;</a>
-    </c:if>
-    <c:forEach begin="${pg.startPage }" end="${pg.endPage }" var="p">
-      <c:choose>
-       <c:when test="${p == pg.nowPage }">
-         <a>${p}</a> 
-       </c:when>
-        <c:when test="${p != pg.nowPage }">
-          <a href="/Kidzzone?nowPage=${p }&cntPerPage=${pg.cntPerPage}">${p }</a>
-        </c:when>
-      </c:choose>
-    </c:forEach>
- <c:if test="${pg.endPage != pg.lastPage }">
-   <a href="/Kidzzone?nowPage=${pg.endPage+1 }&cenPerPage${pg.cntPerPage}">&gt;</a>
- </c:if>
-</div>
 					</div>
 				</div>
 			</div>
@@ -300,6 +273,73 @@ body {
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fad561524453bbd8238a7dec3e7acb20&libraries=services"></script>
 	<script>
+	
+	
+	
+	var jsonStr = '${json}';
+	jsonStr = jsonStr.replace(/\n/g, "\\n");
+	var data = JSON.parse(jsonStr);
+	
+	var positions = data.selectkiddzone;
+	
+	
+	    let pg = data.pg; // 페이지네이션 정보
+	    let nowPage = pg.nowPage; // 현재 페이지 번호
+	    let cntPerPage = pg.cntPerPage; // 페이지당 항목 수
+	    
+	         function updatePage() {        
+	$.ajax({
+	    type: "GET",
+	    url: "/Kidzzone", // 요청 URL
+	    data: { 
+	    	nowPage: nowPage, // 페이지 번호
+	        cntPerPage: cntPerPage // 페이지당 표시할 항목 수
+	    },
+	    success: function(response) {
+	    	
+	        let tag = '';
+	        for(let position of positions) {
+	            tag += '<div class="chat-room">'
+	            tag += '<a href=""><h3>' + position.kz_name + '</h3><p class="timestamp">' +position.kz_explanation + '</p>'
+	            tag += '<p class="last-message">' + position.kz_openingtime + '</p></a></div>'
+	        }
+	        // 페이지 내용 갱신
+	        $("#content").html(tag);
+	        
+	    	 let pageNumTag = '';
+		        if(pg.startPage != 1) {
+		            pageNumTag += '<a href="/Kidzzone?nowPage=' + (pg.startPage - 1) + '&cntPerPage=' + pg.cntPerPage + '">&lt;</a>';
+		        }
+		        for(let p = pg.startPage; p <= pg.endPage; p++) {
+		            if(p == pg.nowPage) {
+		                pageNumTag += '<a>' + p + '</a>';
+		            } else {
+		                pageNumTag += '<a href="/Kidzzone?nowPage=' + p + '&cntPerPage=' + pg.cntPerPage + '">' + p + '</a>';
+		            }
+		        }
+		        if(pg.endPage != pg.lastPage) {
+		            pageNumTag += '<a href="/Kidzzone?nowPage=' + (pg.endPage+1) + '&cntPerPage=' + pg.cntPerPage + '">&gt;</a>';
+		        }
+		        // 페이지네이션 링크 갱신
+		        $("#pageNum").html(pageNumTag);
+	    	
+
+	    },
+	    error: function(jqXHR, textStatus, errorThrown) {
+	        console.log("오류: ", textStatus, errorThrown); // 오류 정보 출력
+	    }
+	});
+	         }
+	         
+	         updatePage();
+	         
+	
+	
+	$(document).on('click', '#pageNum a', function(e) {
+	    nowPage = $(this).text(); // 클릭한 버튼의 페이지 번호
+	    updatePage(); // AJAX 요청 재실행
+	});
+	
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 		mapOption = {
 			center : new kakao.maps.LatLng(35.157759003, 129.059317193), // 지도의 중심좌표
@@ -313,15 +353,9 @@ body {
 		// 주소-좌표 변환 객체를 생성합니다
 		var geocoder = new kakao.maps.services.Geocoder();
 
-		var jsonStr = '${json}';
-		jsonStr = jsonStr.replace(/\n/g, "\\n");
-		var data = JSON.parse(jsonStr);
-		
-		var positions = data.selectkiddzone;
 		
 		console.log(data);
-			
-
+		
 		positions
 				.forEach(function(position) { //추가한 코드
 					// 주소로 좌표를 검색합니다
@@ -349,10 +383,34 @@ body {
 											infowindow.open(map, marker);
 
 											// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-											map.setCenter(coords);
+											if (navigator.geolocation) {
+		    
+		    // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+		    navigator.geolocation.getCurrentPosition(function(position1) {
+		        
+		        var lat = position1.coords.latitude, // 위도
+		            lon = position1.coords.longitude; // 경도
+		        
+		        var locPosition1 = new kakao.maps.LatLng(lat, lon), // 마커가 표시될 위치를 geolocation으로 얻어온 좌표로 생성합니다
+		            message = '<div style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
+		        
+		        // 마커와 인포윈도우를 표시합니다
+		        displayMarker(locPosition1, message);
+		            
+		      });
+		    
+		} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+		    
+		    var locPosition1 = new kakao.maps.LatLng(33.450701, 126.570667),    
+		        message = 'geolocation을 사용할수 없어요..'
+		        
+		    displayMarker(locPosition1, message);
+		}
 										}
 									});
 				});
+		
+
 	</script>
 </body>
 
