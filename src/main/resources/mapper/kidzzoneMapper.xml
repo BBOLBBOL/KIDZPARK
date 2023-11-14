@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kidzpark.kidzzone.mapper.KidzzoneMapper">
 
-  <select id="selectKiddzone"
+  <select id="selectKiddzonelist"
   resultType="com.kidzpark.kidzzone.domain.KidzzoneVo">
    
  SELECT *
@@ -18,38 +18,118 @@ WHERE RN BETWEEN #{start} AND #{end}
 	
 </select>
 
+  <select id="selectKiddzone"
+  resultType="com.kidzpark.kidzzone.domain.KidzzoneVo">
+   
+ SELECT *
+    FROM KIDZZONE
+	
+</select>
+
+
 <select id="countKiddzone" resultType="int">
  
 SELECT COUNT(*) FROM KIDZZONE
  
  </select>
  
- <!-- <select id="selectKiddzone2"
-  resultType="com.kidzpark.kidzzone.domain.KidzzoneVo">
-   
+  <select id="selectKiddzoneSearch" resultType="com.kidzpark.kidzzone.domain.KidzzoneVo" parameterType="map">
+  
+SELECT *
+	FROM KIDZZONE
+	WHERE 1 = 1
+ <if test="searchOption != 'all' and searchKeyword != ''">
+        AND UPPER(${searchOption}) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+    </if>
+    <if test="kz_location != 'all'">
+        AND KZ_ADDRESS LIKE '%' || #{kz_location} || '%'
+    </if>
+    <if test="kz_category != 'all'">
+        AND KZ_CATEGORY LIKE #{kz_category}
+        </if>
+		
+</select>
+
+
+<select id="countKiddzoneSearch" resultType="int">
  
-   SELECT *
+SELECT COUNT(*) FROM KIDZZONE
+WHERE 1 = 1
+ <if test="searchOption != 'all' and searchKeyword != ''">
+        AND UPPER(${searchOption}) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+    </if>
+    <if test="kz_location != 'all'">
+        AND KZ_ADDRESS LIKE '%' || #{kz_location} || '%'
+    </if>
+    <if test="kz_category != 'all'">
+        AND KZ_CATEGORY LIKE #{kz_category}
+        </if>
+ 
+ </select>
+ 
+<select id="selectKidzzoneSearchlist1"
+  resultType="map">
+   
+ SELECT *
 FROM (
     SELECT ROWNUM RN, A.*
     FROM (
 SELECT *
     FROM KIDZZONE
-    WHERE KZ_NO != NULL
-    <if test="searchOption != 'all' || searchKeyword != 'all' " >
-        AND  ${searchOption} LIKE '%' || INITCAP(#{searchKeyword}) || '%'
-    </if>
-    <if test="kz_location != 'all'">
-           AND KZ_LOCATION = #{kz_location}
-    </if>
-    <if test="kz_category != 'all'">
-           AND KZ_CATEGORY = #{kz_category}
-    </if>
     ) A
 )
-WHERE RN BETWEEN #{start} AND #{end} 
+WHERE RN BETWEEN #{pg.start} AND #{pg.end} 
 	
-</select> -->
+</select>
+
+<select id="selectKidzzoneSearchlist2"
+  resultType="map">
+   
+ SELECT *
+FROM (
+    SELECT ROWNUM RN, A.*
+    FROM (
+SELECT *
+    FROM KIDZZONE
+    WHERE 1 = 1
+ <if test="searchOption != 'all' and searchKeyword != ''">
+        AND UPPER(${searchOption}) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+    </if>
+    <if test="kz_location != 'all'">
+        AND KZ_ADDRESS LIKE '%' || #{kz_location} || '%'
+    </if>
+    <if test="kz_category != 'all'">
+        AND KZ_CATEGORY LIKE #{kz_category}
+        </if>
+    ) A
+)
+WHERE RN BETWEEN #{pg.start} AND #{pg.end} 
+	
+</select>
 
 
 
+
+<select id="countKiddzoneSearch1" resultType="int">
+ 
+SELECT COUNT(*) FROM KIDZZONE
+ 
+ </select>
+<select id="countKiddzoneSearch2" resultType="int">
+ 
+SELECT COUNT(*) FROM KIDZZONE
+WHERE 1 = 1
+ <if test="searchOption != 'all' and searchKeyword != ''">
+        AND UPPER(${searchOption}) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+    </if>
+    <if test="kz_location != 'all'">
+        AND KZ_ADDRESS LIKE '%' || #{kz_location} || '%'
+    </if>
+    <if test="kz_category != 'all'">
+        AND KZ_CATEGORY LIKE #{kz_category}
+        </if>
+ 
+ </select>
+ 
+ 
 </mapper>
