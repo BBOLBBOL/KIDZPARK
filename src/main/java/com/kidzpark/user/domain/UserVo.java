@@ -30,5 +30,4 @@ public class UserVo {
 	private int    u_grade;
 	private String u_nickname;
 	private String u_phone;
-
 }

@@ -53,7 +53,7 @@ tr:nth-child(even) {
 	background-color: #f2f2f2;
 }
 
-td {
+td{
 	padding: 5px;
 }
 
@@ -92,7 +92,7 @@ input[type="text"], input[type="password"] {
 }
 @media (max-width: 768px) {
   /* 768px보다 작은 화면 크기에 대한 스타일 설정 */
-  .container-xxl, .form, .button, .tr, .td, .span, .input {
+  .container-xxl, .form, .button, .tr, .td, .span, .input{
     width: auto;
     height: auto;
   }
@@ -113,12 +113,12 @@ input[type="text"], input[type="password"] {
 
 @media (max-width: 480px) {
   /* 480px보다 작은 화면 크기에 대한 스타일 설정 */
-  .container-xxl, .form, .button, .tr, .td, .span, .input {
+  .container-xxl, .form, .button, .tr, .td, .span, .input, #number1 {
     width: auto;
     height: auto;
   }
   
-  .form, button, tr, td {
+  .form, button, tr, td, #number1 {
     width: 85%;
     height: 30px;
     margin-top: 5px;
@@ -187,11 +187,21 @@ input[type="text"], input[type="password"] {
 					<td><input type="text" name="u_name" id="u_name" style="width: 200px" value="하늘" required></td>
 				</tr>
 				<tr>
-					<td><span class="redFont">*</span>이메일:</td>
-					<td><input type="text" name="u_email" id="u_email" onBlur="email()" style="width: 200px" value="sky@nate.com" required>
-						<span id="email_m"></span>
+					<td><span class="redFont">*</span>이메일 입력:</td>
+					<td>
+						<input type="text" name="u_email" id="u_email" style="width: 200px"  placeholder="이메일 입력" value="jsoiyl922@gmail.com" required>
+						<button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()">인증번호 받기</button>
 					</td>
 				</tr>
+				<br>
+				<tr id="number1" style="display: none;">
+					<td><span class="redFont">*</span>인증번호 입력</td>
+					<td>
+						<input type="text" name="number" id="number" style="width: 200px" placeholder="인증번호 입력" required>
+						<button type="button" name="confirmBtn" id="confirmBtn" onclick="confirmNumber()">이메일 인증</button>
+					</td>
+				</tr>
+						<br><input type="text" id="Confirm" name="Confirm"  style="display: none;"  value="">
 				<tr>
 					<td><span class="redFont">*</span>닉네임:</td>
 					<td><input type="text" name="u_nickname" id="u_nickname" onBlur="nickname()" style="width: 200px" value="하늘하늘" required>
@@ -374,7 +384,7 @@ $("#user_pw2").blur(
     			}); // ajax end
     	} // idcheck end
     	
-    	function checkEmailAvailability() {
+    	/*function checkEmailAvailability() {
     	    var u_email = $('#u_email').val();
 
     	    $.ajax({
@@ -409,7 +419,34 @@ $("#user_pw2").blur(
     	    }
 
     	    checkEmailAvailability();
-    	});
+    	});*/
+    	
+    	function sendNumber(){
+    		$("#number1").show();
+            $.ajax({
+                url:"/Mail",
+                type:"post",
+                dataType:"json",
+                data:{"u_email" : $("#u_email").val()},
+                success: function(data){
+                    alert("인증번호 발송");
+                    $("#Confirm").attr("value",data);
+                }
+            });
+        }
+
+        function confirmNumber(){
+            var number1 = $("#number").val();
+            var number2 = $("#Confirm").val();
+
+            if (!number1) {
+                alert("인증번호를 입력하세요.");
+            } else if (number1 == number2) {
+                alert("인증되었습니다.");
+            } else {
+                alert("번호가 다릅니다.");
+            }
+        }
     	
     	function checkNickname() {
     	    var u_nickname = $('#u_nickname').val();

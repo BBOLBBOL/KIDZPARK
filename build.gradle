@@ -34,6 +34,9 @@ dependencies {
 	implementation 'org.mybatis:mybatis-spring'
     implementation 'org.mybatis:mybatis'
     
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.6.3'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    
     compileOnly 'org.projectlombok:lombok:1.18.30'
     
     

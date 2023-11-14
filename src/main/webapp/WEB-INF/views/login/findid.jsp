@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>로그인</title>
+    <title>아이디 찾기</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -40,113 +40,11 @@
   background: #fffff;
   margin-bottom: 200px;
 }
+.find-link {
+        display: block;
+        margin-top: 20px; /* 원하는 만큼의 간격을 지정하세요 */
+    }
 
-.login {
-  width: 25vw;
-  height: 50vh;
-  background: #fffff;
-  border-radius: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.login_id {
-  margin-top: 20px;
-}
-
-.login_id input {
-  width: 100%;
-  height: 50px;
-  border-radius: 30px;
-  margin-top: 10px;
-  padding: 0px 20px;
-  border: 1px solid lightgray;
-  outline: none;
-}
-
-.login_pw {
-  margin-top: 2vh;
-}
-
-.login_pw input {
-  width: 100%;
-  height: 50px;
-  border-radius: 30px;
-  margin-top: 10px;
-  padding: 0px 20px;
-  border: 1px solid lightgray;
-  outline: none;
-}
-
-.submit {
-  margin-top: 50px;
-  width:auto;
-}
-.submit input {
-  width: 100%;
-  height: 50px;
-  border: 0;
-  outline: none;
-  border-radius: 40px;
-
-  color: white;
-  font-size: 1.2em;
-  letter-spacing: 2px;
-}
-label {
-  text-align: left;
-  font-size: bold;
-}
-
-/* 미디어 쿼리 */
-
-@media (max-width: 768px) {
-  /* 768px보다 작은 화면 크기에 대한 스타일 설정 */
-  .login {
-    width: 80vw;
-    height: 40vh;
-  }
-  .login_id input,
-  .login_pw input,
-  .submit input {
-    width: 80%;
-    height: 35px;
-    margin-top: 5px;
-    font-size: 0.8em;
-    justify-content: center;
-    align-items: center;
-  }
-  label {
-    font-size: 0.8em; /* 변경된 부분: 글자 크기 조절 */
-  }
-}
-
-@media (max-width: 480px) {
-  /* 480px보다 작은 화면 크기에 대한 스타일 설정 */
-  .login {
-    width: 90vw;
-    height: 50vh;
-  }
-  .login_id input,
-  .login_pw input,
-  .submit input {
-    width: 85%;
-    height: 30px;
-    margin-top: 5px;
-    font-size: 0.7em; /* 변경된 부분: 글자 크기 조절 */
-    justify-content: center;
-    align-items: center;
-  }
-  label {
-    font-size: 0.7em; /* 변경된 부분: 글자 크기 조절 */
-  }
-}
-.join a:not(:last-child)::after {
-  content: '|';
-  margin: 0 5px;
-}
 </style>   
 </head>
 
@@ -160,7 +58,7 @@ label {
                  <div class="container-fluid header bg-white p-0">
             <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
                 <div class="p-5 mt-lg-5">
-                   <h1 class="display-4 animated fadeIn mb-4" style="margin-top : 13%; text-align: center;">로그인</h1>
+                   <h1 class="display-4 animated fadeIn mb-4" style="margin-top : 13%; text-align: center;">아이디 찾기</h1>
             </div>
         </div>      
         <hr>
@@ -169,30 +67,19 @@ label {
 
         <!-- Header End -->     
        <div class="wrap">
-        <div class="login">
-          <form action="/Login">
-        	<div class="login_id">
-		      <label for="u_id" id="label1">사용자 아이디</label>
-		      <input type="text" id="u_id" name="u_id" placeholder="ID" autocomplete="on" required>
+		    <div>
+		      <label>가입하신 이메일을 입력해주세요</label><br>
+		      <input type="text" id="u_email" name="u_email"  autocomplete="on" >
+		      <button type="button" name="findBtn" id="findBtn" onclick="SendId()" class="btn btn-primary">찾기</button>
 		    </div>
-		    <div class="login_pw">
-		      <label for="password">비밀번호</label>
-		      <input type="password" id="u_pw" name="u_pw" placeholder="Password" autocomplete="off" required>
-		    </div>
-		    <div class="submit">
- 		      <input type="submit" value="로그인" class="btn btn-primary py-3 px-5 me-3 animated fadeIn">
- 		    </div>    
- 		    <br>
- 		    <br>
-          </form> 
-        	<div class="join">
-           	  <a href="/FindIdForm">아이디 찾기</a>
-           	  <a id="1" href="/FindPwForm">비밀번호 찾기</a>
-           	  <a id="2" href="/JoinForm">회원가입</a>
-      	    </div>     
-        </div>
        </div>
-        <!-- Footer Start -->
+		<div style="display: flex; justify-content: center;">
+			<a type="button" class="btn btn-secondary" onclick="location.href='/';">메인 화면</a>
+			<a type="button" class="btn btn-primary"   onclick="location.href='/FindPwForm';">비밀번호 찾기</a>
+		</div>
+
+
+		<!-- Footer Start -->
         <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
             <div class="container py-5">
                 <div class="row g-5">
@@ -263,7 +150,24 @@ label {
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    
+    <script>
+
+    function SendId() {
+        var u_email = $('#u_email').val();
+        $.ajax({
+            url  : '/SendId',
+            type : 'post',
+            data : { u_email : u_email },
+            success : function() {
+                alert("이메일이 전송되었습니다.");
+                
+            },
+            error : function() {
+                alert("이메일을 다시 입력해주세요");
+            }
+        });
+    }
+    </script>
     
 </body>
 
