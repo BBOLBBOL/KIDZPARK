@@ -105,7 +105,7 @@
 
     const username = '${loginVo.u_name}';
 
-    const websocket = new WebSocket("ws://192.168.0.1/ws/chat");
+    //const websocket = new WebSocket("ws://localhost:80/ws/chat");
     websocket.onmessage = onMessage;
     websocket.onopen = onOpen;
     websocket.onclose = onClose;

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kidzpark.user.domain.ImgFile;
@@ -72,21 +73,25 @@ public class LoginController {
 		session.invalidate();
 		return "/login/login";
 	}
-
+	//회원가입 폼 이동
 	@RequestMapping("/JoinForm")
 	public String joinForm(){
 		return "login/join";
 	}
+	// 회원가입
 	@RequestMapping("/Join")
-	public ModelAndView join(
+	public ModelAndView join(@RequestParam MultipartFile u_profileimg,
 			@RequestParam HashMap<String, Object> map
 			,HttpServletRequest   request){
-		String u_profileimg = String.valueOf(map.get("u_profileimg"));
-		if(u_profileimg != null || !u_profileimg.isEmpty() ) {
+		
+		System.out.println("u_profileimg : " + u_profileimg);
+		System.out.println("map0 : " + map);		
+		if(!u_profileimg.isEmpty() ) {
 			ImgFile.save( map, request );
-			System.out.println("map: " + map);
+			System.out.println("map1 : " + map);
 			loginMapper.insertJoin2(map);
 		} else {
+			System.out.println("map2 : " + map);
 			loginMapper.insertJoin1(map);
 		}
 		
@@ -94,6 +99,7 @@ public class LoginController {
 		mv.setViewName("login/login");
 		return mv;
 	}
+	
 	// 아이디 체크
 	@GetMapping("/IdCheck")
 	@ResponseBody
@@ -126,6 +132,7 @@ public class LoginController {
 	public String MailSend(String u_email) {
 		int number = mailService.sendMail(u_email);
 	       String num = "" + number;
+	       System.out.println("mail 안의 num : " + num);
 		return num;
 	}
 	

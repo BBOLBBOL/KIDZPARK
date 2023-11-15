@@ -45,6 +45,7 @@ INSERT INTO PUSER (
     ,U_EXTRAADDRESS
     ,U_NICKNAME
     ,U_PHONE
+    ,U_PROFILEIMG
     ,U_EMAIL
     ,U_LOGINCOUNT
     ,U_WRITECOUNT
@@ -60,6 +61,7 @@ INSERT INTO PUSER (
     ,#{u_extraaddress}
     ,#{u_nickname}
     ,#{u_phone}
+    , NULL
     ,#{u_email}
     ,0
     ,0
