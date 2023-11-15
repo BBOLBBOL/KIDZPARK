@@ -317,8 +317,8 @@ body {
 	        let tag = '';
 	        for(let position of response.selectkiddzone) {
 	            tag += '<div class="chat-room">'
-	            tag += '<a href=""><h3>' + position.kz_name + '</h3><p class="timestamp">' +position.kz_explanation + '</p>'
-	            tag += '<p class="last-message">' + position.kz_openingtime + '</p></a></div>'
+	            tag += '<a href=""><h3>' + position.KZ_NAME + '</h3><p class="timestamp">' +position.KZ_EXPLANATION + '</p>'
+	            tag += '<p class="last-message">' + position.KZ_OPENINGTIME + '</p></a></div>'
 	        }
 	        // 페이지 내용 갱신
 		        $("#content").html(tag);

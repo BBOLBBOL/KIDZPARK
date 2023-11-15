@@ -86,8 +86,6 @@ public class KidzzoneController {
 			@RequestParam("kz_category") String kz_category, @RequestParam("kz_location") String kz_location,
 			@RequestParam("searchKeyword") String searchKeyword) {
 
-		System.out.println(searchOption);
-
 		if (kz_category.equals("all") && kz_location.equals("all")
 				&& (searchOption.equals("all") || searchKeyword.equals(""))) {
 			Map<String, Object> map = new HashMap<>();
@@ -123,14 +121,11 @@ public class KidzzoneController {
 
 		} else {
 
-			System.out.println("searchKeyword : " + searchKeyword);
 			Map<String, Object> map = new HashMap<>();
 			map.put("kz_location", kz_location);
 			map.put("searchKeyword", searchKeyword);
 			map.put("searchOption", searchOption);
 			map.put("kz_category", kz_category);
-
-			System.out.println("map:" + map);
 
 			List<KidzzoneVo> selectkiddzone = kidzzonemapper.selectKiddzoneSearch(map);
 
@@ -168,8 +163,6 @@ public class KidzzoneController {
 			@RequestParam("kz_location") String kz_location, @RequestParam("searchKeyword") String searchKeyword, Model model)
 			throws Exception {
 		
-		System.out.println(kz_category);
-
 		if (kz_category.equals("all") && kz_location.equals("all")
 				&& (searchOption.equals("all") || searchKeyword.equals(""))) {
 			Map<String, Object> result = new HashMap<String, Object>();
@@ -210,7 +203,6 @@ public class KidzzoneController {
 			map.put("searchKeyword", searchKeyword);
 			map.put("searchOption", searchOption);
 			map.put("kz_category", kz_category);
-			map.put("pg", pg);
 
 			int total = kidzzonemapper.countKiddzoneSearch2(map);
 			if (nowPage == null && cntPerPage == null) {
@@ -221,14 +213,16 @@ public class KidzzoneController {
 			} else if (cntPerPage == null) {
 				cntPerPage = "4";
 			}
-
+			
 			pg = new KidzzonePagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+
+			map.put("pg", pg);
 
 			List<KidzzoneVo> selectkiddzone = kidzzonemapper.selectKidzzoneSearchlist2(map);
 
 			result.put("selectkiddzone", selectkiddzone);
 			result.put("pg", pg);
-			model.addAttribute("selectkidzone", selectkiddzone);
+			System.out.println("result : "+ result);
 			return result;
 		}
 
