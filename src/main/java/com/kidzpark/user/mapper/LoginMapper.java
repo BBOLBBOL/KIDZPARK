@@ -20,5 +20,7 @@ public interface LoginMapper {
 	void insertJoin2(HashMap<String, Object> map);
 
 	UserVo login(UserVo vo);
+
+	void updatePw(UserVo vo);
 	
 }

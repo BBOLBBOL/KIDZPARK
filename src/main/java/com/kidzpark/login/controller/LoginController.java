@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -153,7 +154,7 @@ public class LoginController {
 	@GetMapping("/FindId")
 	public ResponseEntity<String> overlapCheck(String u_id,  HttpSession session) {
 		
-		System.out.println("u_id : " + u_id);
+		System.out.println("FindId의 u_id : " + u_id);
 		
 		if(loginMapper.idCheck(u_id) != 0) {
 		    Map<String, Object> authStatus = new HashMap<>();
@@ -162,30 +163,66 @@ public class LoginController {
 		    
 		    session.setMaxInactiveInterval(300);
 		    session.setAttribute("authStatus", authStatus);
-		    
 	    	return ResponseEntity.ok().body(u_id);
 	    }
 		return ResponseEntity.badRequest().body("아이디가 존재하지 않습니다");
 	}
 	
-	// 인증번호 보내기 페이지
-		@GetMapping("/SendPw")
-		public String SendPw(String u_id, HttpSession session) {
+	// 인증번호 보내기 jsp
+		@GetMapping("/SendPwForm")
+		public ModelAndView SendPw(String u_id, HttpSession session) {
 		    Map<String, Object> authStatus = (Map<String, Object>) session.getAttribute("authStatus");
 		    u_id = String.valueOf(authStatus.get("u_id"));
+		    System.out.println("SendPwForm 안의 u_id : "+u_id);
+		    ModelAndView mv = new ModelAndView();
 		    
 		    if(authStatus == null || !u_id.equals(authStatus.get("u_id"))) {
-		        return "redirect:/FindPwForm";
+		    	mv.setViewName("redirect:/FindPwForm");
+		        return mv;
 		    }
-		    
-		    return "redirect:/login/sendpw";
+			mv.setViewName("login/sendpw");
+			mv.addObject("u_id", u_id);
+			System.out.println("SendPwForm 안의 mv : " + mv);
+		    return mv;
 		}
-		// u_id의 이메일이 맞는지 확인
+		
+		// u_id의 이메일이 맞는지 확인 후 인증번호 전송
 		@GetMapping("/SendEmail")
-		public ResponseEntity<Boolean> emailCheck(String u_id, String u_email){
-			System.out.println("u_id : " + u_id);
-			System.out.println("u_email : " + u_email);
+		public ResponseEntity<String> emailCheck(String u_id, String u_email){
+			System.out.println("SendEmail 의 u_id : " + u_id);
+			System.out.println("SendEmail 의 u_email : " + u_email);
 		    boolean emailCheck = findService.emailCheck(u_id, u_email);
-		    return new ResponseEntity<Boolean>(emailCheck, HttpStatus.OK);
+		    if(emailCheck) {
+		    	int number = mailService.sendMail(u_email);
+		    	 String num = "" + number;
+		    	 System.out.println("num : " + num);
+		    	 return new ResponseEntity<>(num, HttpStatus.OK);
+		    } else {
+		    	 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		    }
 		}
+		@RequestMapping("/ChangePwForm")	
+		public ModelAndView changePwForm(@RequestParam String u_id) {
+			System.out.println("changepwform 안의 u_id : " + u_id);
+			
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("login/changepw");
+			mv.addObject("u_id", u_id);
+			System.out.println("mv : " + mv);
+			return mv;
+		}
+		
+		@RequestMapping("/ChangePw")
+		public ModelAndView changePw(UserVo vo) {
+			System.out.println("vo : " + vo);
+			
+			loginMapper.updatePw(vo);
+			
+			ModelAndView mv = new ModelAndView();
+			mv.setViewName("redirect:/LoginForm");
+			System.out.println("ChangePw안의 mv : " + mv);
+			
+			return mv;
+		} 
+		
 }

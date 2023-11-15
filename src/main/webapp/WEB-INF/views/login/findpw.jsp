@@ -38,13 +38,22 @@
   align-items: center;
   justify-content: center;
   background: #fffff;
-  margin-bottom: 200px;
+  margin: 100px auto;
 }
-.find-link {
-        display: block;
-        margin-top: 20px; /* 원하는 만큼의 간격을 지정하세요 */
-    }
-
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+input[type="text"] {
+    padding: 8px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+#div1 {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 150px;
+}
 </style>   
 </head>
 
@@ -67,13 +76,15 @@
 
         <!-- Header End -->     
        <div class="wrap">
+       <form action="" method="get">
 		    <div>
 		      <label>가입하신 아이디를 입력해주세요</label><br>
 		      <input type="text" id="u_id" name="u_id"  autocomplete="on" >
 		      <button type="button" name="findBtn" id="findBtn" onclick="FindId()" class="btn btn-primary">다음</button>
 		    </div>
+		</form>    
        </div>
-		<div style="display: flex; justify-content: center;">
+		<div id="div1">
 			<a type="button" class="btn btn-secondary" onclick="location.href='/';">메인 화면</a>
 		</div>
 
@@ -158,11 +169,11 @@
             type : 'get',
             data : { u_id : u_id },
             success : function() {
-                alert("가입한 아이디가 있습니다");
-                window.location.href = '/SendPw';
+                alert("확인되었습니다");
+                window.location.href = '/SendPwForm';
             },
             error : function() {
-                alert("error");
+                alert("가입하신 아이디가 없습니다.");
             }
         });
     }

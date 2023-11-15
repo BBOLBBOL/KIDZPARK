@@ -40,22 +40,28 @@
   background: #fffff;
   margin: 100px auto;
 }
-label {
-    display: block;
-    margin-bottom: 10px;
+#form {
+	width: 500px;
 }
-input[type="text"] {
-    padding: 8px;
+input[type="password"]{
+	width: 200px;
+	padding: 8px;
     margin-bottom: 15px;
     box-sizing: border-box;
+}
+#h3 {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
 }
 #div1 {
     display: flex;
     justify-content: center;
-    margin-bottom: 150px;
+    margin-bottom: 100px;
+    margin-top: 50px;
 }
-#a1{
-	margin-right: 10px;
+#td1, #td3 {
+	width: 200px;
 }
 </style>   
 </head>
@@ -70,28 +76,45 @@ input[type="text"] {
                  <div class="container-fluid header bg-white p-0">
             <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
                 <div class="p-5 mt-lg-5">
-                   <h1 class="display-4 animated fadeIn mb-4" style="margin-top : 13%; text-align: center;">아이디 찾기</h1>
+                   <h1 class="display-4 animated fadeIn mb-4" style="margin-top : 13%; text-align: center;">비밀번호 변경</h1>
             </div>
         </div>      
         <hr>
         <hr>
                 </div>   
 
-        <!-- Header End -->  
-        
-           
+        <!-- Header End -->     
        <div class="wrap">
-		    <div>
-		      <label>가입하신 이메일을 입력해주세요</label><br>
-		      <input type="text" id="u_email" name="u_email"  autocomplete="on" >
-		      <button type="button" name="findBtn" id="findBtn" onclick="SendId()" class="btn btn-primary">찾기</button>
-		    </div>
+       		<form id="form" action="/ChangePw" method="post">
+       		<input type="hidden" name="u_id" value="${u_id}">
+       			<table>
+       			<h3 id="h3">새로운 비밀번호로 재설정해주세요<h3>
+       			<colgroup>
+					<col width="25%">
+					<col width="*">
+				</colgroup>
+				    <tr id="tr1">
+						<td id="td1"><h6>새 비밀번호</h6></td>
+						<td><input type="password" name="u_pw" id="user_pw1" >
+							<span id=pwdcheck_1></span>
+						</td>
+					</tr>
+					<tr style="height: 20px;"></tr>
+					<tr id="tr2">
+						<td id="td2"><h6>새 비밀번호 확인</h6></td>
+						<td><input type="password" id="user_pw2" > 
+							<span id="pwdcheck_2"></span></td>
+					</tr>
+					<tr>
+					<td colspan="2">
+						<div id="div1">
+							<button id="submit" type="submit" onclick="submit()" class="btn btn-primary">변경하기</button>
+						</div>
+					</td>
+				</tr>
+			    </table>
+		    </form>
        </div>
-		<div id="div1">
-			<a id="a1" type="button" class="btn btn-secondary" onclick="location.href='/';">메인 화면</a>
-			<a type="button" class="btn btn-primary"   onclick="location.href='/FindPwForm';">비밀번호 찾기</a>
-		</div>
-
 
 		<!-- Footer Start -->
         <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
@@ -164,25 +187,47 @@ input[type="text"] {
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    <script>
-
-    function SendId() {
-        var u_email = $('#u_email').val();
-        $.ajax({
-            url  : '/SendId',
-            type : 'post',
-            data : { u_email : u_email },
-            success : function() {
-                alert("이메일이 전송되었습니다.");
-                
-            },
-            error : function() {
-                alert("이메일을 다시 입력해주세요");
-            }
-        });
-    }
-    </script>
+   <script>
     
+ $("#user_pw1")
+.blur(
+		function() {
+			let pwdCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
+
+			if ($("#user_pw1").val() == "") {
+				$("#pwdcheck_1").text("비밀번호를 입력하세요.");
+				user_pwd1 = false;
+			} else if (!pwdCheck.test($("#user_pw1").val())) {
+				$("#pwdcheck_1").text(
+						"문자,숫자,특수문자를 포함한 8글자 이상 사용하여주세요");
+				user_pwd1 = false;
+			} else {
+				$("#pwdcheck_1").text("안전한 비밀번호 입니다")
+				user_pwd1 = true;
+			}
+}); // pw1 blur end
+
+$("#user_pw2").blur(
+	function() {
+		if ($("#user_pw2").val() == "") {
+			$("#pwdcheck_2").css("color", "red");
+			$("#pwdcheck_2").text("필수정보입니다");
+			user_pw2 = false;
+		} else if (user_pwd1 == true
+				&& $("#user_pw1").val() == $("#user_pw2").val()) {
+			$("#pwdcheck_2").css("color", "blue");
+			$("#pwdcheck_2").text("비밀번호 일치");
+			user_pw2 = true;
+		} else {
+			$("#pwdcheck_2").text("다시 확인해주세요");
+			$("#pwdcheck_2").css("color", "red");
+			$("#user_pw2").val("");
+			user_pw2 = false;
+		}
+	}); // pw2 blur end   
+	
+	
+</script>	
 </body>
 
 </html>

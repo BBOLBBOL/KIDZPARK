@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>이메일 체크</title>
+    <title>이메일 인증</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -38,13 +38,26 @@
   align-items: center;
   justify-content: center;
   background: #fffff;
-  margin-bottom: 200px;
+  margin: 100px auto;
 }
-.find-link {
-        display: block;
-        margin-top: 20px; /* 원하는 만큼의 간격을 지정하세요 */
-    }
-
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+input[type="text"] {
+    padding: 8px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+#div1 {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 150px;
+}
+#findBtn, #confirmBtn {
+    width: 128px; /* 적절한 값을 조정하세요 */
+    margin-left: 10px;
+}
 </style>   
 </head>
 
@@ -58,7 +71,7 @@
                  <div class="container-fluid header bg-white p-0">
             <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
                 <div class="p-5 mt-lg-5">
-                   <h1 class="display-4 animated fadeIn mb-4" style="margin-top : 13%; text-align: center;">아이디 찾기</h1>
+                   <h1 class="display-4 animated fadeIn mb-4" style="margin-top : 13%; text-align: center;">이메일 인증</h1>
             </div>
         </div>      
         <hr>
@@ -67,17 +80,20 @@
 
         <!-- Header End -->     
        <div class="wrap">
-		    <div>
-		      <label>가입하신 이메일을 입력해주세요</label><br>
-		      <input  type="text"   name="u_email" id="u_email" autocomplete="on" >
-		      <button type="button" name="findBtn" id="findBtn" onclick="SendNum()" class="btn btn-primary">인증번호 받기</button>
-		      <input  type="text"   name="number"  id="number" placeholder="인증번호 입력">
-			  <button type="button" name="confirmBtn" id="confirmBtn" onclick="confirmNumber()">이메일 인증</button>
-		    </div>
+       		<form action="/ChangePwForm" method="post">
+			    <div>
+	    		  <input type="text" name="u_id" id="u_id" value="${u_id}" style="display: none;">
+			      <label>가입하신 이메일을 입력해주세요</label><br>
+			      <input  type="text"   name="u_email" id="u_email" autocomplete="on" >
+			      <button type="button" name="findBtn" id="findBtn" onclick="SendNum()" class="btn btn-primary">인증번호 받기</button><br>
+			      <input  type="text"   name="number"  id="number" placeholder="인증번호 입력">
+				  <button type="submit" name="confirmBtn" id="confirmBtn" onclick="confirmNumber()" class="btn btn-primary">이메일 인증</button>
+			    </div>
+			    <br><input type="text" id="Confirm" name="Confirm"  style="display: none;"  value="">
+		    </form>
        </div>
-		<div style="display: flex; justify-content: center;">
+		<div id="div1">
 			<a type="button" class="btn btn-secondary" onclick="location.href='/';">메인 화면</a>
-			<a type="button" class="btn btn-primary"   onclick="location.href='/FindPwForm';">다음</a>
 		</div>
 
 
@@ -156,21 +172,38 @@
 
     function SendNum() {
         var u_email = $('#u_email').val();
+        var u_id = $('#u_id').val();
         $.ajax({
             url  : '/SendEmail',
             type : 'get',
-            data : { u_email : u_email },
-            success : function() {
+            data : { u_id : u_id, u_email : u_email },
+            success : function(data) {
                 alert("이메일이 전송되었습니다.");
-                
+                $("#Confirm").attr("value", data);
             },
             error : function() {
                 alert("이메일을 다시 입력해주세요");
             }
         });
     }
+    $(document).ready(function () {
+        $("#confirmBtn").click(function (event) {
+        	var number1 = $("#number").val();
+            var number2 = $("#Confirm").val();
+
+            if (!number1) {
+                alert("인증번호를 입력하세요.");
+                event.preventDefault();
+            } else if (number1 == number2) {
+                alert("인증되었습니다.");
+                window.location.href = '/ChangePwForm';
+            } else {
+                alert("번호가 다릅니다.");
+                event.preventDefault();
+            }
+        });
+    });
     </script>
-    
 </body>
 
 </html>

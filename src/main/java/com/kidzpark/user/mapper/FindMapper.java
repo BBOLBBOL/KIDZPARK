@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface FindMapper {
 
-	List<String> findId(String email);
+	List<String> findId(String u_email);
 
 	String emailCheck(Map<String, Object> map);
 

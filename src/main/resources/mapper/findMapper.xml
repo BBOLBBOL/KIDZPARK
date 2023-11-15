@@ -18,4 +18,5 @@
 	        AND 	U_EMAIL = #{u_email}
 	    ) 
 	</select>
+	
 </mapper>
