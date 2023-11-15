@@ -3,6 +3,7 @@ package com.kidzpark.board.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kidzpark.board.domain.BoardVo;
 import com.kidzpark.board.mapper.BoardMapper;
+import com.kidzpark.paging.PagingVo;
 
 
 @Controller
@@ -21,26 +23,45 @@ public class BoardController {
 	private BoardMapper boardMapper; 
 	
 	// 목록
-	@RequestMapping("/Freeboard")
-	public ModelAndView freeboard() {
-		
+	@RequestMapping("/boardlist")
+	public ModelAndView boardlist( BoardVo vo, PagingVo pg, int m_no,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage) {
 		
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("board/freeboard");
-//		List<BoardVo> boardList = boardMapper.boardList();
-//		mv.addObject("boardList", boardList);
 		
-		return mv;
-	}
-	
-	@RequestMapping("/List")
-	public ModelAndView list() {
-		List<BoardVo> boardList = boardMapper.boardList();
+		Map<String, Object> map = new HashMap<String, Object>(); 
+		
+		map.put("m_no", m_no);
+		map.put("vo", vo);
+		
+		String m_name = boardMapper.selectMenuname(map);
+		
+		int total = boardMapper.countboard(map);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "5";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "5";
+		}
+		
+		pg = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 
+		map.put("pg", pg);
 		
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("list");
-		mv.addObject("boardList", boardList);
+		List<BoardVo> getboardlist = boardMapper.getboardlist(map);
+		
+		mv.addObject("getboardlist", getboardlist);
+		mv.addObject("pg", pg);
+		mv.addObject("m_name", m_name);
+		mv.addObject("m_no", m_no);
+		
+		mv.setViewName("board/board");
+		
+		System.out.println(mv);
+
 		
 		return mv;
 	}

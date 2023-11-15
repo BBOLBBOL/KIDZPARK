@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,22 +13,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kidzpark.kidzzone.domain.KidzzonePagingVo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kidzpark.kidzzone.domain.KidzzoneVo;
 import com.kidzpark.kidzzone.mapper.KidzzoneMapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kidzpark.paging.PagingVo;
 
 @Controller
 public class KidzzoneController {
 
 	@Autowired
-	private KidzzoneMapper kidzzonemapper;
+	private KidzzoneMapper kidzzoneMapper;
 
 	@ResponseBody
 	@RequestMapping(value = "/Kidzzone", method = RequestMethod.GET)
 	public ModelAndView kidzzone(KidzzoneVo vo) {
 
-		List<KidzzoneVo> selectkiddzone = kidzzonemapper.selectKiddzone();
+		List<KidzzoneVo> selectkiddzone = kidzzoneMapper.selectKiddzone();
 
 		ModelAndView mv = new ModelAndView();
 
@@ -47,8 +46,8 @@ public class KidzzoneController {
 			e.printStackTrace();
 		}
 		mv.addObject("json", json);
-
-		System.out.println(mv);
+		
+		System.out.println(json);
 
 		return mv;
 
@@ -56,24 +55,26 @@ public class KidzzoneController {
 
 	@RequestMapping("/Kidzzonelist")
 	@ResponseBody
-	public Map<String, Object> getKidzzonelist(KidzzoneVo vo, KidzzonePagingVo pg,
+	public Map<String, Object> getKidzzonelist(KidzzoneVo vo, PagingVo pg,
 			@RequestParam(value = "nowPage", required = false) String nowPage,
 			@RequestParam(value = "cntPerPage", required = false) String cntPerPage) throws Exception {
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		int total = kidzzonemapper.countKiddzone(vo);
+		int total = kidzzoneMapper.countKiddzone(vo);
 		if (nowPage == null && cntPerPage == null) {
 			nowPage = "1";
-			cntPerPage = "4";
+			cntPerPage = "5";
 		} else if (nowPage == null) {
 			nowPage = "1";
 		} else if (cntPerPage == null) {
-			cntPerPage = "4";
+			cntPerPage = "5";
 		}
 
-		pg = new KidzzonePagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		pg = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 
-		List<KidzzoneVo> selectkiddzone = kidzzonemapper.selectKiddzonelist(pg);
+		List<KidzzoneVo> selectkiddzone = kidzzoneMapper.selectKiddzonelist(pg);
+		
+		System.out.println(pg);
 
 		result.put("selectkiddzone", selectkiddzone);
 		result.put("pg", pg);
@@ -94,7 +95,7 @@ public class KidzzoneController {
 			map.put("searchOption", searchOption);
 			map.put("kz_category", kz_category);
 
-			List<KidzzoneVo> selectkiddzone = kidzzonemapper.selectKiddzone();
+			List<KidzzoneVo> selectkiddzone = kidzzoneMapper.selectKiddzone();
 
 			ModelAndView mv = new ModelAndView();
 
@@ -127,7 +128,7 @@ public class KidzzoneController {
 			map.put("searchOption", searchOption);
 			map.put("kz_category", kz_category);
 
-			List<KidzzoneVo> selectkiddzone = kidzzonemapper.selectKiddzoneSearch(map);
+			List<KidzzoneVo> selectkiddzone = kidzzoneMapper.selectKiddzoneSearch(map);
 
 			ModelAndView mv = new ModelAndView();
 
@@ -156,7 +157,7 @@ public class KidzzoneController {
 
 	@RequestMapping("/KidzzoneSearchlist")
 	@ResponseBody
-	public Map<String, Object> getKidzzoneSearchlist(KidzzoneVo vo, KidzzonePagingVo pg,
+	public Map<String, Object> getKidzzoneSearchlist(KidzzoneVo vo, PagingVo pg,
 			@RequestParam(value = "nowPage", required = false) String nowPage,
 			@RequestParam(value = "cntPerPage", required = false) String cntPerPage,
 			@RequestParam("kz_category") String kz_category, @RequestParam("searchOption") String searchOption,
@@ -174,7 +175,7 @@ public class KidzzoneController {
 			map.put("kz_category", kz_category);
 			map.put("pg", pg);
 
-			int total = kidzzonemapper.countKiddzoneSearch1(map);
+			int total = kidzzoneMapper.countKiddzoneSearch1(map);
 			if (nowPage == null && cntPerPage == null) {
 				nowPage = "1";
 				cntPerPage = "4";
@@ -184,9 +185,9 @@ public class KidzzoneController {
 				cntPerPage = "4";
 			}
 			
-			pg = new KidzzonePagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+			pg = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 
-			List<KidzzoneVo> selectkiddzone = kidzzonemapper.selectKidzzoneSearchlist1(map);
+			List<KidzzoneVo> selectkiddzone = kidzzoneMapper.selectKidzzoneSearchlist1(map);
 
 			result.put("selectkiddzone", selectkiddzone);
 			result.put("pg", pg);
@@ -204,7 +205,7 @@ public class KidzzoneController {
 			map.put("searchOption", searchOption);
 			map.put("kz_category", kz_category);
 
-			int total = kidzzonemapper.countKiddzoneSearch2(map);
+			int total = kidzzoneMapper.countKiddzoneSearch2(map);
 			if (nowPage == null && cntPerPage == null) {
 				nowPage = "1";
 				cntPerPage = "4";
@@ -214,11 +215,11 @@ public class KidzzoneController {
 				cntPerPage = "4";
 			}
 			
-			pg = new KidzzonePagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+			pg = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 
 			map.put("pg", pg);
 
-			List<KidzzoneVo> selectkiddzone = kidzzonemapper.selectKidzzoneSearchlist2(map);
+			List<KidzzoneVo> selectkiddzone = kidzzoneMapper.selectKidzzoneSearchlist2(map);
 
 			result.put("selectkiddzone", selectkiddzone);
 			result.put("pg", pg);

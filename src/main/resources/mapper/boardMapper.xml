@@ -30,16 +30,36 @@
      )
   </insert>
   
-  <select id="boardList"
+  <select id="getboardlist"
   resultType="com.kidzpark.board.domain.BoardVo">
+   SELECT *
+FROM (
+    SELECT ROWNUM RN, A.*
+    FROM (
+   SELECT  *
+   FROM    BOARD
+   WHERE   M_NO = #{m_no}
+    ) A
+)
+WHERE RN BETWEEN #{pg.start} AND #{pg.end} 
+	
+</select>
+
+  <select id="countboard"
+  resultType="int">
    
-   SELECT  BNO, 
-           TITLE, 
-           WRITER,
-           TO_CHAR (REGDATE, 'YYYY-MM-DD') REGDATE,
-           HIT
-   FROM    BOARDBOOT
-   ORDER BY BNO DESC
+   SELECT  COUNT(*)
+   FROM    BOARD
+   WHERE   M_NO = #{m_no}
+	
+</select>
+
+  <select id="selectMenuname"
+  resultType="String">
+   
+   SELECT  M_NAME
+   FROM    MENU
+   WHERE   M_NO = #{m_no}
 	
 </select>
 

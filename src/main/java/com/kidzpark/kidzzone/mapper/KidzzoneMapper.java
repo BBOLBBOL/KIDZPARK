@@ -3,8 +3,8 @@ package com.kidzpark.kidzzone.mapper;
 import java.util.List;
 import java.util.Map;
 
-import com.kidzpark.kidzzone.domain.KidzzonePagingVo;
 import com.kidzpark.kidzzone.domain.KidzzoneVo;
+import com.kidzpark.paging.PagingVo;
 
 public interface KidzzoneMapper {
 
@@ -12,7 +12,7 @@ public interface KidzzoneMapper {
 
 	List<KidzzoneVo> selectKiddzone();
 
-	List<KidzzoneVo> selectKiddzonelist(KidzzonePagingVo pg);
+	List<KidzzoneVo> selectKiddzonelist(PagingVo pg);
 
 	List<KidzzoneVo> selectKiddzoneSearch(Map<String, Object> map);
 

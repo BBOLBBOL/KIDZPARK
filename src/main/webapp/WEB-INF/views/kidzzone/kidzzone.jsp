@@ -354,7 +354,7 @@ var positions = data.selectkiddzone;
 var mapContainer = document.getElementById('map'); // 지도를 표시할 div
 var mapOption = {
     center: new kakao.maps.LatLng(35.157759003, 129.059317193), // 기본 지도 중심좌표
-    level: 4 // 지도의 확대 레벨
+    level: 3 // 지도의 확대 레벨
 };
 
 // 지도를 생성합니다
@@ -385,39 +385,39 @@ positions.forEach(function (position) {
             });
             infowindow.open(map, marker);
             
-         // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-            if (navigator.geolocation) {
-                navigator.geolocation.watchPosition(function (position) {
-                    try {
-                        var lat = position.coords.latitude, // 위도
-                            lon = position.coords.longitude; // 경도
-
-                        // 현재 위치로 지도 중심 이동
-                        var center = new kakao.maps.LatLng(lat, lon);
-                        map.setCenter(center);
-
-                        // 마커 생성 및 표시
-                        var marker = new kakao.maps.Marker({
-                            map: map,
-                            position: center
-                        });
-
-                        // 마커에 인포윈도우 표시
-                        var infowindow = new kakao.maps.InfoWindow({
-                            content: '현재 위치'
-                        });
-                        infowindow.open(map, marker);
-                    } catch (error) {
-                        console.error('Error in getCurrentPosition:', error);
-                    }
-                }, function (error) {
-                    console.error('Error in getCurrentPosition:', error);
-                });
-            }
-
         }
     });
 });
+
+// GeoLocation을 이용해서 접속 위치를 얻어옵니다
+if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(function (position) {
+        try {
+            var lat = position.coords.latitude, // 위도
+                lon = position.coords.longitude; // 경도
+
+            // 현재 위치로 지도 중심 이동
+            var center = new kakao.maps.LatLng(lat, lon);
+            map.setCenter(center);
+
+            // 마커 생성 및 표시
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: center
+            });
+
+            // 마커에 인포윈도우 표시
+            var infowindow = new kakao.maps.InfoWindow({
+                content: '현재 위치'
+            });
+            infowindow.open(map, marker);
+        } catch (error) {
+            console.error('Error in getCurrentPosition:', error);
+        }
+    }, function (error) {
+        console.error('Error in getCurrentPosition:', error);
+    });
+}
 
 
 

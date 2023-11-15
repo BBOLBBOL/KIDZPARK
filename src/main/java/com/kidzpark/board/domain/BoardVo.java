@@ -14,14 +14,18 @@ import lombok.ToString;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class BoardVo {
+	@NonNull
+   private int    b_idx;
+   private String b_title;
+   private String b_cont;
+   private String b_img;
+   private int    b_like;
+   private int    b_readcount;
+   private String b_writedate;
+   private String b_update;
    @NonNull
-   private int    bno;
+   private int    m_no;
    @NonNull
-   private String title;
-   private String content;
-   @NonNull
-   private String writer;
-   private String regdate;
-   private int    hit;
+   private int    u_no;
    
 }

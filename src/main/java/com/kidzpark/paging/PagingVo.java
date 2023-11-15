@@ -1,4 +1,4 @@
-package com.kidzpark.kidzzone.domain;
+package com.kidzpark.paging;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class KidzzonePagingVo {
+public class PagingVo {
 	@NonNull
 	private int nowPage;
 	private int startPage;
@@ -59,7 +59,7 @@ public class KidzzonePagingVo {
 	}
 	
 
-	public KidzzonePagingVo(int total, int nowPage, int cntPerPage) {
+	public PagingVo(int total, int nowPage, int cntPerPage) {
 		setNowPage(nowPage);
         setCntPerPage(cntPerPage);
         setTotal(total);
