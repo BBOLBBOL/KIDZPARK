@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kidzpark.cs.mapper.CsMapper">
+
+<select id="userCsList" resultType="com.kidzpark.cs.domain.CsVo" parameterType="map">
+
+SELECT *
+FROM (
+  SELECT ROWNUM RN, A.*
+  FROM (
+    SELECT
+      ER.CS_IDX,
+      ER.U_NO,
+      ER.CS_TITLE,
+      TO_CHAR(ER.CS_WRITERDATE, 'YYYY-MM-DD') CS_WRITERDATE, 
+      ER.CS_CATEGORY,
+      TO_CHAR(AN.CS_ANSWERDATE, 'YYYY-MM-DD') CS_ANSWERDATE
+  FROM CSERVICE ER
+  LEFT JOIN CSANSWER AN ON ER.CS_IDX = AN.CS_IDX
+  WHERE ER.U_NO  =  #{u_no}
+  ORDER BY ER.CS_IDX ASC
+       
+  ) A
+)
+WHERE RN BETWEEN #{start} AND #{end}
+
+</select>
+ 
+ 
+ <select id="countCsList" resultType="int">
+ 
+ SELECT COUNT(*)
+ FROM CSERVICE
+ WHERE U_NO  =  #{u_no}
+ 
+ </select>
+ 
+ <insert id="insertCsFile">
+ 
+ INSERT INTO CSERVICE (
+ 	CS_IDX,
+ 	U_NO,
+ 	CS_TITLE,
+ 	CS_CONT,
+ 	CS_IMG,
+ 	CS_WRITERDATE,
+ 	CS_CATEGORY
+ ) VALUES (
+ 	(SELECT NVL(MAX(CS_IDX),0)+ 1 FROM CSERVICE),
+ 	#{u_no},
+ 	#{cs_title},
+ 	#{cs_cont},
+ 	#{cs_img},
+ 	SYSDATE,
+ 	#{cs_category}
+ 	
+ )
+ 
+ </insert>
+ 
+ <insert id="insertCsNoFile">
+ 
+ INSERT INTO CSERVICE (
+ 	CS_IDX,
+ 	U_NO,
+ 	CS_TITLE,
+ 	CS_CONT,
+ 	CS_WRITERDATE,
+ 	CS_CATEGORY
+ ) VALUES (
+ 	(SELECT NVL(MAX(CS_IDX),0)+ 1 FROM CSERVICE),
+ 	#{u_no},
+ 	#{cs_title},
+ 	#{cs_cont},
+ 	SYSDATE,
+ 	#{cs_category}
+ )
+ 
+ </insert>
+ 
+ 
+ <select id="csView" resultType="com.kidzpark.cs.domain.CsVo">
+ 
+ SELECT CS_IDX,
+ 	    CS_TITLE,
+ 	    CS_CONT,
+ 	    CS_IMG,
+ 	    CS_CATEGORY
+ FROM CSERVICE
+ WHERE CS_IDX  =  #{cs_idx}
+ 
+ </select>
+ 
+ <insert id="csAnswer">
+ 
+ INSERT INTO CSANSWER (CS_IDX, CS_ANSWER, CS_ANSWERDATE)
+ VALUES (#{cs_idx}, #{cs_answer}, SYSDATE)
+ 
+ </insert>
+ 
+</mapper>

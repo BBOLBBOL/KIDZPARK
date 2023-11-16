@@ -68,7 +68,7 @@
                             </div>
                         </div>
                         <a href="#" class="nav-item nav-link">채팅</a>
-                        <a href="#" class="nav-item nav-link">고객센터</a>
+                        <a href="/UserCsList?u_no=1" class="nav-item nav-link">고객센터</a>
                     </div>
                     <a href="/Mypage" class="btn btn-primary px-3 d-none d-lg-flex">로그인</a>
                 </div>
