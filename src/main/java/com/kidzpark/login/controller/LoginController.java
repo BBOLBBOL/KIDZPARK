@@ -84,9 +84,11 @@ public class LoginController {
 			@RequestParam HashMap<String, Object> map
 			,HttpServletRequest   request){
 		
+		System.out.println("request : " + request);
 		System.out.println("u_profileimg : " + u_profileimg);
-		System.out.println("map0 : " + map);		
-		if(!u_profileimg.isEmpty() ) {
+		System.out.println("map0 : " + map);	
+		
+		if( !u_profileimg.isEmpty() ) {
 			ImgFile.save( map, request );
 			System.out.println("map1 : " + map);
 			loginMapper.insertJoin2(map);

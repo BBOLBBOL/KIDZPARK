@@ -37,10 +37,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     
     compileOnly 'org.projectlombok:lombok:1.18.30'
-    
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
-    implementation 'org.springframework.kafka:spring-kafka'
-    
+    implementation 'org.webjars:sockjs-client:1.1.2'
 }
 
 tasks.named('test') {

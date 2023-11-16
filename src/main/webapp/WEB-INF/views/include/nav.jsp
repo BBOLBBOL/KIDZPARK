@@ -68,7 +68,7 @@
                                 <a href="#" class="dropdown-item">교육</a>
                             </div>
                         </div>
-                        <a href="/ChatRoom{id}" class="nav-item nav-link">채팅</a>
+                        <a href="/Chat" class="nav-item nav-link">채팅</a>
                         <a href="#" class="nav-item nav-link">고객센터</a>
                     </div>
                     <c:choose>
