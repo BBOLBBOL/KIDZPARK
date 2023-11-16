@@ -62,78 +62,116 @@
 
 		<!-- Search Start -->
 		<form action="/BoardSearchList" method="post">
-		<div class="container-fluid bg-primary mb-5 wow fadeIn"
-			data-wow-delay="0.1s" style="padding: 35px;">
-			<div class="container">
-			<input type="hidden" name="m_no" value="${m_no}">
-				<div class="row g-2">
-					<div class="col-md-10">
-						<div class="row g-2">
-							<div class="col-md-4"></div>
-							<div class="col-md-3">
-								<select class="form-select border-0 py-3" name="searchOption">
-									<option value="all" selected>검색</option>
-									<option value="b_title">제목</option>
-									<option value="b_cont">내용</option>
-									<option value="u_no">글쓴이</option>
-								</select>
-							</div>
-							<div class="col-md-3">
-								<input type="text" class="form-control border-0 py-3"
-									name="searchKeyword" placeholder="Search Keyword">
-							</div>
-							<div class="col-md-2">
-								<button type="submit" class="btn btn-dark border-0 w-100 py-3">Search</button>
+			<div class="container-fluid bg-primary mb-5 wow fadeIn"
+				data-wow-delay="0.1s" style="padding: 35px;">
+				<div class="container">
+					<input type="hidden" name="m_no" value="${m_no}">
+					<div class="row g-2">
+						<div class="col-md-10">
+							<div class="row g-2">
+								<div class="col-md-4"></div>
+								<div class="col-md-3">
+									<select class="form-select border-0 py-3" name="searchOption">
+										<option value="all" selected>검색</option>
+										<option value="b_title">제목</option>
+										<option value="b_cont">내용</option>
+										<option value="u_no">글쓴이</option>
+									</select>
+								</div>
+								<div class="col-md-3">
+									<input type="text" class="form-control border-0 py-3"
+										name="searchKeyword" placeholder="Search Keyword">
+								</div>
+								<div class="col-md-2">
+									<button type="submit" class="btn btn-dark border-0 w-100 py-3">Search</button>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 		</form>
 		<!-- Search End -->
-
-
-
-		<div class="container-xxl py-5">
-			<hr>
-			<div style="margin: 10px 10px auto; text-align: center; ">
-			<a href="/BoardList?m_no=1" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">자유</a> <a
-				href="/BoardList?m_no=2" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">건강</a> <a
-				href="/BoardList?m_no=3" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">요리</a> <a
-				href="/BoardList?m_no=4" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">육아</a> <a
-				href="/BoardList?m_no=5" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">교육</a>
-				</div>
-			<table class="table table-hover">
-				<thead class="thead-white">
-					<tr>
-						<th scope="col">제목</th>
-						<th scope="col">글쓴이</th>
-						<th scope="col">작성일</th>
-						<th scope="col">조회</th>
-						<th scope="col">추천수</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="board" items="${getboardlist}">
-						<tr>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_title}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.u_no}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_writedate}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_readcount}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_like}</a></td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-			<div style="margin: 10px 10px auto; text-align: right; ">
-				<a href="/BoardWriteForm?m_no=${m_no}" class="btn btn-primary" style="margin-right : 30px;">글쓰기</a>
-				</div>
-				
-			<%@include file="/WEB-INF/views/include/pagingboard.jsp"%>
+		<!-- Contact Start -->
+		<br>
+		<div class="text-center mx-auto mb-5 wow fadeInUp"
+			data-wow-delay="0.1s" style="max-width: 600px;">
+			<h1 class="mb-3">${m_name}게시판글쓰기</h1>
+			<br>
 		</div>
-	
-			<!-- Footer Start -->
+		<div class="row g-4">
+			<div class="col-12">
+				<div class="row gy-8">
+					<div class="col-lg-2"></div>
+					<div class="bg-light rounded p-3 col-lg-8">
+						<div class="bg-white rounded p-4"
+							style="border: 1px dashed rgba(0, 185, 142, .3)">
+							<div class="container-xxl py-5">
+								<div class="container">
+									<div class="row g-4">
+										<div class="col-md-1"></div>
+										<div class="col-md-10">
+											<div class="wow fadeInUp" data-wow-delay="0.5s">
+												<form action="/BoardWrite" method="post" enctype="multipart/form-data">
+													<input type="hidden" name="u_no" value="1"> 
+													<input type="hidden" name="m_no" value="${m_no}"> <input
+														type="hidden" name="" value="${m_no}">
+													<div class="row g-2">
+														<div class="col-md-12">
+															<div class="form-floating" style="margin: auto;">
+																<input type="text" class="form-control" id="b_title" name="b_title" placeholder=""> <label for="b_title">제목을 입력하세요</label>                                                        
+															</div>
+															<br>
+														</div>
+														<div class="col-md-12">
+															<div class="form-floating" style="margin: auto;">
+																<input type="file" class="form-control" id="b_img"
+																	name="b_img" placeholder="사진" accept="image/*" onchange="readURL(this)"> <label for="b_img">사진 추가</label>
+															</div>
+															<br>
+														</div>
+														<div class="col-12">
+															<div class="form-floating">
+																<textarea class="form-control"
+																	placeholder="Leave a message here" id="b_cont" name="b_cont" style="height: 400px"></textarea>
+																<label for="b_cont">내용을 입력하세요</label>
+															</div>
+															<br>
+														</div>
+														<div class="col-md-12">
+															<div class="form-floating" style="margin: auto;">
+														 <img id="preview" style="max-width:100%;">
+															</div>
+															<br>
+														</div>
+														<div class="col-4" style="margin-left: 30px; margin-right: 30px;">
+														  <a class="btn btn-primary w-100 py-3" onclick="goBack()">이전으로</a>
+														</div>
+														<div class="col-4" style="margin-left: 30px; margin-right: 30px;">
+															<button class="btn btn-primary w-100 py-3" type="submit">등록</button>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+										<div class="col-md-1"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2"></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Contact End -->
+
+
+
+
+
+		<!-- Footer Start -->
 		<div
 			class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn"
 			data-wow-delay="0.1s">
@@ -208,7 +246,7 @@
 			</div>
 		</div>
 		<!-- Footer End -->
-		</div>
+	</div>
 
 	<!-- JavaScript Libraries -->
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -221,6 +259,23 @@
 
 	<!-- Template Javascript -->
 	<script src="js/main.js"></script>
+	<script>
+	function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					document.getElementById('preview').src = e.target.result;
+				};
+				reader.readAsDataURL(input.files[0]);
+			} else {
+				document.getElementById('preview').src = "";
+			}
+		}
+	
+    function goBack() {
+        window.history.back();
+    }
+	</script>
 </body>
 
 </html>

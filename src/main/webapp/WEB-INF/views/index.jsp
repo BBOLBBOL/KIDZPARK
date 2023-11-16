@@ -130,7 +130,7 @@
                 </div>
                 <div class="row1 g-4">
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/boardlist?m_no=1">
+                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/BoardList?m_no=1">
                             <div class="rounded p-4 contain">
                                 <div class="icon mb-3 ">
                                     <img class="img-fluid1" src="img/baby1.jpg" alt="Icon" width="45" height="50">
@@ -141,7 +141,7 @@
                         </a>
                     </div>
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/boardlist?m_no=2">
+                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/BoardList?m_no=2">
                             <div class="rounded p-4 contain">
                                 <div class="icon mb-3">
                                     <img class="img-fluid1" src="img/baby2.jpg" alt="Icon" width="45" height="50">
@@ -152,7 +152,7 @@
                         </a>
                     </div>
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/boardlist?m_no=3">
+                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/BoardList?m_no=3">
                             <div class="rounded p-4 contain">
                                 <div class="icon mb-3">
                                     <img class="img-fluid1" src="img/baby3.jpg" alt="Icon" width="45" height="50">
@@ -163,7 +163,7 @@
                         </a>
                     </div>
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/boardlist?m_no=4">
+                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/BoardList?m_no=4">
                             <div class="rounded p-4 contain">
                                 <div class="icon mb-3">
                                     <img class="img-fluid1" src="img/baby4.jpg" alt="Icon" width="45" height="50">
@@ -174,7 +174,7 @@
                         </a>
                     </div>
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/boardlist?m_no=5">
+                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/BoardList?m_no=5">
                             <div class="rounded p-4 contain">
                                 <div class="icon mb-3">
                                     <img class="img-fluid1" src="img/baby5.jpg" alt="Icon" width="45" height="50">

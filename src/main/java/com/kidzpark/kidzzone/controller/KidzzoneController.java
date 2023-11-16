@@ -53,7 +53,7 @@ public class KidzzoneController {
 
 	}
 
-	@RequestMapping("/Kidzzonelist")
+	@RequestMapping("/KidzzoneList")
 	@ResponseBody
 	public Map<String, Object> getKidzzonelist(KidzzoneVo vo, PagingVo pg,
 			@RequestParam(value = "nowPage", required = false) String nowPage,
@@ -155,13 +155,13 @@ public class KidzzoneController {
 		}
 	}
 
-	@RequestMapping("/KidzzoneSearchlist")
+	@RequestMapping("/KidzzoneSearchList")
 	@ResponseBody
 	public Map<String, Object> getKidzzoneSearchlist(KidzzoneVo vo, PagingVo pg,
 			@RequestParam(value = "nowPage", required = false) String nowPage,
 			@RequestParam(value = "cntPerPage", required = false) String cntPerPage,
 			@RequestParam("kz_category") String kz_category, @RequestParam("searchOption") String searchOption,
-			@RequestParam("kz_location") String kz_location, @RequestParam("searchKeyword") String searchKeyword, Model model)
+			@RequestParam("kz_location") String kz_location, @RequestParam("searchKeyword") String searchKeyword)
 			throws Exception {
 		
 		if (kz_category.equals("all") && kz_location.equals("all")
@@ -191,7 +191,6 @@ public class KidzzoneController {
 
 			result.put("selectkiddzone", selectkiddzone);
 			result.put("pg", pg);
-			model.addAttribute("selectkidzone", selectkiddzone);
 			System.out.println(result);
 			return result;
 		} else {

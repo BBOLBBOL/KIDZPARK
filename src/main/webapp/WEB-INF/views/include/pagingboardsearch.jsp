@@ -14,8 +14,8 @@
      
      <!-- 처음/ 이전 -->     
      <c:if test="${ pg.startPage gt 1 }">
-       <a href="/boardlist?m_no=${m_no}&nowPage=1">처음</a>
-       <a href="/boardlist?m_no=${m_no}&nowPage=${pg.startPage - 1}">
+       <a href="/BoardSearchList?m_no=${m_no}&nowPage=1&searchOption=${searchOption}&searchKeyword=${searchKeyword}">처음</a>
+       <a href="/BoardSearchList?m_no=${m_no}&nowPage=${pg.startPage - 1}&searchOption=${searchOption}&searchKeyword=${searchKeyword}">
        [이전]
        </a>
      </c:if>
@@ -27,7 +27,7 @@
             <strong>${pageNumber}</strong>&nbsp;&nbsp;
         </c:when>
         <c:otherwise>
-            <a href="/boardlist?m_no=${m_no}&nowPage=${pageNumber}">
+            <a href="/BoardSearchList?m_no=${m_no}&nowPage=${pageNumber}&searchOption=${searchOption}&searchKeyword=${searchKeyword}">
                 ${pageNumber}
             </a>&nbsp;&nbsp;
         </c:otherwise>
@@ -36,10 +36,10 @@
      
      <!-- 다음 / 마지막 -->
      <c:if test="${ pg.nowPage ne endPage }">
-       <a href="/boardlist?m_no=${m_no}&nowPage=${ pg.nowPage + 1 }">
+       <a href="/BoardSearchList?m_no=${m_no}&nowPage=${ pg.nowPage + 1 }&searchOption=${searchOption}&searchKeyword=${searchKeyword}">
        [다음]
        </a>
-       <a href="/boardlist?m_no=${m_no}&nowPage=${pg.lastPage}">마지막</a>
+       <a href="/BoardSearchList?m_no=${m_no}&nowPage=${pg.lastPage}&searchOption=${searchOption}&searchKeyword=${searchKeyword}">마지막</a>
      </c:if>    
      
       </td>

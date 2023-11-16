@@ -304,7 +304,7 @@ body {
 	    function updatePage() {  	
 	    	$.ajax({
 	    		type: "GET",
-	   			 url: "/K	idzzoneSearchlist", // 요청 URL
+	   			 url: "/KidzzoneSearchList", // 요청 URL
 	   			 data: { 
 	    					nowPage: nowPage, // 페이지 번호
 	        				cntPerPage: cntPerPage, // 페이지당 표시할 항목 수
@@ -328,17 +328,17 @@ body {
 	        
 	    	 let pageNumTag = '';
 		        if(page.startPage != 1) {
-		            pageNumTag += '<a href="/KidzzoneSearchlist?nowPage=' + (page.startPage - 1) + '&cntPerPage=' + page.cntPerPage + '">&lt;</a>';
+		            pageNumTag += '<a href="/KidzzoneSearchList?nowPage=' + (page.startPage - 1) + '&cntPerPage=' + page.cntPerPage + '">&lt;</a>';
 		        }
 		        for(let p = page.startPage; p <= page.endPage; p++) {
 		            if(p == page.nowPage) {
 		                pageNumTag += '<a>' + p + '</a>';
 		            } else {
-		                pageNumTag += '<a href="/KidzzoneSearchlist?nowPage=' + p + '&cntPerPage=' + page.cntPerPage + '">' + p + '</a>';
+		                pageNumTag += '<a href="/KidzzoneSearchList?nowPage=' + p + '&cntPerPage=' + page.cntPerPage + '">' + p + '</a>';
 		            }
 		        }
 		        if(response.pg.endPage != response.pg.lastPage) {
-		            pageNumTag += '<a href="/KidzzoneSearchlist?nowPage=' + (page.endPage+1) + '&cntPerPage=' + page.cntPerPage + '">&gt;</a>';
+		            pageNumTag += '<a href="/KidzzoneSearchList?nowPage=' + (page.endPage+1) + '&cntPerPage=' + page.cntPerPage + '">&gt;</a>';
 		        }
 		        // 페이지네이션 링크 갱신
 		        $("#pageNum").html(pageNumTag);

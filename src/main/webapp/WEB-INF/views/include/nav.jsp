@@ -60,11 +60,11 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">게시판 목록</a>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a href="/boardlist?m_no=1" class="dropdown-item">자유</a>
-                                <a href="/boardlist?m_no=2" class="dropdown-item">건강</a>
-                                <a href="/boardlist?m_no=3" class="dropdown-item">요리</a>
-                                <a href="/boardlist?m_no=4" class="dropdown-item">육아</a>
-                                <a href="/boardlist?m_no=5" class="dropdown-item">교육</a>
+                                <a href="/BoardList?m_no=1" class="dropdown-item">자유</a>
+                                <a href="/BoardList?m_no=2" class="dropdown-item">건강</a>
+                                <a href="/BoardList?m_no=3" class="dropdown-item">요리</a>
+                                <a href="/BoardList?m_no=4" class="dropdown-item">육아</a>
+                                <a href="/BoardList?m_no=5" class="dropdown-item">교육</a>
                             </div>
                         </div>
                         <a href="#" class="nav-item nav-link">채팅</a>
