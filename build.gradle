@@ -33,12 +33,12 @@ dependencies {
 	
 	implementation 'org.mybatis:mybatis-spring'
     implementation 'org.mybatis:mybatis'
-   
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-    
-    compileOnly 'org.projectlombok:lombok:1.18.30'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
-    implementation 'org.webjars:sockjs-client:1.1.2'
+    
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
