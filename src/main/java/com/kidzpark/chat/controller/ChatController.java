@@ -7,16 +7,22 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kidzpark.chat.mapper.ChatMapper;
+import com.kidzpark.chat.service.Room;
 import com.kidzpark.user.domain.UserVo;
 
 @Controller
 public class ChatController {
+	
+	@Autowired
+    private ChatMapper chatMapper;
 	
 	List<Room> roomList = new ArrayList<Room>();
 	static int roomNumber = 0;
@@ -89,4 +95,22 @@ public class ChatController {
 		}
 		return mv;
 	}
+	
+	@RequestMapping("/sendMessage")
+    public @ResponseBody String sendMessage(@RequestParam HashMap<Object, Object> params, HttpSession session) {
+        int chr_no = Integer.parseInt((String) params.get("roomNumber"));
+
+        UserVo loggedInUser = (UserVo) session.getAttribute("loginVo");
+        int    u_no         = loggedInUser.getU_no();
+        String chr_message  = (String) params.get("message");
+
+        // 메시지를 DB에 저장
+        chatMapper.update(chr_no, u_no, chr_message);
+
+        // 추가적인 작업 또는 응답 처리
+
+        return "success";
+    }
+
+	
 }

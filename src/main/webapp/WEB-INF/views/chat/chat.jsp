@@ -91,29 +91,22 @@
 		});
 	}
 
-	function chatName(){
-		var userName = $("#userName").val();
-		if(userName == null || userName.trim() == ""){
-			alert("사용자 이름을 입력해주세요.");
-			$("#userName").focus();
-		}else{
-			wsOpen();
-			$("#yourName").hide();
-			$("#yourMsg").show();
-		}
-	}
-
 	function send() {
 		var option ={
 			type: "message",
 			roomNumber: $("#roomNumber").val(),
 			sessionId : $("#sessionId").val(),
-			userName : $("#userName").val(),
+			userName : "${loginVo.u_nickname}",
 			msg : $("#chatting").val()
 		}
 		ws.send(JSON.stringify(option))
 		$('#chatting').val("");
 	}
+	$(document).ready(function() {
+		wsOpen(); // 문서가 로드되면 WebSocket을 엽니다.
+		$("#yourName").hide(); // 사용자 이름 입력 부분을 숨깁니다.
+		$("#yourMsg").show(); // 메시지 입력 부분을 표시합니다.
+	});
 </script>
 <body>
 	<div id="container" class="container">
@@ -124,15 +117,6 @@
 		<div id="chating" class="chating">
 		</div>
 		
-		<div id="yourName">
-			<table class="inputTable">
-				<tr>
-					<th>사용자명</th>
-					<th><input type="text" name="userName" id="userName"></th>
-					<th><button onclick="chatName()" id="startBtn">이름 등록</button></th>
-				</tr>
-			</table>
-		</div>
 		<div id="yourMsg">
 			<table class="inputTable">
 				<tr>

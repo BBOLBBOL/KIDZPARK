@@ -1,4 +1,4 @@
-package com.kidzpark.chat.controller;
+package com.kidzpark.chat.service;
 
 import java.io.IOException;
 import java.util.ArrayList;

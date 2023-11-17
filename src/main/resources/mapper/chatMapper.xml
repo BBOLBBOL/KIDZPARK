@@ -3,14 +3,12 @@
 <mapper namespace="com.kidzpark.chat.mapper.ChatMapper">
 
 
-<insert id="insertChat">
+<insert id="update" parameterType="com.kidzpark.chat.service.ChatMessage">
 
-INSERT INTO CHAT ( CHR_MESSAGE, CHR_SUBMITTIME, U_NO)
-VALUES( #{chr_message}, SYSDATE, #{u_no})
+INSERT INTO CHAT ( CHR_NO, CHR_MESSAGE, U_NO)
+VALUES( #{chr_no}, #{chr_message}, #{u_no})
 
 </insert>
-
-
 
 
 </mapper>

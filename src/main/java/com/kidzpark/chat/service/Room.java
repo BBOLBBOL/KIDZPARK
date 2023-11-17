@@ -1,4 +1,4 @@
-package com.kidzpark.chat.controller;
+package com.kidzpark.chat.service;
 
 public class Room {
 	int roomNumber;
