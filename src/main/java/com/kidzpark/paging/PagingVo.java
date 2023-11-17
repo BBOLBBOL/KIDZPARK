@@ -25,7 +25,7 @@ public class PagingVo {
 	private int start;
 	private int end;
 
-	// 제일 마지막 페이지 계산
+	// 제일 마지막 페이지 계산 
 	public void calcLastPage(int total, int cntPerPage) {
 		setLastPage((int) Math.ceil((double) total / (double) cntPerPage));
 	}

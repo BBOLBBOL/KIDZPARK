@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.kidzpark.board.domain.BoardVo;
+import com.kidzpark.board.domain.CommentVo;
 import com.kidzpark.kidzzone.domain.KidzzoneVo;
 import com.kidzpark.paging.PagingVo;
 
@@ -52,9 +53,9 @@ public interface BoardMapper {
 
 	public void commentWrite(HashMap<String, Object> map);
 
-	public int countCommentList(HashMap<String, Object> map);
+	public List<CommentVo> selectCommentList(HashMap<String, Object> map);
 
-	public List<KidzzoneVo> selectCommentList(HashMap<String, Object> map);
+	public int countCommentList(HashMap<String, Object> map);
 
 
 

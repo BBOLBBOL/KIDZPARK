@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kidzpark.board.domain.BoardVo;
+import com.kidzpark.board.domain.CommentVo;
 import com.kidzpark.board.mapper.BoardMapper;
 import com.kidzpark.kidzzone.domain.KidzzoneVo;
 import com.kidzpark.paging.PagingVo;
@@ -330,9 +331,8 @@ public class BoardController {
 		
 		map.put("pg", pg);
 
-		List<KidzzoneVo> commentlist = boardMapper.selectCommentList(map);
+		List<CommentVo> commentlist = boardMapper.selectCommentList(map);
 		
-
 		result.put("commentlist", commentlist);
 		result.put("pg", pg);
 		System.out.println("리스트:"+result);
