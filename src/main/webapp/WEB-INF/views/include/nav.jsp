@@ -69,8 +69,21 @@
                             </div>
                         </div>
                         <a href="#" class="nav-item nav-link">채팅</a>
-                        <a href="/UserCsList?u_no=${loginVo.u_no }" class="nav-item nav-link">고객센터</a>
-                    </div>
+					<c:if test="${loginVo eq null }">
+						<script>
+							function showLoginAlert(event) {
+								alert("로그인이 필요합니다!");
+								event.preventDefault();
+							}
+						</script>
+						<a href="/UserCsList?u_no=${loginVo.u_no }"
+							class="nav-item nav-link" onclick="showLoginAlert(event)">고객센터</a>
+					</c:if>
+					<c:if test="${loginVo ne null }">
+						<a href="/UserCsList?u_no=${loginVo.u_no }"
+							class="nav-item nav-link">고객센터</a>
+					</c:if>
+				</div>
                     <c:choose>
                     <c:when test="${loginVo eq null}">
                     	<li style="list-style-type: none"><a href="/LoginForm" class="btn btn-primary px-3 d-none d-lg-flex">로그인</a></li>

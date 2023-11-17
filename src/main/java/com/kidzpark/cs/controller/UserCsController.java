@@ -74,7 +74,7 @@ public class UserCsController {
 	}
 	
 	@PostMapping("/UserCsWrite")
-	public ModelAndView csWrtie(CsVo vo,
+	public ModelAndView csWrtie(
 			@RequestParam MultipartFile cs_img,
 			@RequestParam HashMap<String, Object> map,
 			HttpServletRequest request
@@ -92,7 +92,7 @@ public class UserCsController {
 		System.out.println("map file : " + map );
 		
 		ModelAndView mv  =  new ModelAndView();
-		mv.setViewName("redirect:/UserCsList?u_no=" + vo.getU_no());
+		mv.setViewName("redirect:/UserCsList?u_no=" + map.get("u_no"));
 		return mv;
 	}
 	
