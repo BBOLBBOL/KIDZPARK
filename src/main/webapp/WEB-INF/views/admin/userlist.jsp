@@ -76,7 +76,7 @@
 				class="row g-0 align-items-center flex-column-reverse flex-md-row">
 				<div class="p-5 mt-lg-5">
 					<h1 class="display-4 animated fadeIn mb-4"
-						style="margin-top: 13%; text-align: center;">고객센터</h1>
+						style="margin-top: 13%; text-align: center;">회원목록</h1>
 				</div>
 			</div>
 		</div>
@@ -86,29 +86,35 @@
 		 <table class="table table-hover">
 		   <thead class="thead-white">
 		    <tr>
-		     <th scope="col">문의번호</th>
-		       <th scope="col">카테고리</th>
-		       <th scope="col">문의제목</th>
-		       <th scope="col">문의날짜</th>
-		       <th scope="col">답변날짜</th>
+		    <th><input type="checkbox" id="allCheck"></th>
+		     <th scope="col">회원No</th>
+		       <th scope="col">회원ID</th>
+		       <th scope="col">회원이름</th>
+		       <th scope="col">회원주소</th>
+		       <th scope="col">닉네임</th>
+		       <th scope="col">번호</th>
+		       <th scope="col">등급</th>
 		    </tr>
 		    </thead>
 		    <tbody class="tbody-white">
-		    <c:forEach var="cs" items="${csList }">
+		    <c:forEach var="userList" items="${userList }">
 		    <tr>
-		      <td><a href="/UserCsView?cs_idx=${cs.cs_idx }&u_no=${loginVo.u_no}" >${cs.cs_idx }</a>
-		      <td><a href="/UserCsView?cs_idx=${cs.cs_idx }&u_no=${loginVo.u_no}" >${cs.cs_category}</a>
-		      <td><a href="/UserCsView?cs_idx=${cs.cs_idx }&u_no=${loginVo.u_no}" >${cs.cs_title }</a>
-		      <td><a href="/UserCsView?cs_idx=${cs.cs_idx }&u_no=${loginVo.u_no}" >${cs.cs_writerdate }</a>
-		      <td><a href="/UserCsView?cs_idx=${cs.cs_idx }&u_no=${loginVo.u_no}" >${cs.cs_answerdate}</a>
+		      <td><input type="checkbox" name="rowCheck" id="rowCheck" value="${userList.u_no }"></td>
+		      <td>${userList.u_no }</td>
+		      <td>${userList.u_id}</td>
+		      <td>${userList.u_name }</td>
+		      <td>${userList.u_address } &nbsp; ${userList.u_detailaddress }</td>
+		      <td>${userList.u_nickname}</td>
+		      <td>${userList.u_phone}</td>
+		      <td>${userList.u_grade}</td>
 		    </tr>
 		    </c:forEach>
 		    </tbody>
 		  </table>
 		  	<div style="margin: 10px 10px auto; text-align: right; ">
-            <a href="/UserCsWriteForm?u_no=1" class="btn btn-primary" style="margin-right : 30px;">문의하기</a>
+            <a type="button" class="btn btn-danger" onclick="deleteValue();">삭제</a>
             </div>
-			<%@include file="/WEB-INF/views/include/cspaging.jsp"%>
+			<%@include file="/WEB-INF/views/include/admincspaging.jsp"%>
 		</div>
 	
 	<div
@@ -202,6 +208,58 @@
 
 	<!-- Template Javascript -->
 	<script src="js/main.js"></script>
+	<script>
+//전체 체크    
+var chkObj  =  document.getElementsByName("rowCheck");
+var rowCnt  =  chkObj.length;
+
+$("input[id='allCheck']").click(function() {
+   var chk_listArr  =  $("input[name='rowCheck']");
+   for (var i=0; i<chk_listArr.length; i++) {
+      chk_listArr[i].checked  =  this.checked;
+   }
+});
+
+function deleteValue() {
+	   var u_no =  ${u_no};
+	   var url  =  "/AdminUserDelete?u_no=" + u_no;
+	   var valueArr  =  [];
+	   var list  =  $("input[name='rowCheck']");
+	   for(var i = 0; i < list.length; i++) {
+	      if(list[i].checked) {
+	         valueArr.push(list[i].value);
+	      }
+	   }
+	   if(valueArr.length == 0) {
+	      alert("선택하신 게 없습니다.");
+	   }
+	   else {
+	      var chk  =  confirm("정말 삭제하시겠습니까?");
+	      if(chk) {
+	      $.ajax({
+	         url  :  url,
+	         type : 'post',
+	         traditional : true,
+	         data : {
+	            'valueArr[]'  :  valueArr
+	         },
+	         success: function(jdata) {
+	            if(jdata == 1) {
+	               alert("삭제성공");
+	               location.reload();
+	               
+	            }
+	            else {
+	               alert("삭제 실패");
+	               event.preventDefault();
+	            }
+	         }
+	      });
+	   }
+	}  // deleteValue
+}
+
+</script>
 </body>
 
 </html>

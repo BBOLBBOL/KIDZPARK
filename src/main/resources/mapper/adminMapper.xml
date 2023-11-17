@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kidzpark.admin.mapper.AdminMapper">
+
+ <select id="countAdminCsList" resultType="int">
+ 
+ 
+ SELECT COUNT(*)
+ FROM CSERVICE
+ 
+ 
+ 
+ </select>
+ 
+ <select id="AdminCsList" resultType="com.kidzpark.cs.domain.CsVo">
+
+SELECT *
+FROM (
+  SELECT ROWNUM RN, A.*
+  FROM (
+    SELECT
+      ER.CS_IDX,
+      ER.U_NO,
+      ER.CS_TITLE,
+      TO_CHAR(ER.CS_WRITERDATE, 'YYYY-MM-DD') CS_WRITERDATE, 
+      ER.CS_CATEGORY,
+      TO_CHAR(AN.CS_ANSWERDATE, 'YYYY-MM-DD') CS_ANSWERDATE
+  FROM CSERVICE ER
+  LEFT JOIN CSANSWER AN ON ER.CS_IDX = AN.CS_IDX
+  ORDER BY ER.CS_IDX ASC
+       
+  ) A
+)
+WHERE RN BETWEEN #{start} AND #{end}
+
+</select>
+ 
+ 
+  <select id="userList" resultType="com.kidzpark.user.domain.UserVo">
+
+SELECT *
+FROM (
+  SELECT ROWNUM RN, A.*
+  FROM (
+    SELECT
+		U_NO,
+		U_ID,
+		U_NAME,
+		U_ADDRESS,
+		U_DETAILADDRESS,
+		U_NICKNAME,
+		U_PHONE,
+		U_EMAIL,
+		U_GRADE
+       FROM PUSER
+       ORDER BY U_NO ASC
+  ) A
+)
+WHERE RN BETWEEN #{start} AND #{end} AND U_NO &lt;&gt; 99
+
+</select>
+ 
+ <select id="countAdminUserList" resultType="int">
+ 
+ SELECT COUNT(*) FROM PUSER
+ 
+ </select>
+ 
+ <delete id="userListDelete">
+ 
+ DELETE FROM PUSER
+ WHERE U_NO = #{u_no}
+ 
+ 
+ </delete>
+ 
+ 
+</mapper>

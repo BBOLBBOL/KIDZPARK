@@ -59,6 +59,7 @@ public class LoginController {
 		UserVo loginVo = loginMapper.login( vo );
 		if ( loginVo != null ) {
 			session.setAttribute("loginVo", loginVo);
+			System.out.println(loginVo);
 			returnURL = "redirect:/";
 		} else {
 			model.addAttribute("loginFail", "아이디나 비밀번호가 잘못되었습니다. 다시 시도하세요.");

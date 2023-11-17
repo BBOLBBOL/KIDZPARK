@@ -225,7 +225,7 @@
                                     </c:if>
                                     
                                     <!-- 답변이 없을 때 유저가 보이는 화면 -->
-			     					 <c:if test="${empty view.cs_answer }">				     						     							     						     					
+			     					 <c:if test="${empty view.cs_answer and loginVo.u_no ne 99 }">				     						     							     						     					
                                     <div class="col-md-24">
                                         <div class="form-floating">                                       			    
 			     						  <input type="text" class="form-control" id="name" placeholder="" readonly >
@@ -240,7 +240,28 @@
                                         </div>
                                         <br>
                                     </div>
-                                    </c:if>                                                                                                                                   			  
+                                    </c:if>
+                                    
+                                                                                                                                                                       			  
+			     					 <c:if test="${loginVo.u_no eq 99 and empty view.cs_answer }">				     						     							     						     					
+                                    <div class="col-md-24">
+                                        <div class="form-floating">                                       			    
+			     						  <input type="hidden" class="form-control" id="name" placeholder="" readonly >                                          
+			     						</div>
+			     						<br>
+			     						</div>			     						     							     						     					
+                                    <div class="col-24">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 150px" name="cs_answer"></textarea>
+                                            <label for="message">답변내용</label>
+                                        </div>
+                                        <br>
+                                        <div class="col-12">
+                                         <input type="submit" value="등록" onclick="confirmSubmit();" class="btn btn-primary w-100 py-3" >
+                                    </div>
+                                    </div>
+                                    </c:if>
+                                                                                                                                                                       			  
                                     </div>
                                     </form>
                                 </div>

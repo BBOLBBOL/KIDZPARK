@@ -83,12 +83,6 @@
 		<hr>
 		<!-- Header End -->
 		 <div class="container-xxl py-5">
-		 <a href="/boardlist?m_no=1" class="btn btn-info">자유</a> <a
-				href="/boardlist?m_no=2" class="btn btn-info">건강</a> <a
-				href="/boardlist?m_no=3" class="btn btn-info">요리</a> <a
-				href="/boardlist?m_no=4" class="btn btn-info">육아</a> <a
-				href="/boardlist?m_no=5" class="btn btn-info">교육</a>
-				
 		 <table class="table table-hover">
 		   <thead class="thead-white">
 		    <tr>
@@ -100,21 +94,20 @@
 		    </tr>
 		    </thead>
 		    <tbody class="tbody-white">
-		    <c:forEach var="cs" items="${csList }">
+		    <c:forEach var="adminCs" items="${admincsList }">
 		    <tr>
-		      <td><a href="/UserCsView?cs_idx=${cs.cs_idx }&u_no=1" >${cs.cs_idx }</a>
-		      <td><a href="/UserCsView?cs_idx=${cs.cs_idx }&u_no=1" >${cs.cs_category}</a>
-		      <td><a href="/UserCsView?cs_idx=${cs.cs_idx }&u_no=1" >${cs.cs_title }</a>
-		      <td><a href="/UserCsView?cs_idx=${cs.cs_idx }&u_no=1" >${cs.cs_writerdate }</a>
-		      <td><a href="/UserCsView?cs_idx=${cs.cs_idx }&u_no=1" >${cs.cs_answerdate}</a>
+		      <td><a href="/UserCsView?cs_idx=${adminCs.cs_idx }&u_no=1" >${adminCs.cs_idx }</a>
+		      <td><a href="/UserCsView?cs_idx=${adminCs.cs_idx }&u_no=1" >${adminCs.cs_category}</a>
+		      <td><a href="/UserCsView?cs_idx=${adminCs.cs_idx }&u_no=1" >${adminCs.cs_title }</a>
+		      <td><a href="/UserCsView?cs_idx=${adminCs.cs_idx }&u_no=1" >${adminCs.cs_writerdate }</a>
+		      <td><a href="/UserCsView?cs_idx=${adminCs.cs_idx }&u_no=1" >${adminCs.cs_answerdate}</a>
 		    </tr>
 		    </c:forEach>
 		    </tbody>
 		  </table>
 		  	<div style="margin: 10px 10px auto; text-align: right; ">
-            <a href="/UserCsWriteForm?u_no=1" class="btn btn-primary" style="margin-right : 30px;">문의하기</a>
             </div>
-			<%@include file="/WEB-INF/views/include/cspaging.jsp"%>
+			<%@include file="/WEB-INF/views/include/admincspaging.jsp"%>
 		</div>
 	
 	<div

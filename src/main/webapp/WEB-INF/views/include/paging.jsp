@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib  prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
   
-  <c:set  var="m_no"                value="${m_no}" /> 
+  <c:set  var="m_no"                value="${m_no}" />
   <c:set  var="startPage"           value="${pg.startPage}" /> 
   <c:set  var="endPage"             value="${pg.endPage}" /> 
   <c:set  var="nowPage"               value="${pg.nowPage}" /> 

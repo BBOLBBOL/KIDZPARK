@@ -79,8 +79,12 @@
 						<a href="/UserCsList?u_no=${loginVo.u_no }"
 							class="nav-item nav-link" onclick="showLoginAlert(event)">고객센터</a>
 					</c:if>
-					<c:if test="${loginVo ne null }">
+					<c:if test="${loginVo ne null and loginVo.u_no ne 99 }">
 						<a href="/UserCsList?u_no=${loginVo.u_no }"
+							class="nav-item nav-link">고객센터</a>
+					</c:if>
+					<c:if test="${loginVo.u_no eq 99 }">
+						<a href="/CsList"
 							class="nav-item nav-link">고객센터</a>
 					</c:if>
 				</div>
@@ -88,12 +92,12 @@
                     <c:when test="${loginVo eq null}">
                     	<li style="list-style-type: none"><a href="/LoginForm" class="btn btn-primary px-3 d-none d-lg-flex">로그인</a></li>
                     </c:when>
-                    <c:when test="${loginVo ne null}">
+                    <c:when test="${loginVo ne null and loginVo.u_no ne 99 }">
 						<li style="list-style-type: none">
 							<b> ${loginVo.u_name } 님 환영합니다 </b>
 						</li>
 						<li style="list-style-type: none" class="nav-item">
-						  <img src="/imgpage/logon.png" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						  <img src="/img/logon.png" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" href="#">1</a></li>
 								<li><a class="dropdown-item" href="#">2</a></li>
@@ -103,7 +107,20 @@
 							</ul>
 						</li>
 					</c:when>
-				</c:choose>
+                    <c:when test="${loginVo.u_no eq 99}">
+						<li style="list-style-type: none" class="nav-item">
+						 <img src="/img/logon.png" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="#">Yes 키즈존 관리</a></li>
+								<li><a class="dropdown-item" href="#">공지사항 관리</a></li>
+								<li><a class="dropdown-item" href="/CsList">고객센터</a></li>
+								<li><a class="dropdown-item" href="/AdminUserList">유저목록</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/LogOut">로그 아웃</a></li>
+							</ul>
+						</li>
+					</c:when>
+					</c:choose>					
 			</div>
             </nav>
         <!-- Navbar End -->
