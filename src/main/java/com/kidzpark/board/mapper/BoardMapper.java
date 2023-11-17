@@ -50,6 +50,12 @@ public interface BoardMapper {
 
 	public void boardUpdate2(HashMap<String, Object> map);
 
+	public void commentWrite(HashMap<String, Object> map);
+
+	public int countCommentList(HashMap<String, Object> map);
+
+	public List<KidzzoneVo> selectCommentList(HashMap<String, Object> map);
+
 
 
 

@@ -196,9 +196,15 @@
 										<div class="col-md-10">
 											<div class="wow fadeInUp" data-wow-delay="0.5s">
 												<form action="/CommentWrite" method="post">
-													<input type="hidden" name="u_no" value="1"> <input
-														type="hidden" name="b_idx" value="${map.b_idx}">
+													<input type="hidden" name="u_no" value="1">
+													<input type="hidden" name="m_no" value="${map.m_no}"> 
+													<input type="hidden" name="b_idx" value="${map.b_idx}">
 													<div class="row g-2">
+																	<div id="content">
+																	</div>
+						                                            <div class="pagination">
+						                                         	<div id="pageNum"></div>
+														</div>
 														<div class="col-md-9">
 															<div class="form-floating" style="margin: auto;">
 																<input type="text" class="form-control" id="c_comment"
@@ -320,7 +326,74 @@
 		function goBack() {
 			window.history.back();
 		}
+		
+		window.onload = function() {
+		    // 페이지 로드 완료 후 updatePage 함수 실행
+		    updatePage();
+		};
+		
+	    let pg = '${pg}'; // 페이지네이션 정보
+	    let nowPage = pg.nowPage; // 현재 페이지 번호
+	    let cntPerPage = pg.cntPerPage; // 페이지당 항목 수
+	    
+		$(document).on('click', '#pageNum a', function(e) {
+			e.preventDefault();
+		    nowPage = $(this).text(); // 클릭한 버튼의 페이지 번호
+		    updatePage(); // AJAX 요청 재실행
+		});
+	    
+		$(document).on('click', '#c_comment', function(e) {
+		    updatePage(); // AJAX 요청 재실행
+		});
+		    
+		    function updatePage() {  	
+		    	$.ajax({
+		    		type: "GET",
+		   			 url: "/CommentList", // 요청 URL
+		   			 data: { 
+		    					nowPage: nowPage, // 페이지 번호
+		        				cntPerPage: cntPerPage, // 페이지당 표시할 항목 수
+		        				b_idx: ${map.b_idx}
+		    },
+		    success: function(response) {	    	
+		        let tag = '';
+		        for(let position of response.commentlist) {
+		            tag += '<div class="col-md-9">'
+		            tag += '<div class="form-floating" style="margin: auto;"> <input type="text" class="form-control"'
+		            tag += 'value="'+ position.c_comment + '" readonly="readonly">	<div class="col-2"style="margin:auto;"><input type="text"' 
+		            tag += 'class="form-control" value="'+ position.u_no + '" readonly="readonly"></div>'
+		            tag += '</div><br></div>'
+		        }
+		        
+		        // 페이지 내용 갱신
+			        $("#content").html(tag);
+		        
+		        let page = response.pg;
+		        
+		    	 let pageNumTag = '';
+			        if(page.startPage != 1) {
+			            pageNumTag += '<a href="/CommentList?b_idx='+${map.b_idx}+'&nowPage=' + (page.startPage - 1) + '&cntPerPage=' + page.cntPerPage + '">&lt;</a>';
+			        }
+			        for(let p = page.startPage; p <= page.endPage; p++) {
+			            if(p == page.nowPage) {
+			                pageNumTag += '<a>' + p + '</a>';
+			            } else {
+			                pageNumTag += '<a href="/CommentList?b_idx='+${map.b_idx}+'&nowPage=' + p + '&cntPerPage=' + page.cntPerPage + '">' + p + '</a>';
+			            }
+			        }
+			        if(response.pg.endPage != response.pg.lastPage) {
+			            pageNumTag += '<a href="/CommentList?b_idx='+${map.b_idx}+'&nowPage=' + (page.endPage+1) + '&cntPerPage=' + page.cntPerPage + '">&gt;</a>';
+			        }
+			        // 페이지네이션 링크 갱신
+			        $("#pageNum").html(pageNumTag);
+		    	
 
+		    },
+		    error: function(jqXHR, textStatus, errorThrown) {
+		        console.log("오류: ", textStatus, errorThrown); // 오류 정보 출력
+		    }
+		});
+		         }
 		/*   <c:forEach var="commt" items="${commtlist}">
 		<div class="col-md-2">
 			<div class="form-floating" style="margin: auto;">

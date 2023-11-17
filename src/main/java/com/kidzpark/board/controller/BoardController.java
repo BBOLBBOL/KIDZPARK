@@ -196,13 +196,27 @@ public class BoardController {
 
 	// 글 내용보기
 	@RequestMapping("/BoardView")
-	public ModelAndView view(@RequestParam HashMap<String, Object> map) {
+	public ModelAndView view(PagingVo pg, @RequestParam HashMap<String, Object> map, 
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage) {
 
 		System.out.println(map);
 
 		boardMapper.updateReadcount(map);
 
 		String m_name = boardMapper.selectMenuname(map);
+		
+		int total = boardMapper.countboard(map);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "5";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "5";
+		}
+
+		pg = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 
 		map.put("m_name", m_name);
 
@@ -210,11 +224,10 @@ public class BoardController {
 
 		ModelAndView mv = new ModelAndView();
 
-		map.put("m_name", m_name);
-
 		mv.setViewName("board/boardview");
 		mv.addObject("boardView", boardView);
 		mv.addObject("map", map);
+		mv.addObject("pg", pg);
 		System.out.println(mv);
 
 		return mv;
@@ -281,6 +294,51 @@ public class BoardController {
 	
 	ModelAndView mv = new ModelAndView();
 	
+	boardMapper.commentWrite(map);
+	
+	mv.addObject("map",map);
+	
+	mv.setViewName("redirect:/BoardView?b_idx=" + map.get("b_idx") + "&u_no=" + map.get("u_no") + "&m_no="
+			+ map.get("m_no"));
+	
+	System.out.println("쓰기:"+mv);
+	
 	return mv;
 	}
+	
+	@RequestMapping("/CommentList")
+	@ResponseBody
+	public Map<String, Object> commentlist(@RequestParam HashMap<String, Object> map, PagingVo pg,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage) throws Exception {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		map.put("pg", pg);
+
+		int total = boardMapper.countCommentList(map);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "5";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "5";
+		}
+
+		pg = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		
+		map.put("pg", pg);
+
+		List<KidzzoneVo> commentlist = boardMapper.selectCommentList(map);
+		
+
+		result.put("commentlist", commentlist);
+		result.put("pg", pg);
+		System.out.println("리스트:"+result);
+		return result;
+	}
+	
+	
+	
 }

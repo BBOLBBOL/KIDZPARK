@@ -90,6 +90,7 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
      )
   </insert>
   
+  
   <insert  id="BoardWrite2">
        INSERT INTO  BOARD (
         B_IDX,
@@ -154,5 +155,44 @@ WHERE B_IDX = #{b_idx}
 
 </update>
 
+<insert  id="commentWrite">
+     INSERT INTO  COMMT (
+        C_IDX,
+		C_COMMENT,
+		C_COMMENTDATE,
+		B_IDX,
+		U_NO
+     ) VALUES (
+          ( SELECT  NVL(MAX(C_IDX), 0)+1 FROM COMMT ),
+		#{c_comment},
+		SYSDATE,
+		#{b_idx},
+		#{u_no}
+     )
+  </insert>
+  
+  <select id="selectCommentList"
+  resultType="list">
+   
+ SELECT *
+FROM (
+    SELECT ROWNUM RN, A.*
+    FROM (
+SELECT *
+    FROM COMMT
+WHERE B_IDX = ${b_idx}
+ORDERBY C_IDX DESC
+    ) A
+)
+WHERE RN BETWEEN #{start} AND #{end} 
+	
+</select>
+
+<select id="countCommentList" resultType="int">
+ 
+SELECT COUNT(*) FROM COMMT
+WHERE B_IDX = ${b_idx}
+ 
+ </select>
 
 </mapper>
