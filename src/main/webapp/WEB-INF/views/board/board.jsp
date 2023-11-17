@@ -39,6 +39,29 @@
 
 <!-- Template Stylesheet -->
 <link href="css/style.css" rel="stylesheet">
+<style>
+    .thead-white th {
+        font-weight: bold;
+        font-size: 20px;
+        color : black;
+        text-align: center;
+        
+    }
+    .tbody-white a {
+        font-size: 20px;
+        color : black; 
+       
+    }
+    .tbody-white td {
+    text-align: center;
+    }
+    .table {
+           max-width: 80%; 
+           margin:auto;
+           margin-top:5%;
+           margin-bottom:3%;
+    }
+</style>
 </head>
 
 <body>
@@ -114,11 +137,11 @@
 						<th scope="col">추천수</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="tbody-white">
 					<c:forEach var="board" items="${getboardlist}">
 						<tr>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_title}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.u_no}</a></td>
+							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}">${board.b_title}</a></td>
+							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}">${board.u_no}</a></td>
 							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_writedate}</a></td>
 							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_readcount}</a></td>
 							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_like}</a></td>

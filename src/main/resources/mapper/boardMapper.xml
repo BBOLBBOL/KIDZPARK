@@ -20,6 +20,7 @@ FROM (
    SELECT  *
    FROM    BOARD
    WHERE   M_NO = #{m_no}
+     ORDER BY B_WRITEDATE DESC
     ) A
 )
 WHERE RN BETWEEN #{pg.start} AND #{pg.end} 
@@ -38,6 +39,7 @@ FROM (
    <if test="searchOption != 'all' and searchKeyword != ''">
         AND UPPER(${searchOption}) LIKE '%' || UPPER(#{searchKeyword}) || '%'
     </if>
+      ORDER BY B_WRITEDATE DESC
     ) A
 )
 WHERE RN BETWEEN #{pg.start} AND #{pg.end} 
@@ -62,6 +64,7 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
    <if test="searchOption != 'all' and searchKeyword != ''">
         AND UPPER(${searchOption}) LIKE '%' || UPPER(#{searchKeyword}) || '%'
     </if>
+
 	
 </select>
 
@@ -111,30 +114,6 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
      )
   </insert>
 
-
-
-
-
-
-
-
-
-  <insert  id="boardInsert">
-     INSERT INTO  BOARDBOOT (
-          BNO,
-          TITLE,
-          WRITER,
-          CONTENT
-     ) VALUES (
-          ( SELECT  NVL(MAX(BNO), 0)+1 FROM BOARDBOOT ),
-          #{title},
-          #{writer},
-          #{content}
-     )
-  </insert>
-  
-  
-
   <select id="boardView"
   resultType="map">
    
@@ -151,17 +130,27 @@ WHERE B_IDX = #{b_idx}
 </update>
 
 <delete id="boardDelete">
-DELETE FROM BOARDBOOT
-WHERE BNO = #{bno}
+DELETE FROM BOARD
+WHERE B_IDX = #{b_idx} 
 
 </delete>
 
-<update id="boardUpdate">
-UPDATE BOARDBOOT SET 
-TITLE = #{title},
-WRITER = #{writer},
-CONTENT = #{content}
-WHERE BNO = #{bno} 
+<update id="boardUpdate1">
+UPDATE BOARD SET 
+B_TITLE = #{b_title},
+B_CONT = #{b_cont},
+B_IMG = #{b_img},
+B_WRITEDATE = SYSDATE
+WHERE B_IDX = #{b_idx} 
+
+</update>
+
+<update id="boardUpdate2">
+UPDATE BOARD SET 
+B_TITLE = #{b_title},
+B_CONT = #{b_cont},
+B_WRITEDATE = SYSDATE
+WHERE B_IDX = #{b_idx} 
 
 </update>
 

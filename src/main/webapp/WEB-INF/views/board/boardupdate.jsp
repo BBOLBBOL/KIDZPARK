@@ -102,8 +102,8 @@
 		<div class="row g-4">
 			<div class="col-12">
 				<div class="row gy-8">
-					<div class="col-lg-1"></div>
-					<div class="bg-light rounded p-3 col-lg-10">
+					<div class="col-lg-2"></div>
+					<div class="bg-light rounded p-3 col-lg-8">
 						<div class="bg-white rounded p-4"
 							style="border: 1px dashed rgba(0, 185, 142, .3)">
 							<div class="container-xxl py-5">
@@ -112,59 +112,62 @@
 										<div class="col-md-1"></div>
 										<div class="col-md-10">
 											<div class="wow fadeInUp" data-wow-delay="0.5s">
-												<form action="/BoardUpdateForm" method="post"
-													enctype="multipart/form-data">
-													<input type="hidden" name="u_no" value="1"> <input
-														type="hidden" name="m_no" value="${map.m_no}"> <input
-														type="hidden" name="b_idx" value="${map.b_idx}">
+												<form action="/BoardUpdate" method="post" enctype="multipart/form-data">
+													<input type="hidden" name="u_no" value="1"> 
+													<input type="hidden" name="m_no" value="${map.m_no}">
+													<input type="hidden" name="b_idx" value="${map.b_idx}">
 													<c:forEach var="board" items="${boardView}">
-														<div class="row g-2">
-															<div class="col-md-12">
-																<div class="form-floating" style="margin: auto;">
-																	<input type="text" class="form-control" id="b_title"
-																		value="${board.B_TITLE}" readonly="readonly">
-																</div>
-																<br>
+													<div class="row g-2">
+														<div class="col-md-12">
+															<div class="form-floating" style="margin: auto;">
+																<input type="text" class="form-control" id="b_title" name="b_title" value="${board.B_TITLE}">                                                      
 															</div>
-															<div class="col-md-5">
-																<div class="form-floating" style="margin: auto;">
-																	<input type="text" class="form-control" id="u_no"
-																		value="${board.U_NO}" readonly="readonly">
-																</div>
-																<br>
-															</div>
-															<div class="col-12">
-																<div class="form-floating">
-																	<textarea class="form-control" id="b_cont"
-																		style="height: 400px" readonly="readonly">${board.B_CONT}</textarea>
-																</div>
-																<br>
-															</div>
-															<div class="col-md-12">
-																<div class="form-floating" style="margin: auto;">
-																	<c:choose>
-																		<c:when test="${board.B_IMG ne null}">
-																			<img src="img/${board.B_IMG}"
-																				style="max-width: 100%;">
-																		</c:when>
-																	</c:choose>
-																</div>
-																<br>
-															</div>
-															<div class="col-3"
-																style="margin-left: 15px; margin-right: 15px;">
-																<a class="btn btn-primary w-100 py-3" onclick="goBack()">이전으로</a>
-															</div>
-															<div class="col-3"
-																style="margin-left: 15px; margin-right: 15px;">
-																<button class="btn btn-primary w-100 py-3" type="submit">수정</button>
-															</div>
-															<div class="col-3"
-																style="margin-left: 15px; margin-right: 15px;">
-																<a class="btn btn-primary w-100 py-3"
-																	href="/BoardDelete?b_idx=${map.b_idx}&m_no=${map.m_no}">삭제</a>
-															</div>
+															<br>
 														</div>
+														<div class="col-md-5">
+															<div class="form-floating" style="margin: auto;">
+															<input type="text" class="form-control" id="u_no" name="u_no" value="${board.U_NO}" readonly="readonly">                             
+															</div>
+															<br>
+														</div>
+														<div class="col-12">
+															<div class="form-floating">
+																<textarea class="form-control"
+																	id="b_cont" style="height: 400px" name="b_cont" >${board.B_CONT}</textarea>
+															</div>
+															<br>
+														</div>
+																<c:choose>
+					                                               <c:when test="${board.B_IMG ne null}">
+														<div class="col-md-12">
+															<div class="form-floating" style="margin: auto;">
+														 <img src="img/${board.B_IMG}" style="max-width:100%;" class="nowimg">
+					                                              <label for="nowimg">현재 사진</label>
+															</div>
+															<br>
+														</div>
+														 </c:when>
+														 </c:choose>
+														 <div class="col-md-12">
+															<div class="form-floating" style="margin: auto;">
+																<input type="file" class="form-control" id="b_img"
+																	name="b_img" placeholder="사진" accept="image/*" onchange="readURL(this)"> <label for="b_img">변경할 사진</label>
+															</div>
+															<br>
+														</div>
+														 	<div class="col-md-12">
+															<div class="form-floating" style="margin: auto;">
+														 <img id="preview" style="max-width:100%;">
+															</div>
+															<br>
+														</div>
+														<div class="col-4" style="margin-left: 30px; margin-right: 30px;">
+														  <a class="btn btn-primary w-100 py-3" onclick="goBack()">이전으로</a>
+														</div>
+														<div class="col-4" style="margin-left: 30px; margin-right: 30px;">
+															<button class="btn btn-primary w-100 py-3" type="submit">수정하기</button>
+														</div>
+													</div>
 													</c:forEach>
 												</form>
 											</div>
@@ -179,50 +182,8 @@
 				</div>
 			</div>
 		</div>
-<br>	
-		<!-- Contact End -->
 
-		<div class="row g-4">
-			<div class="col-12">
-				<div class="row gy-8">
-					<div class="col-lg-1"></div>
-					<div class="bg-light rounded p-3 col-lg-10">
-						<div class="bg-white rounded p-4"
-							style="border: 1px dashed rgba(0, 185, 142, .3)">
-							<div class="container-xxl py-5">
-								<div class="container">
-									<div class="row g-4">
-										<div class="col-md-1"></div>
-										<div class="col-md-10">
-											<div class="wow fadeInUp" data-wow-delay="0.5s">
-												<form action="/CommentWrite" method="post">
-													<input type="hidden" name="u_no" value="1"> <input
-														type="hidden" name="b_idx" value="${map.b_idx}">
-													<div class="row g-2">
-														<div class="col-md-9">
-															<div class="form-floating" style="margin: auto;">
-																<input type="text" class="form-control" id="c_comment"
-																	name="c_comment"> <label for="c_comment">댓글을
-																	입력하세요</label>
-															</div>
-															<br>
-														</div>
-														<div class="col-2"
-															style="margin:auto;">
-															<button class="btn btn-primary" style="padding: 8px 12px !important;" type="submit">작성</button>
-														</div>
-													</div>
-												</form>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<!-- Contact End -->
 
 
 
@@ -317,34 +278,21 @@
 	<!-- Template Javascript -->
 	<script src="js/main.js"></script>
 	<script>
-		function goBack() {
-			window.history.back();
+	function readURL(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				document.getElementById('preview').src = e.target.result;
+			};
+			reader.readAsDataURL(input.files[0]);
+		} else {
+			document.getElementById('preview').src = "";
 		}
-
-		/*   <c:forEach var="commt" items="${commtlist}">
-		<div class="col-md-2">
-			<div class="form-floating" style="margin: auto;">
-			<input type="text" class="form-control" id="c_comment" value="${commt.c_comment}" readonly="readonly">                             
-			</div>
-			<br>
-		</div>
-		<div class="col-md-2">
-			<div class="form-floating" style="margin: auto;">
-			<input type="text" class="form-control" id="c_comment" value="${commt.u_no}" readonly="readonly">                             
-			</div>
-			<br>
-		</div>
-		<div class="col-md-2">
-			<div class="form-floating" style="margin: auto;">
-			<input type="text" class="form-control" id="c_comment" value="${commt.c_commentdate}" readonly="readonly">                             
-			</div>
-			<br>
-		</div>
-		<div class="col-1" style="margin-left: 15px; margin-right: 15px;">
-		  <a class="btn btn-primary w-15 py-3" href="/BoardDelete?b_idx=${map.b_idx}&m_no=${map.m_no}">삭제</a>
-		</div>
-		</c:forEach>
-		 */
+	}
+	
+    function goBack() {
+        window.history.back();
+    }
 	</script>
 </body>
 

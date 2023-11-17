@@ -15,7 +15,7 @@ public class ImgFile {
 			HashMap<String,Object> map,
 			 HttpServletRequest request) {
 	        // 자료실에 파일이 저장될 경로(디렉토리) 지정 없으면 생성
-	        String filePath = "C:\\Users\\GGG\\git\\Kidzpark\\src\\main\\resources\\static\\img";
+	        String filePath = "C:\\Users\\GGG\\git\\Kidzpark\\src\\main\\resources\\static\\img\\";
 	        //upload.path=E:/study/imageTest/
 
 	        File dir = new File(filePath);

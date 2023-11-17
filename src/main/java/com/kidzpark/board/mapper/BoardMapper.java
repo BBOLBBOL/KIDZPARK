@@ -46,6 +46,10 @@ public interface BoardMapper {
 
 	public void updateReadcount(HashMap<String, Object> map);
 
+	public void boardUpdate1(HashMap<String, Object> map);
+
+	public void boardUpdate2(HashMap<String, Object> map);
+
 
 
 
