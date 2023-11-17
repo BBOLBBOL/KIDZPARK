@@ -5,11 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.kidzpark.user.domain.UserVo;
 
 @Controller
 public class ChatController {
@@ -67,14 +71,18 @@ public class ChatController {
 	 * @return
 	 */
 	@RequestMapping("/moveChating")
-	public ModelAndView chating(@RequestParam HashMap<Object, Object> params) {
+	public ModelAndView chating(@RequestParam HashMap<Object, Object> params, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		int roomNumber = Integer.parseInt((String) params.get("roomNumber"));
+		
+		UserVo loggedInUser = (UserVo) session.getAttribute("loginVo");
+	    String userNickname = loggedInUser.getU_nickname();
 		
 		List<Room> new_list = roomList.stream().filter(o->o.getRoomNumber()==roomNumber).collect(Collectors.toList());
 		if(new_list != null && new_list.size() > 0) {
 			mv.addObject("roomName", params.get("roomName"));
 			mv.addObject("roomNumber", params.get("roomNumber"));
+			mv.addObject("userNickname", userNickname); // 사용자 정보를 전달
 			mv.setViewName("chat/chat");
 		}else {
 			mv.setViewName("chat/room");

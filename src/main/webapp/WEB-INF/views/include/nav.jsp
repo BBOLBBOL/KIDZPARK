@@ -77,7 +77,7 @@
                     </c:when>
                     <c:when test="${loginVo ne null}">
 						<li style="list-style-type: none">
-							<b> ${loginVo.u_name } 님 환영합니다 </b>
+							<b> ${loginVo.u_name} 님 환영합니다 </b>
 						</li>
 						<li style="list-style-type: none" class="nav-item">
 						  <img src="/imgpage/logon.png" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
