@@ -170,7 +170,8 @@
         </div>
         </div>
         <br>
-        <!-- 관리자 답변 내용 ( 있으면 나오고 없으면 안나오게 !)-->
+        
+        <!-- 답변 완료 상태일 때 유저가 보이는 화면-->
          <div class="row g-4">
                     <div class="col-12">
                         <div class="row gy-8">
@@ -202,20 +203,44 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-floating">                                       			    
-			     						  <input type="text" class="form-control" id="name" placeholder=""  value="${view.cs_title }" readonly>
+			     						  <input type="text" class="form-control" id="name" placeholder=""  value="${view.cs_category }" readonly>
                                           <label for="name">카테고리</label>
 			     						</div>
-			     						</div>			     						     					
+			     						</div>
+			     					 <c:if test="${not empty view.cs_answer }">				     						     							     						     					
+                                    <div class="col-md-24">
+                                        <div class="form-floating">                                       			    
+			     						  <input type="text" class="form-control" id="name" placeholder=""  value="${view.cs_answerdate }" readonly>
+                                          <label for="name">답변일자</label>
+			     						</div>
+			     						<br>
+			     						</div>			     						     							     						     					
                                     <div class="col-24">
                                         <div class="form-floating">
-                                            <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 150px" name="cs_answer"></textarea>
+                                            <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 150px" name="cs_answer" readonly>${view.cs_answer }</textarea>
                                             <label for="message">답변내용</label>
                                         </div>
                                         <br>
-                                    </div>                                
-                                    <div class="col-12">
-                                         <input type="submit" value="등록" onclick="confirmSubmit();" class="btn btn-primary w-100 py-3" >
                                     </div>
+                                    </c:if>
+                                    
+                                    <!-- 답변이 없을 때 유저가 보이는 화면 -->
+			     					 <c:if test="${empty view.cs_answer }">				     						     							     						     					
+                                    <div class="col-md-24">
+                                        <div class="form-floating">                                       			    
+			     						  <input type="text" class="form-control" id="name" placeholder="" readonly >
+                                          <label for="name">답변일자</label>
+			     						</div>
+			     						<br>
+			     						</div>			     						     							     						     					
+                                    <div class="col-24">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 150px" name="cs_answer" readonly>답변 대기중입니다!!.</textarea>
+                                            <label for="message">답변내용</label>
+                                        </div>
+                                        <br>
+                                    </div>
+                                    </c:if>                                                                                                                                   			  
                                     </div>
                                     </form>
                                 </div>
@@ -233,6 +258,15 @@
                         </div>
         </div>
         </div>
+        
+         
+        
+        
+        
+        
+        
+        
+        
         
         
         

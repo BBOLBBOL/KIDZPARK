@@ -39,7 +39,29 @@
 
 <!-- Template Stylesheet -->
 <link href="css/style.css" rel="stylesheet">
-
+<style>
+    .thead-white th {
+        font-weight: bold;
+        font-size: 20px;
+        color : black;
+        text-align: center;
+        
+    }
+    .tbody-white a {
+        font-size: 20px;
+        color : black; 
+       
+    }
+    .tbody-white td {
+    text-align: center;
+    }
+    .table {
+           max-width: 80%; 
+           margin:auto;
+           margin-top:5%;
+           margin-bottom:3%;
+    }
+</style>
 
 </head>
 
@@ -71,7 +93,7 @@
 		       <th scope="col">답변날짜</th>
 		    </tr>
 		    </thead>
-		    <tbody>
+		    <tbody class="tbody-white">
 		    <c:forEach var="cs" items="${csList }">
 		    <tr>
 		      <td><a href="/UserCsView?cs_idx=${cs.cs_idx }&u_no=1" >${cs.cs_idx }</a>

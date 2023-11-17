@@ -16,6 +16,7 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 @MapperScan(value = {"com.kidzpark.kidzzone.mapper"} )
 @MapperScan(value = {"com.kidzpark.board.mapper"} )
 @MapperScan(value = {"com.kidzpark.cs.mapper"} )
+@MapperScan(value = {"com.kidzpark.user.mapper"} )
 public class KidzparkApplication {
 
    public static void main(String[] args) {

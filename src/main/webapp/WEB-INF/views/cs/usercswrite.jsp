@@ -109,7 +109,7 @@
                     <div class="col-md-10">
                         <div class="wow fadeInUp" data-wow-delay="0.5s">
                             <form action="/UserCsWrite" method="POST" enctype="multipart/form-data">
-                            <input type="hidden" name="u_no" value="1">
+                            <input type="hidden" name="u_no" value="${loginVo.u_no }">
                                 <div class="row g-3">
                                     <div class="col-md-8">
                                         <div class="form-floating" style="margin:auto;">

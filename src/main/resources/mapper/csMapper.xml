@@ -81,13 +81,16 @@ WHERE RN BETWEEN #{start} AND #{end}
  
  <select id="csView" resultType="com.kidzpark.cs.domain.CsVo">
  
- SELECT CS_IDX,
- 	    CS_TITLE,
- 	    CS_CONT,
- 	    CS_IMG,
- 	    CS_CATEGORY
- FROM CSERVICE
- WHERE CS_IDX  =  #{cs_idx}
+ SELECT ER.CS_IDX,
+ 	    ER.CS_TITLE,
+ 	    ER.CS_CONT,
+ 	    ER.CS_IMG,
+ 	    ER.CS_CATEGORY,
+ 	    AN.CS_ANSWER,
+ 	    AN.CS_ANSWERDATE
+ FROM CSERVICE ER
+ LEFT JOIN CSANSWER AN ON ER.CS_IDX =  AN.CS_IDX 
+ WHERE ER.CS_IDX  =  #{cs_idx}
  
  </select>
  

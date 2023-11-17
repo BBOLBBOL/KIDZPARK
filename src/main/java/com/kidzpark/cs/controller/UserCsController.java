@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,7 +57,6 @@ public class UserCsController {
 		
 		
 		List<CsVo> userCsList  =  csMapper.userCsList(map);
-		System.out.println("tqtq : " + userCsList);
 		
 		ModelAndView mv  =  new ModelAndView();
 		mv.setViewName("cs/usercs");
@@ -77,12 +74,12 @@ public class UserCsController {
 	}
 	
 	@PostMapping("/UserCsWrite")
-	public ModelAndView csWrtie(
+	public ModelAndView csWrtie(CsVo vo,
 			@RequestParam MultipartFile cs_img,
 			@RequestParam HashMap<String, Object> map,
 			HttpServletRequest request
 			) {
-		
+		System.out.println(cs_img);
 		if(!cs_img.isEmpty() ) {
 			ImgFile.save(map, request);
 			System.out.println("map 1 : " + map);
@@ -92,21 +89,24 @@ public class UserCsController {
 			csMapper.insertCsNoFile(map);
 		}
 		
-		
+		System.out.println("map file : " + map );
 		
 		ModelAndView mv  =  new ModelAndView();
-		mv.setViewName("redirect:/UserCsList?u_no=1");
+		mv.setViewName("redirect:/UserCsList?u_no=" + vo.getU_no());
 		return mv;
 	}
 	
 	@RequestMapping("/UserCsView")
 	public ModelAndView csView(CsVo vo) {
 		
+		String cs_answer  =  vo.getCs_answer();
+		
 		List<CsVo> csView  =  csMapper.csView(vo);
 		System.out.println("csView : " + csView);
 		ModelAndView mv  =  new ModelAndView();
 		mv.setViewName("cs/usercsview");
 		mv.addObject("view", csView);
+		mv.addObject("cs_answer", cs_answer);
 		return mv;
 	}
 	
@@ -114,7 +114,6 @@ public class UserCsController {
 	@ResponseBody
 	public ModelAndView csAnswer(CsVo vo) {
 		
-		System.out.println(vo);
 		csMapper.csAnswer(vo);
 		
 		ModelAndView mv  =  new ModelAndView();
