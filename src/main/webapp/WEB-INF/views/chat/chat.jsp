@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,7 +53,7 @@
 
 	function wsOpen(){
 		//웹소켓 전송시 현재 방의 번호를 넘겨서 보낸다.
-		ws = new WebSocket("ws://" + location.host + "/chating/"+$("#roomNumber").val());
+		ws = new WebSocket("ws://" + location.host + "/chating/"+$("#chr_no").val());
 		wsEvt();
 	}
 		
@@ -75,7 +76,7 @@
 					if(d.sessionId == $("#sessionId").val()){
 						$("#chating").append("<p class='me'>나 :" + d.msg + "</p>");	
 					}else{
-						$("#chating").append("<p class='others'>" + d.userName + " :" + d.msg + "</p>");
+						$("#chating").append("<p class='others'>" + d.u_nickname + " :" + d.msg + "</p>");
 					}
 						
 				}else{
@@ -94,9 +95,9 @@
 	function send() {
 		var option ={
 			type: "message",
-			roomNumber: $("#roomNumber").val(),
+			chr_no : $("#chr_no").val(),
 			sessionId : $("#sessionId").val(),
-			userName : "${loginVo.u_nickname}",
+			u_nickname : "${loginVo.u_nickname}",
 			msg : $("#chatting").val()
 		}
 		ws.send(JSON.stringify(option))
@@ -104,17 +105,26 @@
 	}
 	$(document).ready(function() {
 		wsOpen(); // 문서가 로드되면 WebSocket을 엽니다.
-		$("#yourName").hide(); // 사용자 이름 입력 부분을 숨깁니다.
 		$("#yourMsg").show(); // 메시지 입력 부분을 표시합니다.
 	});
 </script>
 <body>
 	<div id="container" class="container">
-		<h1>${roomName}의 채팅방</h1>
-		<input type="hidden" id="sessionId" value="">
-		<input type="hidden" id="roomNumber" value="${roomNumber}">
+		<h1>${chr_title}의 채팅방</h1>
+		<input type="hidden" id="sessionId" value="${loginVo.u_id}">
+		<input type="hidden" id="chr_no" value="${chr_no}">
 		
 		<div id="chating" class="chating">
+			<c:forEach var="msg" items="${msgList}">
+                <c:choose>
+                    <c:when test="${msg.u_nickname eq loginVo.u_nickname}">
+                        <p class='me'>나 : ${msg.chr_message}</p>
+                    </c:when>
+                    <c:otherwise>
+                        <p class='others'>${msg.u_nickname} : ${msg.chr_message}</p>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
 		</div>
 		
 		<div id="yourMsg">

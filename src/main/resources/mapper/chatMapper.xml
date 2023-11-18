@@ -10,5 +10,31 @@ VALUES( #{chr_no}, #{chr_message}, #{u_no})
 
 </insert>
 
+<insert id="insertRoom" >
+INSERT INTO CHATROOM ( CHR_NO, CHR_TITLE, CHR_OPENDATE, CHR_PEOPLECOUNT)
+VALUES( (SELECT NVL(MAX(CHR_NO),0)+1 FROM CHATROOM), #{chr_title}, SYSDATE, #{chr_peoplecount} )
+</insert>
+
+<select id="getRoom" resultType="com.kidzpark.chat.service.Room">
+SELECT 
+		CHR_NO
+	   ,CHR_TITLE
+	   ,CHR_OPENDATE
+	   ,CHR_PEOPLECOUNT
+	   
+ FROM CHATROOM 	   
+
+</select>
+
+<select id="msgList" resultType="com.kidzpark.chat.service.ChatMessage">
+SELECT
+	 C.MSG_ID
+	,C.CHR_NO
+	,C.CHR_MESSAGE
+	,C.CHR_SUBMITTIME
+	,C.U_NO
+	,P.U_NICKNAME
+ FROM  CHAT C LEFT JOIN PUSER P ON C.U_NO = P.U_NO 
+</select>
 
 </mapper>

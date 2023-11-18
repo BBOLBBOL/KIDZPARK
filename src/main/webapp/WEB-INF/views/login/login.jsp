@@ -173,11 +173,11 @@ label {
           <form action="/Login">
         	<div class="login_id">
 		      <label for="u_id" id="label1">사용자 아이디</label>
-		      <input type="text" id="u_id" name="u_id" placeholder="ID" autocomplete="on" required>
+		      <input type="text" id="u_id" name="u_id" placeholder="ID" autocomplete="on" value="sky" required>
 		    </div>
 		    <div class="login_pw">
 		      <label for="password">비밀번호</label>
-		      <input type="password" id="u_pw" name="u_pw" placeholder="Password" autocomplete="off" required>
+		      <input type="password" id="u_pw" name="u_pw" placeholder="Password" autocomplete="off" value="qwer1234!" required>
 		    </div>
 		    <div class="submit">
  		      <input type="submit" value="로그인" class="btn btn-primary py-3 px-5 me-3 animated fadeIn">

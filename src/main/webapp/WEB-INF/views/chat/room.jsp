@@ -88,30 +88,30 @@
 	
 	function createRoom(){
 		$("#createRoom").click(function(){
-			var msg = {	roomName : $('#roomName').val()	};
+			var msg = {	chr_title : $('#chr_title').val()	};
 
 			commonAjax('/createRoom', msg, 'post', function(result){
 				createChatingRoom(result);
 			});
 
-			$("#roomName").val("");
+			$("#chr_title").val("");
 		});
 	}
 
 	function goRoom(number, name){
-		location.href="/moveChating?roomName="+name+"&"+"roomNumber="+number;
+		location.href="/moveChating?chr_title="+name+"&"+"chr_no="+number;
 	}
 
 	function createChatingRoom(res){
 		if(res != null){
 			var tag = "<tr><th class='num'>순서</th><th class='room'>방 이름</th><th class='go'></th></tr>";
 			res.forEach(function(d, idx){
-				var rn = d.roomName.trim();
-				var roomNumber = d.roomNumber;
+				var rn = d.chr_title.trim();
+				var chr_no = d.chr_no;
 				tag += "<tr>"+
 							"<td class='num'>"+(idx+1)+"</td>"+
 							"<td class='room'>"+ rn +"</td>"+
-							"<td class='go'><button type='button' onclick='goRoom(\""+roomNumber+"\", \""+rn+"\")'>참여</button></td>" +
+							"<td class='go'><button type='button' onclick='goRoom(\""+chr_no+"\", \""+rn+"\")'>참여</button></td>" +
 						"</tr>";	
 			});
 			$("#roomList").empty().append(tag);
@@ -144,7 +144,7 @@
 			<table class="inputTable">
 				<tr>
 					<th>방 제목</th>
-					<th><input type="text" name="roomName" id="roomName"></th>
+					<th><input type="text" name="chr_title" id="chr_title"></th>
 					<th><button id="createRoom">방 만들기</button></th>
 				</tr>
 			</table>
