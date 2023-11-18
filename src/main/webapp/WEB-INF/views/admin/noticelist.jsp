@@ -75,7 +75,7 @@
 				class="row g-0 align-items-center flex-column-reverse flex-md-row">
 				<div class="p-5 mt-lg-5">
 					<h1 class="display-4 animated fadeIn mb-4"
-						style="margin-top: 13%; text-align: center;">${m_name}게시판</h1>
+						style="margin-top: 13%; text-align: center;">공지사항 목록</h1>
 				</div>
 			</div>
 		</div>
@@ -121,15 +121,19 @@
 		<div class="container-xxl py-5">
 			<hr>
 			<div style="margin: 10px 10px auto; text-align: center; ">
-			<a href="/BoardList?m_no=1" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">자유</a> <a
-				href="/BoardList?m_no=2" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">건강</a> <a
-				href="/BoardList?m_no=3" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">요리</a> <a
-				href="/BoardList?m_no=4" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">육아</a> <a
-				href="/BoardList?m_no=5" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">교육</a>
+			<a href="/NoticeList?m_no=1" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">자유</a> <a
+				href="/NoticeList?m_no=2" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">건강</a> <a
+				href="/NoticeList?m_no=3" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">요리</a> <a
+				href="/NoticeList?m_no=4" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">육아</a> <a
+				href="/NoticeList?m_no=5" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">교육</a> <a
+				href="/NoticeList?m_no=6" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">공지</a>
+				
+				
 				</div>
 			<table class="table table-hover">
 				<thead class="thead-white">
 					<tr>
+					    <th><input type="checkbox" id="allCheck"></th>
 						<th scope="col">제목</th>
 						<th scope="col">글쓴이</th>
 						<th scope="col">작성일</th>
@@ -138,22 +142,24 @@
 					</tr>
 				</thead>
 				<tbody class="tbody-white">
-					<c:forEach var="board" items="${getboardlist}">
+					<c:forEach var="notice" items="${noticeList}">
 						<tr>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}">${board.b_title}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}">${board.u_no}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_writedate}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_readcount}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_like}</a></td>
+						    <td><input type="checkbox" name="rowCheck" id="rowCheck" value="${notice.b_idx }"></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=99&m_no=${m_no}">${notice.b_title}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=99&m_no=${m_no}">${notice.u_no}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=99&m_no=${m_no}" >${notice.b_writedate}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=99&m_no=${m_no}" >${notice.b_readcount}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=99&m_no=${m_no}" >${notice.b_like}</a></td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 			<div style="margin: 10px 10px auto; text-align: right; ">
-				<a href="/BoardWriteForm?m_no=${m_no}" class="btn btn-primary" style="margin-right : 30px;">글쓰기</a>
+				<a href="/NoticeWriteForm?m_no=${m_no}" class="btn btn-primary" style="margin-right : 30px;">글쓰기</a>
+				<a type="button" class="btn btn-danger" onclick="deleteValue();">삭제</a>
 				</div>
 				
-			<%@include file="/WEB-INF/views/include/pagingboard.jsp"%>
+			<%@include file="/WEB-INF/views/include/adminpagingboard.jsp"%>
 		</div>
 	
 			<!-- Footer Start -->
@@ -244,6 +250,58 @@
 
 	<!-- Template Javascript -->
 	<script src="js/main.js"></script>
+	<script>
+//전체 체크    
+var chkObj  =  document.getElementsByName("rowCheck");
+var rowCnt  =  chkObj.length;
+
+$("input[id='allCheck']").click(function() {
+   var chk_listArr  =  $("input[name='rowCheck']");
+   for (var i=0; i<chk_listArr.length; i++) {
+      chk_listArr[i].checked  =  this.checked;
+   }
+});
+
+function deleteValue() {
+	   var b_idx =  ${b_idx};
+	   var url  =  "/AdmimBoardDelete?b_idx=" + b_idx;
+	   var valueArr  =  [];
+	   var list  =  $("input[name='rowCheck']");
+	   for(var i = 0; i < list.length; i++) {
+	      if(list[i].checked) {
+	         valueArr.push(list[i].value);
+	      }
+	   }
+	   if(valueArr.length == 0) {
+	      alert("선택하신 게 없습니다.");
+	   }
+	   else {
+	      var chk  =  confirm("정말 삭제하시겠습니까?");
+	      if(chk) {
+	      $.ajax({
+	         url  :  url,
+	         type : 'post',
+	         traditional : true,
+	         data : {
+	            'valueArr[]'  :  valueArr
+	         },
+	         success: function(jdata) {
+	            if(jdata == 1) {
+	               alert("삭제성공");
+	               location.reload();
+	               
+	            }
+	            else {
+	               alert("삭제 실패");
+	               event.preventDefault();
+	            }
+	         }
+	      });
+	   }
+	}  // deleteValue
+}
+
+</script>
 </body>
 
 </html>

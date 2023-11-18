@@ -61,11 +61,11 @@
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">게시판 목록</a>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a href="/boardlist?m_no=1" class="dropdown-item">자유</a>
-                                <a href="/boardlist?m_no=2" class="dropdown-item">건강</a>
-                                <a href="/boardlist?m_no=3" class="dropdown-item">요리</a>
-                                <a href="/boardlist?m_no=4" class="dropdown-item">육아</a>
-                                <a href="/boardlist?m_no=5" class="dropdown-item">교육</a>
+                                <a href="/BoardList?m_no=1" class="dropdown-item">자유</a>
+                                <a href="/BoardList?m_no=2" class="dropdown-item">건강</a>
+                                <a href="/BoardList?m_no=3" class="dropdown-item">요리</a>
+                                <a href="/BoardList?m_no=4" class="dropdown-item">육아</a>
+                                <a href="/BoardList?m_no=5" class="dropdown-item">교육</a>
                             </div>
                         </div>
                         <a href="#" class="nav-item nav-link">채팅</a>
@@ -111,8 +111,8 @@
 						<li style="list-style-type: none" class="nav-item">
 						 <img src="/img/logon.png" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="#">Yes 키즈존 관리</a></li>
-								<li><a class="dropdown-item" href="#">공지사항 관리</a></li>
+								<li><a class="dropdown-item" href="/KzWriteForm">Yes 키즈존 관리</a></li>
+								<li><a class="dropdown-item" href="/NoticeList?m_no=6">게시판 관리 / 공지사항 관리</a></li>
 								<li><a class="dropdown-item" href="/CsList">고객센터</a></li>
 								<li><a class="dropdown-item" href="/AdminUserList">유저목록</a></li>
 								<li><hr class="dropdown-divider"></li>

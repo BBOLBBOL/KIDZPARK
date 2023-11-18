@@ -207,8 +207,8 @@ body {
 					</div>
 					<div class="col-lg-3 col-md-6">
 						<h5 class="text-white mb-4">Quick Links</h5>
-						<a class="btn btn-link text-white-50" href="">예스키즈존</a> <a
-							class="btn btn-link text-white-50" href="">게시판</a> <a
+						<a class="btn btn-link text-white-50" href="/Kidzzone">예스키즈존</a> <a
+							class="btn btn-link text-white-50" href="/BoardList">게시판</a> <a
 							class="btn btn-link text-white-50" href="">채팅방</a> <a
 							class="btn btn-link text-white-50" href="">고객문의</a> <a
 							class="btn btn-link text-white-50" href="">마이 페이지</a>
@@ -299,7 +299,7 @@ body {
 	    function updatePage() {  	
 	    	$.ajax({
 	    		type: "GET",
-	   			 url: "/Kidzzonelist", // 요청 URL
+	   			 url: "/KidzzoneList", // 요청 URL
 	   			 data: { 
 	    					nowPage: nowPage, // 페이지 번호
 	        				cntPerPage: cntPerPage // 페이지당 표시할 항목 수
@@ -318,17 +318,17 @@ body {
 	        
 	    	 let pageNumTag = '';
 		        if(page.startPage != 1) {
-		            pageNumTag += '<a href="/Kidzzonelist?nowPage=' + (page.startPage - 1) + '&cntPerPage=' + page.cntPerPage + '">&lt;</a>';
+		            pageNumTag += '<a href="/KidzzoneList?nowPage=' + (page.startPage - 1) + '&cntPerPage=' + page.cntPerPage + '">&lt;</a>';
 		        }
 		        for(let p = page.startPage; p <= page.endPage; p++) {
 		            if(p == page.nowPage) {
 		                pageNumTag += '<a>' + p + '</a>';
 		            } else {
-		                pageNumTag += '<a href="/Kidzzonelist?nowPage=' + p + '&cntPerPage=' + page.cntPerPage + '">' + p + '</a>';
+		                pageNumTag += '<a href="/KidzzoneList?nowPage=' + p + '&cntPerPage=' + page.cntPerPage + '">' + p + '</a>';
 		            }
 		        }
 		        if(response.pg.endPage != response.pg.lastPage) {
-		            pageNumTag += '<a href="/Kidzzonelist?nowPage=' + (page.endPage+1) + '&cntPerPage=' + page.cntPerPage + '">&gt;</a>';
+		            pageNumTag += '<a href="/KidzzoneList?nowPage=' + (page.endPage+1) + '&cntPerPage=' + page.cntPerPage + '">&gt;</a>';
 		        }
 		        // 페이지네이션 링크 갱신
 		        $("#pageNum").html(pageNumTag);
