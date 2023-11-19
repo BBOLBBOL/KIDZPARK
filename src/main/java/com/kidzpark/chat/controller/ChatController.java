@@ -109,7 +109,7 @@ public class ChatController {
 	}
 	@RequestMapping("/saveMessageToDB")
 	public @ResponseBody String saveMessageToDB(@RequestBody ChatMessage message) {
-		System.out.println("message : " + message);
+		//System.out.println("message : " + message);
 	    chatMapper.insertMessage(message);
 	    return "success";
 	}
