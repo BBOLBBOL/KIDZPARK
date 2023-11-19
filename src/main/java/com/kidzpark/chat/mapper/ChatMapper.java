@@ -21,5 +21,7 @@ public interface ChatMapper {
 
 	List<ChatMessage> msgList(ChatMessage msg);
 
+	void insertMessage(ChatMessage message);
+
 
 }

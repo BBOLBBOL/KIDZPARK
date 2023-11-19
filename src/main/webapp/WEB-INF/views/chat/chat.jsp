@@ -64,9 +64,9 @@
 		
 		ws.onmessage = function(data) {
 			//메시지를 받으면 동작
-			var msg = data.data;
-			if(msg != null && msg.trim() != ''){
-				var d = JSON.parse(msg);
+			var chr_message = data.data;
+			if(chr_message != null && chr_message.trim() != ''){
+				var d = JSON.parse(chr_message);
 				if(d.type == "getId"){
 					var si = d.sessionId != null ? d.sessionId : "";
 					if(si != ''){
@@ -74,11 +74,10 @@
 					}
 				}else if(d.type == "message"){
 					if(d.sessionId == $("#sessionId").val()){
-						$("#chating").append("<p class='me'>나 :" + d.msg + "</p>");	
+						$("#chating").append("<p class='me'>나 :" + d.chr_message + "</p>");	
 					}else{
-						$("#chating").append("<p class='others'>" + d.u_nickname + " :" + d.msg + "</p>");
+						$("#chating").append("<p class='others'>" + d.u_nickname + " :" + d.chr_message + "</p>");
 					}
-						
 				}else{
 					console.warn("unknown type!")
 				}
@@ -98,8 +97,13 @@
 			chr_no : $("#chr_no").val(),
 			sessionId : $("#sessionId").val(),
 			u_nickname : "${loginVo.u_nickname}",
-			msg : $("#chatting").val()
+			chr_message : $("#chatting").val(),
+			u_no : "${loginVo.u_no}"
 		}
+
+	    // 서버로 메시지 저장 요청 보내기
+	    saveMessageToDB(option);
+
 		ws.send(JSON.stringify(option))
 		$('#chatting').val("");
 	}
@@ -107,6 +111,23 @@
 		wsOpen(); // 문서가 로드되면 WebSocket을 엽니다.
 		$("#yourMsg").show(); // 메시지 입력 부분을 표시합니다.
 	});
+	
+	function saveMessageToDB(message) {
+	    // AJAX 또는 다른 방법으로 서버에 메시지 저장 요청 보내기
+	    $.ajax({
+	        type: "POST",
+	        url: "/saveMessageToDB",
+	        data: JSON.stringify(message),
+	        contentType: "application/json",
+	        success: function(response) {
+	            console.log("Message saved to DB successfully");
+	        },
+	        error: function(error) {
+	            console.error("Error saving message to DB:", error);
+	        }
+	    });
+	    
+	}
 </script>
 <body>
 	<div id="container" class="container">
@@ -131,7 +152,7 @@
 			<table class="inputTable">
 				<tr>
 					<th>메시지</th>
-					<th><input id="chatting" placeholder="보내실 메시지를 입력하세요."></th>
+					<th><input id="chatting" name="chr_message" placeholder="보내실 메시지를 입력하세요."></th>
 					<th><button onclick="send()" id="sendBtn">보내기</button></th>
 				</tr>
 			</table>
