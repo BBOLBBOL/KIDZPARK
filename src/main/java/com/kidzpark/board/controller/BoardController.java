@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kidzpark.admin.mapper.AdminMapper;
 import com.kidzpark.board.domain.BoardVo;
 import com.kidzpark.board.mapper.BoardMapper;
 import com.kidzpark.kidzzone.domain.KidzzoneVo;
@@ -30,6 +31,9 @@ public class BoardController {
 	@Autowired
 	private BoardMapper boardMapper;
 
+	@Autowired
+	private AdminMapper adminMapper;
+	
 	// 목록
 	@RequestMapping("/BoardList")
 	public ModelAndView boardlist(BoardVo vo, PagingVo pg, int m_no,
@@ -59,8 +63,12 @@ public class BoardController {
 		map.put("pg", pg);
 
 		List<BoardVo> getboardlist = boardMapper.getboardlist(map);
-
+		List<BoardVo> getnoticelist = boardMapper.getnoticelist(map);
+		
+		
+		
 		mv.addObject("getboardlist", getboardlist);
+		mv.addObject("getnoticelist", getnoticelist);
 		mv.addObject("pg", pg);
 		mv.addObject("m_name", m_name);
 		mv.addObject("m_no", m_no);
@@ -221,14 +229,16 @@ public class BoardController {
 		map.put("m_name", m_name);
 
 		List<BoardVo> boardView = boardMapper.boardView(map);
-
+		
+		System.out.println("map : " + map);
+		
 		ModelAndView mv = new ModelAndView();
 
 		mv.setViewName("board/boardview");
 		mv.addObject("boardView", boardView);
 		mv.addObject("map", map);
 		mv.addObject("pg", pg);
-		System.out.println(mv);
+		
 
 		return mv;
 
@@ -339,6 +349,42 @@ public class BoardController {
 		return result;
 	}
 	
-	
+	@RequestMapping("/UserNoticeList")
+	public ModelAndView noticeList(BoardVo vo, PagingVo pds, int m_no,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage
+			) {
+		
+		Map<String, Object> map  =  new HashMap<>();  
+		map.put("m_no", m_no);
+		int total  =  adminMapper.countNotice(vo);
+		
+		if (nowPage == null && cntPerPage == null ) {
+			nowPage  = "1";
+			cntPerPage = "8";
+		} else if(nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "8";
+		}
+		
+		pds  =  new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		map.put("pg", pds);
+		map.put("start", pds.getStart());
+		map.put("end", pds.getEnd());
+		
+		
+		
+		List<BoardVo> noticeList  =  adminMapper.noticeList(map);
+		
+		ModelAndView mv  =  new ModelAndView();
+		mv.setViewName("board/noticelist");
+		mv.addObject("noticeList", noticeList);
+		mv.addObject("pg", pds);
+		mv.addObject("b_idx", vo.getB_idx());
+		mv.addObject("m_no", vo.getM_no());
+		
+		return mv;
+	}
 	
 }

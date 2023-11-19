@@ -57,7 +57,7 @@
                     <div class="navbar-nav ms-auto">
                         <a href="/" class="nav-item nav-link active">Home</a>
                         <a href="/Kidzzone" class="nav-item nav-link">YES 키즈존</a>
-                        <a href="#" class="nav-item nav-link">공지사항</a>
+                        <a href="/UserNoticeList?m_no=6" class="nav-item nav-link">공지사항</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">게시판 목록</a>
                             <div class="dropdown-menu rounded-0 m-0">

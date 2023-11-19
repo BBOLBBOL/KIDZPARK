@@ -107,7 +107,7 @@ WHERE RN BETWEEN #{start} AND #{end} AND U_NO &lt;&gt; 99
  <select id="countNotice" resultType="int">
  
  SELECT COUNT(*) FROM BOARD
- WHERE M_NO  =  6
+ WHERE M_NO  =  #{m_no}
  
  
  </select>

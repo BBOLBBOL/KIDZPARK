@@ -194,7 +194,7 @@ public class AdminController {
 		}
 		
 		
-		return "redirect:/NoticeList";
+		return "redirect:/NoticeList?m_no=6";
 	}
 	
 	@ResponseBody

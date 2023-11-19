@@ -30,6 +30,15 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
 	
 </select>
 
+  <select id="getnoticelist"
+  resultType="com.kidzpark.board.domain.BoardVo">
+
+   SELECT  *
+   FROM    BOARD
+   WHERE   M_NO = 6
+     ORDER BY B_WRITEDATE DESC
+</select>
+
   <select id="selectBoardSearchList"
   resultType="com.kidzpark.board.domain.BoardVo">
    SELECT *

@@ -56,6 +56,8 @@ public interface BoardMapper {
 
 	public List<KidzzoneVo> selectCommentList(HashMap<String, Object> map);
 
+	public List<BoardVo> getnoticelist(Map<String, Object> map);
+
 
 
 

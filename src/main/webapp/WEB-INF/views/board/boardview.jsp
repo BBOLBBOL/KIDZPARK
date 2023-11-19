@@ -155,6 +155,7 @@
 																style="margin-left: 15px; margin-right: 15px;">
 																<a class="btn btn-primary w-100 py-3" onclick="goBack()">이전으로</a>
 															</div>
+															<c:if test="${loginVo.u_no eq map.u_no }">
 															<div class="col-3"
 																style="margin-left: 15px; margin-right: 15px;">
 																<button class="btn btn-primary w-100 py-3" type="submit">수정</button>
@@ -164,6 +165,7 @@
 																<a class="btn btn-primary w-100 py-3"
 																	href="/BoardDelete?b_idx=${map.b_idx}&m_no=${map.m_no}">삭제</a>
 															</div>
+															</c:if>
 														</div>
 													</c:forEach>
 												</form>
