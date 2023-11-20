@@ -82,7 +82,7 @@
 						<li style="list-style-type: none" class="nav-item">
 						  <img src="/imgpage/logon.png" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="#">1</a></li>
+								<li><a class="dropdown-item" href="/CheckEmailForm">내정보 확인/수정</a></li>
 								<li><a class="dropdown-item" href="#">2</a></li>
 								<li><a class="dropdown-item" href="#">3</a></li>
 								<li><a class="dropdown-item" href="#">4</a></li>
