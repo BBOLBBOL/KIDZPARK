@@ -152,7 +152,7 @@
 			</table>
 			<c:if test="${loginVo.u_no eq 99 }">
 			<div style="margin: 10px 10px auto; text-align: right; ">
-				<a href="/BoardWriteForm?m_no=${m_no}" class="btn btn-primary" style="margin-right : 30px;">글쓰기</a>
+				<a href="/NoticeWriteForm?m_no=6" class="btn btn-primary" style="margin-right : 30px;">글쓰기</a>
 				</div>
 				</c:if>
 			<%@include file="/WEB-INF/views/include/pagingboard.jsp"%>
