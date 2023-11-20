@@ -35,7 +35,7 @@
 			padding:0;
 		}
 		.container1{
-			width: 500px;
+			width: 600px;
 			margin: 0 auto;
 			padding: 25px
 		}
@@ -150,6 +150,10 @@
 	    });
 	    
 	}
+	function leftBtn(){
+		window.location.href = '/room';
+	}
+	
 </script>
 <body>
 <div class="container-xxl bg-white p-0" >
@@ -193,6 +197,7 @@
 					<th>메시지</th>
 					<th><input id="chatting" name="chr_message" placeholder="보내실 메시지를 입력하세요."></th>
 					<th><button onclick="send()" id="sendBtn">보내기</button></th>
+					<th><button onclick="leftBtn()" id="leftBtn">나가기</button></th>
 				</tr>
 			</table>
 		</div>
