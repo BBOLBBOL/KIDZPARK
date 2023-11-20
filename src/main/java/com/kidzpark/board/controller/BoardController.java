@@ -315,8 +315,8 @@ public class BoardController {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
-		map.put("pg", pg);
-
+		System.out.println(map);
+		
 		int total = boardMapper.countCommentList(map);
 		if (nowPage == null && cntPerPage == null) {
 			nowPage = "1";
@@ -332,6 +332,8 @@ public class BoardController {
 		map.put("pg", pg);
 
 		List<CommentVo> commentlist = boardMapper.selectCommentList(map);
+		
+		System.out.println("코맨트"+commentlist);
 		
 		result.put("commentlist", commentlist);
 		result.put("pg", pg);

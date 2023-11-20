@@ -172,19 +172,19 @@ WHERE B_IDX = #{b_idx}
   </insert>
   
   <select id="selectCommentList"
-  resultType="list">
+  resultType="map">
    
- SELECT *
+   SELECT *
 FROM (
     SELECT ROWNUM RN, A.*
     FROM (
 SELECT *
     FROM COMMT
 WHERE B_IDX = ${b_idx}
-ORDERBY C_IDX DESC
+ORDER BY C_IDX DESC
     ) A
 )
-WHERE RN BETWEEN #{start} AND #{end} 
+WHERE RN BETWEEN #{pg.start} AND #{pg.end} 
 	
 </select>
 

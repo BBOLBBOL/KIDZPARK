@@ -211,7 +211,6 @@
 																	name="c_comment"> <label for="c_comment">댓글을
 																	입력하세요</label>
 															</div>
-															<br>
 														</div>
 														<div class="col-2"
 															style="margin:auto;">
@@ -327,6 +326,7 @@
 			window.history.back();
 		}
 		
+		
 		window.onload = function() {
 		    // 페이지 로드 완료 후 updatePage 함수 실행
 		    updatePage();
@@ -345,7 +345,7 @@
 		$(document).on('click', '#c_comment', function(e) {
 		    updatePage(); // AJAX 요청 재실행
 		});
-		    
+		console.log(${map.b_idx});
 		    function updatePage() {  	
 		    	$.ajax({
 		    		type: "GET",
@@ -360,9 +360,8 @@
 		        for(let position of response.commentlist) {
 		            tag += '<div class="col-md-9">'
 		            tag += '<div class="form-floating" style="margin: auto;"> <input type="text" class="form-control"'
-		            tag += 'value="'+ position.c_comment + '" readonly="readonly">	<div class="col-2"style="margin:auto;"><input type="text"' 
-		            tag += 'class="form-control" value="'+ position.u_no + '" readonly="readonly"></div>'
-		            tag += '</div><br></div>'
+		            tag += 'value="'+ position.C_COMMENT + '" readonly="readonly"></div><br></div><div class="col-2"style="margin:auto;"><input type="text"' 
+		            tag += 'class="form-control" value="'+ position.U_NO + '" readonly="readonly"><br></div>'
 		        }
 		        
 		        // 페이지 내용 갱신

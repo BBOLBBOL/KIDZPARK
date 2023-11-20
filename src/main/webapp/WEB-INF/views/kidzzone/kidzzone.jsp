@@ -284,6 +284,7 @@ body {
 	window.onload = function() {
 	    // 페이지 로드 완료 후 updatePage 함수 실행
 	    updatePage();
+	    mysite();
 	};
 	
     let pg = '${pg}'; // 페이지네이션 정보
@@ -307,9 +308,9 @@ body {
 	    success: function(response) {	    	
 	        let tag = '';
 	        for(let position of response.selectkiddzone) {
-	            tag += '<div class="chat-room">'
-	            tag += '<a href=""><h3>' + position.kz_name + '</h3><p class="timestamp">' +position.kz_explanation + '</p>'
-	            tag += '<p class="last-message">' + position.kz_openingtime + '</p></a></div>'
+	        	 tag += '<div class="chat-room">'
+	                 tag += '<h3>' + position.kz_name + '</h3><p class="timestamp">' +position.kz_explanation + '</p>'
+	                 tag += '<p class="last-message">' + position.kz_openingtime + '</p><button onclick="moveMap(\'' + position.kz_address + '\');">지도보기</button></div>'
 	        }
 	        // 페이지 내용 갱신
 		        $("#content").html(tag);
@@ -390,6 +391,7 @@ positions.forEach(function (position) {
 });
 
 // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+function mysite(){
 if (navigator.geolocation) {
     navigator.geolocation.watchPosition(function (position) {
         try {
@@ -418,12 +420,20 @@ if (navigator.geolocation) {
         console.error('Error in getCurrentPosition:', error);
     });
 }
+}
+function moveMap(movemap){
+	geocoder.addressSearch(movemap, function (result, status) {
+        console.log(result, status);
+        // 정상적으로 검색이 완료됐으면
+          if (status === kakao.maps.services.Status.OK) {
 
+             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+        	const moveLatLon = new kakao.maps.LatLng(coords.getLat(), coords.getLng());
+            map.panTo(moveLatLon);
+        }
+	});
+}
 
-
-
-
-									
 		    
 	
 		 
