@@ -40,6 +40,18 @@
 <!-- Template Stylesheet -->
 <link href="css/style.css" rel="stylesheet">
 <style>
+.modal-dialog {
+  position: fixed !important;
+  bottom: 0%;
+  left: 50%; /* 화면 중앙에 위치하는 경우 */
+  width: 50% !important; /* 원하는 너비로 설정 */
+}
+
+.modal-body {
+  height: 300px; /* 원하는 세로 길이 설정 */
+  overflow-y: auto; /* 내용이 넘칠 경우 스크롤바 추가 */
+}
+
 body {
 	font-family: Arial, sans-serif;
 	background-color: #f4f4f4;
@@ -97,6 +109,21 @@ body {
 	height: 50vh; /* 뷰포트의 높이를 100%로 설정 */
 	overflow-y: auto; /* 수직 스크롤을 가능하게 설정 */
 }
+
+  .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+    .wrap * {padding: 0;margin: 0;}
+    .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+    .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+    .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+    .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+    .info .close:hover {cursor: pointer;}
+    .info .body {position: relative;overflow: hidden;}
+    .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+    .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+    .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+    .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+    .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+    .info .link {color: #5085BB;}
 </style>
 
 </head>
@@ -187,6 +214,25 @@ body {
 				</div>
 			</div>
 		</div>
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+		<c:forEach var="review" items="${kidzzonereview}">
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+</c:forEach>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 		<!-- Footer Start -->
 		<div
 			class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn"
@@ -358,41 +404,71 @@ var mapOption = {
     level: 3 // 지도의 확대 레벨
 };
 
+
 // 지도를 생성합니다
 var map = new kakao.maps.Map(mapContainer, mapOption);
 
 // 주소-좌표 변환 객체를 생성합니다
 var geocoder = new kakao.maps.services.Geocoder();
 
-// positions 배열의 forEach 블록을 이동하였습니다.
-positions.forEach(function (position) {
-    // 주소로 좌표를 검색합니다
-    geocoder.addressSearch(position.kz_address, function (result, status) {
-        console.log(result, status);
-        // 정상적으로 검색이 완료됐으면
+var markers = []; // 마커를 담을 배열
+var overlays = []; // 오버레이를 담을 배열
+
+positions.forEach(function(position) {
+    geocoder.addressSearch(position.kz_address, function(result, status) {
         if (status === kakao.maps.services.Status.OK) {
             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-            // 결과값으로 받은 위치를 마커로 표시합니다
             var marker = new kakao.maps.Marker({
                 map: map,
                 position: coords
             });
-
-            // 인포윈도우로 장소에 대한 설명을 표시합니다
-            // 변경한 코드
-            var infowindow = new kakao.maps.InfoWindow({
-                content: '<div style="width:150px;text-align:center;padding:6px 0;">' +
-                    position.kz_name + '</div>'
-            });
-            infowindow.open(map, marker);
+            markers.push(marker);
             
+            var content = '<div class="wrap">' + 
+            '    <div class="info">' + 
+            '        <div class="title">' + 
+            position.kz_name + 
+            '            <div class="close" onclick="closeOverlay('+(overlays.length)+')" title="닫기"></div>' + 
+            '        </div>' + 
+            '        <div class="body">' + 
+            '            <div class="img">' +
+            '                <img src="img/'+position.kz_img+'" width="73" height="70">' +
+            '           </div>' + 
+            '            <div class="desc">' + 
+            '                <div class="ellipsis">'+position.kz_address+'</div>' +
+            '                <div class="jibun ellipsis">(우)' +position.kz_postcode +
+            '                <div><a href="/KidzzoneReview?kz_no='+position.kz_no+'" data-bs-toggle="modal" data-bs-target="#exampleModal" target="_blank" class="link">리뷰보기</a></div>' + 
+            '           <div>' + 
+            '            </div>' + 
+            '        </div>' + 
+            '    </div>' +    
+            '</div>';
+            var overlay = new kakao.maps.CustomOverlay({
+                content: content,
+                map: map,
+                position: marker.getPosition()
+            });
+            overlays.push(overlay);
+
+            kakao.maps.event.addListener(marker, 'click', function() {
+                overlays.forEach(function(overlay) {
+                    overlay.setMap(null);
+                });
+                overlay.setMap(map);
+            });
         }
     });
 });
 
+// 인덱스를 기반으로 오버레이를 닫는 함수를 정의합니다
+function closeOverlay(index) {
+    overlays[index].setMap(null); // 해당 인덱스의 오버레이만 닫음
+}
+
+
 // GeoLocation을 이용해서 접속 위치를 얻어옵니다
 function mysite(){
-if (navigator.geolocation) {
+
     navigator.geolocation.watchPosition(function (position) {
         try {
             var lat = position.coords.latitude, // 위도
@@ -419,7 +495,7 @@ if (navigator.geolocation) {
     }, function (error) {
         console.error('Error in getCurrentPosition:', error);
     });
-}
+
 }
 function moveMap(movemap){
 	geocoder.addressSearch(movemap, function (result, status) {
