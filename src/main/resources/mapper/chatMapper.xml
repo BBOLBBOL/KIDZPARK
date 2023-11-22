@@ -11,8 +11,8 @@ VALUES( #{chr_no}, #{chr_message}, #{u_no})
 </insert>
 
 <insert id="insertRoom" >
-INSERT INTO CHATROOM ( CHR_NO, CHR_TITLE, CHR_OPENDATE, CHR_PEOPLECOUNT)
-VALUES( (SELECT NVL(MAX(CHR_NO),0)+1 FROM CHATROOM), #{chr_title}, SYSDATE, #{chr_peoplecount} )
+INSERT INTO CHATROOM ( CHR_NO, CHR_TITLE, CHR_OPENDATE)
+VALUES( (SELECT NVL(MAX(CHR_NO),0)+1 FROM CHATROOM), #{chr_title}, SYSDATE)
 </insert>
 
 <select id="getRoom" resultType="com.kidzpark.chat.service.Room">
@@ -20,7 +20,6 @@ SELECT
 		CHR_NO
 	   ,CHR_TITLE
 	   ,CHR_OPENDATE
-	   ,CHR_PEOPLECOUNT
 	   
  FROM CHATROOM 	   
  ORDER BY CHR_NO ASC
@@ -29,8 +28,7 @@ SELECT
 
 <select id="msgList" resultType="com.kidzpark.chat.service.ChatMessage">
 SELECT
-	 C.MSG_ID
-	,C.CHR_NO
+	 C.CHR_NO
 	,C.CHR_MESSAGE
 	,C.CHR_SUBMITTIME
 	,C.U_NO
@@ -41,8 +39,8 @@ SELECT
 </select>
 
 <insert id="insertMessage">
-	INSERT INTO CHAT ( MSG_ID, CHR_NO, CHR_MESSAGE, CHR_SUBMITTIME, U_NO)
-	VALUES( (SELECT NVL(MAX(MSG_ID),0)+1 FROM CHAT), #{chr_no}, #{chr_message}, SYSDATE, #{u_no} )
+	INSERT INTO CHAT (CHR_NO, CHR_MESSAGE, CHR_SUBMITTIME, U_NO)
+	VALUES( #{chr_no}, #{chr_message}, SYSDATE, #{u_no} )
 </insert>
 
 </mapper>

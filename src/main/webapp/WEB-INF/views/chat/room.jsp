@@ -27,71 +27,73 @@
 
  <!-- Template Stylesheet -->
  <link href="css/style.css" rel="stylesheet">
-	<style>
-		*{
-			margin:0;
-			padding:0;
-		}
-		.container1{
-			width: 600px;
-			margin: 0 auto;
-			padding: 25px
-		}
-		.container1 h1{
-			text-align: left;
-			padding: 5px 5px 5px 15px;
-			color: #FFBB00;
-			border-left: 3px solid #FFBB00;
-			margin-bottom: 20px;
-		}
-		.roomContainer{
-			background-color: #F6F6F6;
-			width: 500px;
-			height: 350px;
-			overflow: auto;
-		}
-		.roomList{
-			border: none;
-		}
-		.roomList th{
-			border: 1px solid #FFBB00;
-			background-color: #fff;
-			color: #FFBB00;
-		}
-		.roomList td{
-			border: 1px solid #FFBB00;
-			background-color: #fff;
-			text-align: left;
-			color: #FFBB00;
-		}
-		.roomList .num{
-			width: 75px;
-			text-align: center;
-		}
-		.roomList .room{
-			width: 350px;
-		}
-		.roomList .go{
-			width: 71px;
-			text-align: center;
-		}
-		button{
-			background-color: #FFBB00;
-			font-size: 14px;
-			color: #000;
-			border: 1px solid #000;
-			border-radius: 5px;
-			padding: 3px;
-			margin: 3px;
-		}
-		.inputTable th{
-			padding: 5px;
-		}
-		.inputTable input{
-			width: 330px;
-			height: 25px;
-		}
-	</style>
+<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	.container1{
+		width: 600px;
+		margin: 0 auto;
+		padding: 25px
+	}
+	.container1 h1{
+		text-align: left;
+		padding: 5px 5px 5px 15px;
+		color: #FFBB00;
+		border-left: 3px solid #FFBB00;
+		margin-bottom: 20px;
+	}
+	.roomContainer{
+		background-color: #F6F6F6;
+		width: 500px;
+		height: 350px;
+		overflow: auto;
+	}
+	.roomList{
+		border: none;
+	}
+	.roomList th{
+		border: 1px solid #FFBB00;
+		background-color: #fff;
+		color: #FFBB00;
+	}
+	.roomList td{
+		border: 1px solid #FFBB00;
+		background-color: #fff;
+		text-align: left;
+		color: #FFBB00;
+	}
+	.roomList .num{
+		width: 75px;
+		text-align: center;
+	}
+	.roomList .room{
+		width: 350px;
+	}
+	.roomList .go{
+		width: 71px;
+		text-align: center;
+	}
+	button{
+		background-color: #FFBB00;
+		font-size: 14px;
+		color: #000;
+		border: 1px solid #000;
+		border-radius: 5px;
+		padding: 3px;
+		margin: 3px;
+	}
+	.inputTable th{
+		padding: 5px;
+	}
+	.inputTable input{
+		width: 330px;
+		height: 25px;
+	}
+</style>
+<script>
+</script>
 </head>
 
 <script type="text/javascript">

@@ -56,6 +56,16 @@ public class UserController {
 		return mv;
 	}
 	
+	@RequestMapping("/UserInfo")
+	public ModelAndView userInfo(UserVo vo) {
+		System.out.println("userInfo in vo" + vo);
+		List<UserVo> infoList = userMapper.userInfo(vo);	
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("user/userinfo");
+		mv.addObject("infoList", infoList);
+		return mv;
+	}
+	
 	@RequestMapping("/UpdatePwForm")
 	public ModelAndView updatePwForm(UserVo vo) {
 		System.out.println("UpdatePwForm in vo" + vo);
@@ -64,6 +74,16 @@ public class UserController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("user/updatepw");
 		mv.addObject("voList", voList);
+		return mv;
+	}
+	
+	@RequestMapping("/UpdatePw")
+	public ModelAndView updatePw(UserVo vo) {
+		List<UserVo> infoList = userMapper.updatePw(vo);
+		System.out.println("UpdatePw in infoList" + infoList);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:/UserUpdateForm");
+		mv.addObject("infoList", infoList);
 		return mv;
 	}
 	

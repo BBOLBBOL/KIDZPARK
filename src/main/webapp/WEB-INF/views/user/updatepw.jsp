@@ -123,6 +123,27 @@ input[type="password"]{
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
    <script>
+   $('form').submit(function (event) {
+	   
+	   var u_pw = $('#u_pw').val();
+	   var u_id = $('#u_id').val();
+	   $.ajax({
+		   url  : '/UpdatePwForm',
+		   type : 'POST,'
+		   data: {u_id : u_id, u_pw : u_pw},
+		   success: function (response) {
+	            
+	            alert('비밀번호가 수정 되었습니다.');
+	            window.close();
+	            event.preventDefault();
+	        },
+	        error: function (xhr, status, error) {
+	            alert('비밀번호 변경에 실패했습니다. 다시 시도해주세요.');
+	            console.error(xhr, status, error);
+	            event.preventDefault();
+	        }
+	   })
+   }
     
  $("#user_pw1")
 .blur(

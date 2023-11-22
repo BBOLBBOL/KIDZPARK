@@ -38,17 +38,16 @@
 	width: 80%;
 	padding: 20px;
 }
-form {
-	padding: 20px;
+
+ .tb1 {
+    width: 100%; /* 테이블의 폭을 80%로 설정 */
+    margin: 0 auto; /* 가운데 정렬을 위해 auto 마진 설정 */
+    padding: 20px;
 	background-color: #fff;
 	border: 1px solid #ddd;
 	border-radius: 5px;
 	width: 60%;
 	margin: auto;
-}
-form table {
-    width: 100%; /* 테이블의 폭을 80%로 설정 */
-    margin: 0 auto; /* 가운데 정렬을 위해 auto 마진 설정 */
 }
 tr:nth-child(even) {
 	background-color: #f2f2f2;
@@ -91,9 +90,7 @@ input[type="text"], input[type="password"] {
 	max-width: 300px;
 	margin-top: 10px;
 }
-#u_id, #u_name, #u_email {
-    background-color: #ddd; /* 회색 또는 다른 원하는 색상으로 변경 */
-}
+
 @media (max-width: 768px) {
   /* 768px보다 작은 화면 크기에 대한 스타일 설정 */
   .container-xxl, .form, .button, .tr, .td, .span, .input{
@@ -149,7 +146,7 @@ input[type="text"], input[type="password"] {
           <div class="container-fluid header bg-white p-0">
             <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
                <div class="p-5 mt-lg-5">
-                 <h1 class="display-4 animated fadeIn mb-4" style="margin-top : 13%; text-align: center;">회원정보 수정</h1>
+                 <h1 class="display-4 animated fadeIn mb-4" style="margin-top : 13%; text-align: center;">회원정보</h1>
                </div>
             </div>  
 	        <hr>
@@ -160,7 +157,6 @@ input[type="text"], input[type="password"] {
                 
           <div class="container-xxl py-5">
           <c:forEach var="info" items="${infoList}">
-            <form action="/UserUpdate" method="POST" enctype="multipart/form-data" onsubmit="validateForm()">
              <table class="tb1">
 				<colgroup>
 					<col width="25%">
@@ -168,24 +164,18 @@ input[type="text"], input[type="password"] {
 				</colgroup>
 				<tr>
 					<td colspan="2"	style="background-color: #cee3f6; font-weight: bold;">
-					<span class="redFont">(*수정가능)</span> 회원기본정보</td>
+					<span class="redFont"></span> 회원기본정보</td>
 				</tr>
 				<tr>
 					<td></span>아이디:</td>
 					<td><input type="text" name="u_id" id="u_id" style="width: 200px" value="${info.u_id}" readonly></td>
 				</tr>
 				<tr>
-					<td><span class="redFont">*</span>비밀번호:</td>
-					<td><input type="password" name="u_pw" id="user_pw1" style="width: 200px" value="${info.u_pw}" readonly>
-						<input type="button" onclick="ChangePw()" value="비밀번호 변경">
-					</td>
-				</tr>
-				<tr>
 					<td>이름:</td>
 					<td><input type="text" name="u_name" id="u_name" style="width: 200px" value="${info.u_name}" readonly ></td>
 				</tr>
 				<tr>
-					<td>이메일 입력:</td>
+					<td>이메일:</td>
 					<td>
 						<input type="text" name="u_email" id="u_email" style="width: 200px"  placeholder="이메일 입력" value="${info.u_email}" readonly>
 					</td>
@@ -193,18 +183,16 @@ input[type="text"], input[type="password"] {
 				<tr>
 					<td><span class="redFont">*</span>닉네임:</td>
 					<td><input type="text" name="u_nickname" id="u_nickname" onBlur="nickname()" style="width: 200px" value="${info.u_nickname}" readonly>
-						<input type="button" onclick="changeNick()" value="닉네임 중복확인">
 					</td>
 				</tr>
 				<tr>
 					<td><span class="redFont">*</span>주소:</td>
 					<td>
 						<div>
-							<input type="text" id="u_postcode"      name="u_postcode"      placeholder="우편번호" value="${info.u_postcode}" style="width: 200px" required>
-						    <input type="button" onclick="u_execDaumPostcode()" value="우편번호 변경"><br>
-							<input type="text" id="u_address"       name="u_address"       placeholder="주소" value="${info.u_address}" style="width: 100%;"  required><br>
-							<input type="text" id="u_detailaddress" name="u_detailaddress" placeholder="상세주소" value="${info.u_detailaddress}" style="width: 55%;"><br>
-							<input type="text" id="u_extraaddress"  name="u_extraaddress"  placeholder="참고항목" value="${info.u_extraaddress}" style="width: 55%;">
+							<input type="text" id="u_postcode"      name="u_postcode"      placeholder="우편번호" value="${info.u_postcode}" style="width: 200px"  readonly required>
+							<input type="text" id="u_address"       name="u_address"       placeholder="주소" value="${info.u_address}" style="width: 100%;"  readonly required><br>
+							<input type="text" id="u_detailaddress" name="u_detailaddress" placeholder="상세주소" value="${info.u_detailaddress}" style="width: 55%;"  readonly><br>
+							<input type="text" id="u_extraaddress"  name="u_extraaddress"  placeholder="참고항목" value="${info.u_extraaddress}" style="width: 55%;"  readonly> 
 						</div>
 					</td>
 				</tr>
@@ -213,24 +201,14 @@ input[type="text"], input[type="password"] {
 					<td>
 						<div>
 							<input type="text" name="u_phone" placeholder="(-)빼고 입력" style="width: 200px;" value="${info.u_phone}" readonly>
-							<input type="button" onclick="changePhone()" value="연락처 중복확인">
 						</div>
 					</td>
 				</tr>
 				<tr>
-					<td>현재사진:</td>
+					<td>프로필사진:</td>
 					<td>
 						<div>
 							<img style="max-width: 300px;" src="img/${info.u_profileimg}">
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td>변경할 프로필사진:</td>
-					<td>
-						<div>
-							<input type="file" accept="image/*" onchange="readURL(this)" name="u_profileimg" value="${info.u_profileimg}" class="u_profileimg" /><br>
-							<img id="preview" style="max-width: 300px;">
 						</div>
 					</td>
 				</tr>
@@ -239,12 +217,11 @@ input[type="text"], input[type="password"] {
 						<div style="display: flex; justify-content: center;">
 							<a type="button" class="btn btn-secondary"
 								onclick="location.href='/';">메인 화면</a>
-							<button type="submit" class="btn btn-primary">회원수정</button>
+							<a type="button" href="/CheckEmailForm" class="btn btn-primary">회원수정</a>
 						</div>
 					</td>
 				</tr>
-			</table>
-            </form> 
+            </table>
             </c:forEach>
           </div>   
  
@@ -323,7 +300,7 @@ input[type="text"], input[type="password"] {
     function ChangePw(){
     	var u_id = $('#u_id').val();
     	var u_pw = $('#user_pw1').val();
-    	var url = '/UpdatePwForm?u_id=' + u_id;
+    	var url = '/UpdatePwForm?u_id=' + u_id + '&u_pw=' + u_pw;
         window.open(url, '비밀번호 변경', 'width=400,height=300');
     }
     
