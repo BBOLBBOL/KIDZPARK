@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.kidzpark.kidzzone.domain.KidzzoneVo;
+import com.kidzpark.kidzzone.domain.ReviewVo;
 import com.kidzpark.paging.PagingVo;
 
 public interface KidzzoneMapper {
@@ -23,5 +24,7 @@ public interface KidzzoneMapper {
 	List<KidzzoneVo> selectKidzzoneSearchlist2(Map<String, Object> map);
 
 	int countKiddzoneSearch2(Map<String, Object> map);
+
+	List<ReviewVo> reviewList(ReviewVo vo);
 
 }

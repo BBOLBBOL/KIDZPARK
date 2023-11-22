@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kidzpark.kidzzone.domain.KidzzoneVo;
+import com.kidzpark.kidzzone.domain.ReviewVo;
 import com.kidzpark.kidzzone.mapper.KidzzoneMapper;
 import com.kidzpark.paging.PagingVo;
 
@@ -226,6 +228,16 @@ public class KidzzoneController {
 			return result;
 		}
 
+	}
+	
+	@RequestMapping("/KidzzoneReview")
+	@ResponseBody
+	public List<ReviewVo> kidzzoneReview(@ModelAttribute ReviewVo vo) {
+		
+		List<ReviewVo> reviewList  =  kidzzoneMapper.reviewList(vo);
+		
+		System.out.println("List : " + reviewList);
+		return reviewList;
 	}
 
 }

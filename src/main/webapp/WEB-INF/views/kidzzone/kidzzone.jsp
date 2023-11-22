@@ -214,25 +214,9 @@ body {
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-		<c:forEach var="review" items="${kidzzonereview}">
-      <div class="modal-body">
-        <p>Modal body text goes here.</p>
-      </div>
-</c:forEach>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+		
+
+
 		<!-- Footer Start -->
 		<div
 			class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn"
@@ -309,6 +293,33 @@ body {
 		</div>
 		<!-- Footer End -->
 	</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">리뷰 모달</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <!-- 리뷰 입력 폼 -->
+        <form>
+          <div class="mb-3">
+            <label for="reviewInput" class="form-label">리뷰 입력</label>
+            <textarea class="form-control" id="reviewInput" rows="3"></textarea>
+          </div>
+          <!-- 추가적인 입력 폼들을 필요에 따라 추가할 수 있습니다. -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-primary">저장</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 	<!-- JavaScript Libraries -->
@@ -437,7 +448,7 @@ positions.forEach(function(position) {
             '            <div class="desc">' + 
             '                <div class="ellipsis">'+position.kz_address+'</div>' +
             '                <div class="jibun ellipsis">(우)' +position.kz_postcode +
-            '                <div><a href="/KidzzoneReview?kz_no='+position.kz_no+'" data-bs-toggle="modal" data-bs-target="#exampleModal" target="_blank" class="link">리뷰보기</a></div>' + 
+            '                <div><a href="javascript:void(0);" onclick="openReviewModal(\'' + position.kz_no + '\')" class="link">리뷰보기</a></div>' +  
             '           <div>' + 
             '            </div>' + 
             '        </div>' + 
@@ -511,8 +522,48 @@ function moveMap(movemap){
 }
 
 		    
+//JavaScript 함수를 사용하여 비동기 데이터 조회 및 모달 열기
+function openReviewModal(kz_no) {
+	var url  = '/KidzzoneReview?kz_no=' + kz_no;
+    // AJAX를 사용하여 데이터를 조회합니다.
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function(data) {                    
+            // 모달을 열기
+            $('#exampleModal').modal('show');
+            
+            updateModalContent(data);
+            
+        },
+        error: function(error) {
+            console.error('데이터 조회에 실패했습니다: ', error);
+        }
+    });
+}	
 	
-		 
+//모달 내용 업데이트 함수
+function updateModalContent(data) {
+    // 리뷰들을 표시하는 부분을 비우고 새로운 데이터로 채웁니다.
+    var modalBody = $('#exampleModal .modal-body');
+    modalBody.empty();
+    
+    // 리뷰들을 추가합니다.
+    for (var i = 0; i < data.length; i++) {
+        var review = data[i];
+        modalBody.append('<p>닉네임: ' + review.u_nickname + '</p>');
+        modalBody.append('<p>리뷰 내용: ' + review.review_content + '</p>');
+        // 필요한 데이터에 따라 추가적인 항목을 표시할 수 있습니다.
+    }
+    
+    // 리뷰 입력 폼을 추가합니다.
+    modalBody.append('<form><div class="mb-3">' +
+        '<label for="reviewInput" class="form-label">리뷰 입력</label>' +
+        '<textarea class="form-control" id="reviewInput" rows="3"></textarea>' +
+        '</div></form>');
+}
+
+
 
 	</script>
 </body>
