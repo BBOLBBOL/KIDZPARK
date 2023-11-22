@@ -33,7 +33,20 @@
     
     <style>
     
-  
+    .row1 {
+    display: flex;
+    flex-wrap: wrap;
+     margin: 10px 10px auto;
+}
+
+.row1>* {
+    width: 100%;
+    max-width: 230px;
+    padding-right: calc(var(--bs-gutter-x) / 2);
+    padding-left: calc(var(--bs-gutter-x) / 2);
+    margin: 10px 10px auto;
+   
+}
 
 
     
@@ -44,9 +57,9 @@
 
 <body>
     <div class="container-xxl bg-white p-0">
-        <div class="container-fluid nav-bar bg-transparent">
-      <%@include file="/WEB-INF/views/include/nav.jsp"%> 
-      </div>
+	<div class="container-fluid nav-bar bg-transparent">
+			<%@include file="/WEB-INF/views/include/nav.jsp"%>
+		</div>
         <!-- Header Start -->
         <div class="container-fluid header bg-white p-0">
             <div class="row g-0 align-items-center flex-column-reverse flex-md-row">
@@ -76,23 +89,23 @@
                 <div class="row g-2">
                     <div class="col-md-10">
                         <div class="row g-2">
+                           <div class="col-md-4">
+								<select class="form-select border-0 py-3" name="kz_location">
+									<option selected>지역</option>
+									<option value="서울">서울</option>
+									<option value="부산">부산</option>
+									<option value="인천">인천</option>
+									<option value="대구">대구</option>
+									<option value="대전">대전</option>
+									<option value="광주">광주</option>
+									<option value="울산">울산</option>
+								</select>
+							</div>
                             <div class="col-md-4">
-                                <select class="form-select border-0 py-3">
-                                    <option selected>지역 전체</option>
-                                    <option value="1">서울</option>
-                                    <option value="2">부산</option>
-                                    <option value="3">대구</option>
-                                    <option value="4">대전</option>
-                                    <option value="5">광주</option>
-                                    <option value="6">울산</option>
-                                    <option value="7">인천</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3">
-                                    <option selected>매장 검색</option>
-                                    <option value="1">매장 이름</option>
-                                    <option value="2">매장 주소</option>
+                                <select class="form-select border-0 py-3" name="selectoption">
+                                    <option value="all" selected >매장 검색</option>
+                                    <option value="kz_name">매장 이름</option>
+                                    <option value="kz_address">매장 주소</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -117,8 +130,8 @@
                 </div>
                 <div class="row1 g-4">
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/Freeboard">
-                            <div class="rounded p-4">
+                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/BoardList?m_no=1">
+                            <div class="rounded p-4 contain">
                                 <div class="icon mb-3 ">
                                     <img class="img-fluid1" src="img/baby1.jpg" alt="Icon" width="45" height="50">
                                 </div>
@@ -128,8 +141,8 @@
                         </a>
                     </div>
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="">
-                            <div class="rounded p-4">
+                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/BoardList?m_no=2">
+                            <div class="rounded p-4 contain">
                                 <div class="icon mb-3">
                                     <img class="img-fluid1" src="img/baby2.jpg" alt="Icon" width="45" height="50">
                                 </div>
@@ -139,8 +152,8 @@
                         </a>
                     </div>
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="">
-                            <div class="rounded p-4">
+                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/BoardList?m_no=3">
+                            <div class="rounded p-4 contain">
                                 <div class="icon mb-3">
                                     <img class="img-fluid1" src="img/baby3.jpg" alt="Icon" width="45" height="50">
                                 </div>
@@ -150,8 +163,8 @@
                         </a>
                     </div>
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="">
-                            <div class="rounded p-4">
+                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/BoardList?m_no=4">
+                            <div class="rounded p-4 contain">
                                 <div class="icon mb-3">
                                     <img class="img-fluid1" src="img/baby4.jpg" alt="Icon" width="45" height="50">
                                 </div>
@@ -161,8 +174,8 @@
                         </a>
                     </div>
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="">
-                            <div class="rounded p-4">
+                        <a class="cat-item d-block bg-light text-center rounded p-3" href="/BoardList?m_no=5">
+                            <div class="rounded p-4 contain">
                                 <div class="icon mb-3">
                                     <img class="img-fluid1" src="img/baby5.jpg" alt="Icon" width="45" height="50">
                                 </div>

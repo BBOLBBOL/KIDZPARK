@@ -42,7 +42,7 @@
 
 
         <!-- Navbar Start -->
-            <nav class="navbar navbar-expand-lg navbar-light py-0 px-4">
+            <nav class="navbar navbar-expand-lg navbar-light py-0 px-4" style="z_index: 900;">
                 <a href="/" class="navbar-brand d-flex align-items-center text-center">
                     <div class="p-2">
                         <img class="img-fluid" src="img/kidzpark.png" alt="Icon" style="width: 40px; height: 40px; margin-right:10px;">
@@ -55,16 +55,16 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
                         <a href="/" class="nav-item nav-link active">Home</a>
-                        <a href="#" class="nav-item nav-link">YES 키즈존</a>
+                        <a href="/Kidzzone" class="nav-item nav-link">YES 키즈존</a>
                         <a href="#" class="nav-item nav-link">공지사항</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">게시판 목록</a>
                             <div class="dropdown-menu rounded-0 m-0">
-                                <a href="/Freeboard" class="dropdown-item">자유</a>
-                                <a href="#" class="dropdown-item">건강</a>
-                                <a href="#" class="dropdown-item">요리</a>
-                                <a href="#" class="dropdown-item">육아</a>
-                                <a href="#" class="dropdown-item">교육</a>
+                                <a href="/BoardList?m_no=1" class="dropdown-item">자유</a>
+                                <a href="/BoardList?m_no=2" class="dropdown-item">건강</a>
+                                <a href="/BoardList?m_no=3" class="dropdown-item">요리</a>
+                                <a href="/BoardList?m_no=4" class="dropdown-item">육아</a>
+                                <a href="/BoardList?m_no=5" class="dropdown-item">교육</a>
                             </div>
                         </div>
                         <a href="#" class="nav-item nav-link">채팅</a>
