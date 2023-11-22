@@ -40,6 +40,18 @@
 <!-- Template Stylesheet -->
 <link href="css/style.css" rel="stylesheet">
 <style>
+.modal-dialog {
+  position: fixed !important;
+  bottom: 0%;
+  left: 50%; /* 화면 중앙에 위치하는 경우 */
+  width: 50% !important; /* 원하는 너비로 설정 */
+}
+
+.modal-body {
+  height: 300px; /* 원하는 세로 길이 설정 */
+  overflow-y: auto; /* 내용이 넘칠 경우 스크롤바 추가 */
+}
+
 body {
 	font-family: Arial, sans-serif;
 	background-color: #f4f4f4;
@@ -97,6 +109,21 @@ body {
 	height: 50vh; /* 뷰포트의 높이를 100%로 설정 */
 	overflow-y: auto; /* 수직 스크롤을 가능하게 설정 */
 }
+
+  .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+    .wrap * {padding: 0;margin: 0;}
+    .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+    .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+    .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+    .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+    .info .close:hover {cursor: pointer;}
+    .info .body {position: relative;overflow: hidden;}
+    .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+    .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+    .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+    .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+    .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+    .info .link {color: #5085BB;}
 </style>
 
 </head>
@@ -284,6 +311,7 @@ body {
 	window.onload = function() {
 	    // 페이지 로드 완료 후 updatePage 함수 실행
 	    updatePage();
+	    mysite();
 	};
 	
     let pg = '${pg}'; // 페이지네이션 정보
@@ -314,12 +342,12 @@ body {
 	        				kz_category : kz_category
 	    },
 	    success: function(response) {	    	
-	        let tag = '';
-	        for(let position of response.selectkiddzone) {
-	            tag += '<div class="chat-room">'
-	            tag += '<a href=""><h3>' + position.KZ_NAME + '</h3><p class="timestamp">' +position.KZ_EXPLANATION + '</p>'
-	            tag += '<p class="last-message">' + position.KZ_OPENINGTIME + '</p></a></div>'
-	        }
+	    	   let tag = '';
+		        for(let position of response.selectkiddzone) {
+		        	 tag += '<div class="chat-room">'
+		                 tag += '<h3>' + position.KZ_NAME + '</h3><p class="timestamp">' +position.KZ_EXPLANATION + '</p>'
+		                 tag += '<p class="last-message">' + position.KZ_OPENINGTIME + '</p><button onclick="moveMap(\'' + position.KZ_ADDRESS + '\');">지도보기</button></div>'
+		        }
 	        // 페이지 내용 갱신
 		        $("#content").html(tag);
 	        
@@ -353,81 +381,126 @@ body {
 	
 
 	
-// 지도 api	
+		
+	 // 지도 api	
 
-var jsonStr = '${json}';
-jsonStr = jsonStr.replace(/\n/g, "\\n");
-var data = JSON.parse(jsonStr);
+	 var jsonStr = '${json}';
+	 jsonStr = jsonStr.replace(/\n/g, "\\n");
+	 var data = JSON.parse(jsonStr);
 
-var positions = data.selectkiddzone;
+	 var positions = data.selectkiddzone;
 
-var mapContainer = document.getElementById('map'); // 지도를 표시할 div
-var mapOption = {
-    center: new kakao.maps.LatLng(35.157759003, 129.059317193), // 기본 지도 중심좌표
-    level: 4 // 지도의 확대 레벨
-};
+	 var mapContainer = document.getElementById('map'); // 지도를 표시할 div
+	 var mapOption = {
+	     center: new kakao.maps.LatLng(35.157759003, 129.059317193), // 기본 지도 중심좌표
+	     level: 3 // 지도의 확대 레벨
+	 };
 
-// 지도를 생성합니다
-var map = new kakao.maps.Map(mapContainer, mapOption);
 
-// 주소-좌표 변환 객체를 생성합니다
-var geocoder = new kakao.maps.services.Geocoder();
+	 // 지도를 생성합니다
+	 var map = new kakao.maps.Map(mapContainer, mapOption);
 
-// positions 배열의 forEach 블록을 이동하였습니다.
-positions.forEach(function (position) {
-    // 주소로 좌표를 검색합니다
-    geocoder.addressSearch(position.kz_address, function (result, status) {
+	 // 주소-좌표 변환 객체를 생성합니다
+	 var geocoder = new kakao.maps.services.Geocoder();
+
+	 var markers = []; // 마커를 담을 배열
+	 var overlays = []; // 오버레이를 담을 배열
+
+	 positions.forEach(function(position) {
+	     geocoder.addressSearch(position.kz_address, function(result, status) {
+	         if (status === kakao.maps.services.Status.OK) {
+	             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	             var marker = new kakao.maps.Marker({
+	                 map: map,
+	                 position: coords
+	             });
+	             markers.push(marker);
+	             
+	             var content = '<div class="wrap">' + 
+	             '    <div class="info">' + 
+	             '        <div class="title">' + 
+	             position.kz_name + 
+	             '            <div class="close" onclick="closeOverlay('+(overlays.length)+')" title="닫기"></div>' + 
+	             '        </div>' + 
+	             '        <div class="body">' + 
+	             '            <div class="img">' +
+	             '                <img src="img/'+position.kz_img+'" width="73" height="70">' +
+	             '           </div>' + 
+	             '            <div class="desc">' + 
+	             '                <div class="ellipsis">'+position.kz_address+'</div>' +
+	             '                <div class="jibun ellipsis">(우)' +position.kz_postcode +
+	             '                <div><a href="/KidzzoneReview?kz_no='+position.kz_no+'" data-bs-toggle="modal" data-bs-target="#exampleModal" target="_blank" class="link">리뷰보기</a></div>' + 
+	             '           <div>' + 
+	             '            </div>' + 
+	             '        </div>' + 
+	             '    </div>' +    
+	             '</div>';
+	             var overlay = new kakao.maps.CustomOverlay({
+	                 content: content,
+	                 map: map,
+	                 position: marker.getPosition()
+	             });
+	             overlays.push(overlay);
+
+	             kakao.maps.event.addListener(marker, 'click', function() {
+	                 overlays.forEach(function(overlay) {
+	                     overlay.setMap(null);
+	                 });
+	                 overlay.setMap(map);
+	             });
+	         }
+	     });
+	 });
+
+	 // 인덱스를 기반으로 오버레이를 닫는 함수를 정의합니다
+	 function closeOverlay(index) {
+	     overlays[index].setMap(null); // 해당 인덱스의 오버레이만 닫음
+	 }
+
+
+	 // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+	 function mysite(){
+
+	     navigator.geolocation.watchPosition(function (position) {
+	         try {
+	             var lat = position.coords.latitude, // 위도
+	                 lon = position.coords.longitude; // 경도
+
+	             // 현재 위치로 지도 중심 이동
+	             var center = new kakao.maps.LatLng(lat, lon);
+	             map.setCenter(center);
+
+	             // 마커 생성 및 표시
+	             var marker = new kakao.maps.Marker({
+	                 map: map,
+	                 position: center
+	             });
+
+	             // 마커에 인포윈도우 표시
+	             var infowindow = new kakao.maps.InfoWindow({
+	                 content: '현재 위치'
+	             });
+	             infowindow.open(map, marker);
+	         } catch (error) {
+	             console.error('Error in getCurrentPosition:', error);
+	         }
+	     }, function (error) {
+	         console.error('Error in getCurrentPosition:', error);
+	     });
+
+	 }
+function moveMap(movemap){
+	geocoder.addressSearch(movemap, function (result, status) {
         console.log(result, status);
         // 정상적으로 검색이 완료됐으면
-        if (status === kakao.maps.services.Status.OK) {
-            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-            // 결과값으로 받은 위치를 마커로 표시합니다
-            var marker = new kakao.maps.Marker({
-                map: map,
-                position: coords
-            });
+          if (status === kakao.maps.services.Status.OK) {
 
-            // 인포윈도우로 장소에 대한 설명을 표시합니다
-            // 변경한 코드
-            var infowindow = new kakao.maps.InfoWindow({
-                content: '<div style="width:150px;text-align:center;padding:6px 0;">' +
-                    position.kz_name + '</div>'
-            });
-            infowindow.open(map, marker);
-            
-         // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-            if (navigator.geolocation) {
-                navigator.geolocation.watchPosition(function (position) {
-                    try {
-                        var lat = position.coords.latitude, // 위도
-                            lon = position.coords.longitude; // 경도
-
-                        // 현재 위치로 지도 중심 이동
-                        var center = new kakao.maps.LatLng(lat, lon);
-                        map.setCenter(center);
-
-                        // 마커 생성 및 표시
-                        var marker = new kakao.maps.Marker({
-                            map: map,
-                            position: center
-                        });
-
-                        // 마커에 인포윈도우 표시
-                        var infowindow = new kakao.maps.InfoWindow({
-                            content: '현재 위치'
-                        });
-                        infowindow.open(map, marker);
-                    } catch (error) {
-                        console.error('Error in getCurrentPosition:', error);
-                    }
-                }, function (error) {
-                    console.error('Error in getCurrentPosition:', error);
-                });
-            }
-
+             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+        	const moveLatLon = new kakao.maps.LatLng(coords.getLat(), coords.getLng());
+            map.panTo(moveLatLon);
         }
-    });
-});
+	});
+}
 
 
 
