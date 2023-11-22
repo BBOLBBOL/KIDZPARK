@@ -10,6 +10,6 @@ public interface UserMapper {
 
 	List<UserVo> userInfo(UserVo vo);
 
-	List<UserVo> updatePw(UserVo vo);
+	void updatePw(UserVo vo);
 
 }

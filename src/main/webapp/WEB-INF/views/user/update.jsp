@@ -176,7 +176,7 @@ input[type="text"], input[type="password"] {
 				</tr>
 				<tr>
 					<td><span class="redFont">*</span>비밀번호:</td>
-					<td><input type="password" name="u_pw" id="user_pw1" style="width: 200px" value="${info.u_pw}" readonly>
+					<td><input type="text" name="u_pw" id="user_pw1" style="width: 200px" value="${info.u_pw}" readonly>
 						<input type="button" onclick="ChangePw()" value="비밀번호 변경">
 					</td>
 				</tr>
@@ -320,11 +320,28 @@ input[type="text"], input[type="password"] {
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
     <script>
-    function ChangePw(){
-    	var u_id = $('#u_id').val();
-    	var u_pw = $('#user_pw1').val();
-    	var url = '/UpdatePwForm?u_id=' + u_id;
-        window.open(url, '비밀번호 변경', 'width=400,height=300');
+    function ChangePw() {
+        var u_id = $('#u_id').val();
+        var u_pw = $('#user_pw1').val();
+        var url = '/UpdatePwForm?u_id=' + u_id;
+        var popup = window.open(url, '비밀번호 변경', 'width=500,height=500');
+
+        $(popup).on('unload', function () {
+            // Ajax를 통해 비밀번호 변경 여부를 확인하고, 변경된 경우 값을 업데이트
+            $.ajax({
+                url: '/UpdatePw?u_id=' + u_id, 
+                type: 'POST',
+                success: function (response) {
+                    if (response.updated) {
+                        // 비밀번호가 업데이트되었을 경우, 업데이트된 값을 화면에 반영
+                        $('#user_pw1').val(response.u_pw);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr, status, error);
+                }
+            });
+        });
     }
     
     function u_execDaumPostcode() {
@@ -429,6 +446,7 @@ input[type="text"], input[type="password"] {
 		        }
 		    });
 		});
+	  
     </script>
     
 </body>
