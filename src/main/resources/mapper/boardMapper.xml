@@ -195,4 +195,15 @@ WHERE B_IDX = ${b_idx}
  
  </select>
 
+  <select id="getnoticelist"
+  resultType="com.kidzpark.board.domain.BoardVo">
+
+   SELECT  *
+   FROM    BOARD
+   WHERE   M_NO = 6
+     ORDER BY B_WRITEDATE DESC
+</select>
+
+
+
 </mapper>

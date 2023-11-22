@@ -57,7 +57,7 @@
                     <div class="navbar-nav ms-auto">
                         <a href="/" class="nav-item nav-link active">Home</a>
                         <a href="/Kidzzone" class="nav-item nav-link">YES 키즈존</a>
-                        <a href="#" class="nav-item nav-link">공지사항</a>
+                        <a href="/UserNoticeList?m_no=6"" class="nav-item nav-link">공지사항</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">게시판 목록</a>
                             <div class="dropdown-menu rounded-0 m-0">
@@ -68,14 +68,31 @@
                                 <a href="/BoardList?m_no=5" class="dropdown-item">교육</a>
                             </div>
                         </div>
-                        <a href="/room" class="nav-item nav-link">채팅</a>
-                        <a href="#" class="nav-item nav-link">고객센터</a>
+                         <a href="/room" class="nav-item nav-link" onclick="showLoginAlert(event)">채팅</a>
+					<c:if test="${loginVo eq null }">
+						<script>
+							function showLoginAlert(event) {
+								alert("로그인이 필요합니다!");
+								event.preventDefault();
+							}
+						</script>
+						<a href="/UserCsList?u_no=${loginVo.u_no }"
+							class="nav-item nav-link" onclick="showLoginAlert(event)">고객센터</a>
+					</c:if>
+					<c:if test="${loginVo ne null and loginVo.u_no ne 99 }">
+						<a href="/UserCsList?u_no=${loginVo.u_no }"
+							class="nav-item nav-link">고객센터</a>
+					</c:if>
+					<c:if test="${loginVo.u_no eq 99 }">
+						<a href="/CsList"
+							class="nav-item nav-link">고객센터</a>
+					</c:if>
                     </div>
                     <c:choose>
                     <c:when test="${loginVo eq null}">
                     	<li style="list-style-type: none"><a href="/LoginForm" class="btn btn-primary px-3 d-none d-lg-flex">로그인</a></li>
                     </c:when>
-                    <c:when test="${loginVo ne null}">
+                    <c:when test="${loginVo ne null and loginVo.u_no ne 99}">
 						<li style="list-style-type: none">
 							<b> ${loginVo.u_name} 님 환영합니다 </b>
 						</li>
@@ -91,6 +108,24 @@
 							</ul>
 						</li>
 					</c:when>
+					
+					 <c:when test="${loginVo.u_no eq 99}">
+					 	<li style="list-style-type: none">
+							<b> ${loginVo.u_name} 님 환영합니다 </b>
+						</li>
+						<li style="list-style-type: none" class="nav-item">					
+						 <img src="/img/logon.png" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/KzWriteForm">Yes 키즈존 관리</a></li>
+								<li><a class="dropdown-item" href="/NoticeList?m_no=6">게시판 관리 / 공지사항 관리</a></li>
+								<li><a class="dropdown-item" href="/CsList">고객센터</a></li>
+								<li><a class="dropdown-item" href="/AdminUserList">유저목록</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/LogOut">로그 아웃</a></li>
+							</ul>
+						</li>
+					</c:when>
+					
 				</c:choose>
 			</div>
             </nav>

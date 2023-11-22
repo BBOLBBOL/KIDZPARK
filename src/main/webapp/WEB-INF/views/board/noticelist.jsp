@@ -138,33 +138,23 @@
 					</tr>
 				</thead>
 				<tbody class="tbody-white">
-				<c:forEach var="notice" items="${getnoticelist}">
+					<c:forEach var="notice" items="${noticeList}">
 						<tr style="background-color: #ffebee;">
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=${m_no}">${notice.b_title}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=${m_no}">${notice.u_no}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=${m_no}" >${notice.b_writedate}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=${m_no}" >${notice.b_readcount}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=${m_no}" >${notice.b_like}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=6">${notice.b_title}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=6">${notice.u_no}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=6" >${notice.b_writedate}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=6" >${notice.b_readcount}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=6" >${notice.b_like}</a></td>
 						</tr>
 					</c:forEach>
-				
-				
-				
-					<c:forEach var="board" items="${getboardlist}">
-						<tr>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}">${board.b_title}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}">${board.u_no}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_writedate}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_readcount}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_like}</a></td>
-						</tr>
-					</c:forEach>
+					
 				</tbody>
 			</table>
+			<c:if test="${loginVo.u_no eq 99 }">
 			<div style="margin: 10px 10px auto; text-align: right; ">
-				<a href="/BoardWriteForm?m_no=${m_no}" class="btn btn-primary" style="margin-right : 30px;">글쓰기</a>
+				<a href="/NoticeWriteForm?m_no=6" class="btn btn-primary" style="margin-right : 30px;">글쓰기</a>
 				</div>
-				
+				</c:if>
 			<%@include file="/WEB-INF/views/include/pagingboard.jsp"%>
 		</div>
 	

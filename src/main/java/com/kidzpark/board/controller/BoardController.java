@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kidzpark.admin.mapper.AdminMapper;
 import com.kidzpark.board.domain.BoardVo;
 import com.kidzpark.board.domain.CommentVo;
 import com.kidzpark.board.mapper.BoardMapper;
@@ -31,6 +32,9 @@ public class BoardController {
 	@Autowired
 	private BoardMapper boardMapper;
 
+	@Autowired
+	private AdminMapper adminMapper;
+	
 	// 목록
 	@RequestMapping("/BoardList")
 	public ModelAndView boardlist(BoardVo vo, PagingVo pg, int m_no,
@@ -60,15 +64,17 @@ public class BoardController {
 		map.put("pg", pg);
 
 		List<BoardVo> getboardlist = boardMapper.getboardlist(map);
-
+		List<BoardVo> getnoticelist = boardMapper.getnoticelist(map);
+		
 		mv.addObject("getboardlist", getboardlist);
+		mv.addObject("getnoticelist", getnoticelist);
 		mv.addObject("pg", pg);
 		mv.addObject("m_name", m_name);
 		mv.addObject("m_no", m_no);
 
 		mv.setViewName("board/board");
 
-		System.out.println(mv);
+		System.out.println("notice : " + getnoticelist);
 
 		return mv;
 	}
@@ -113,8 +119,6 @@ public class BoardController {
 
 			mv.setViewName("board/boardsearch");
 
-			System.out.println(mv);
-			System.out.println("전체검색");
 
 			return mv;
 
@@ -155,8 +159,6 @@ public class BoardController {
 
 			mv.setViewName("board/boardsearch");
 
-			System.out.println(mv);
-			System.out.println("검색어검색");
 
 			return mv;
 		}
@@ -229,7 +231,6 @@ public class BoardController {
 		mv.addObject("boardView", boardView);
 		mv.addObject("map", map);
 		mv.addObject("pg", pg);
-		System.out.println(mv);
 
 		return mv;
 
@@ -273,7 +274,6 @@ public class BoardController {
 	public ModelAndView update(@RequestParam MultipartFile b_img, @RequestParam HashMap<String, Object> map,
 			HttpServletRequest request) {
 
-		System.out.println("11111:"+map);
 
 		if (!b_img.isEmpty()) {
 			ImgFile.save(map, request);
@@ -302,7 +302,6 @@ public class BoardController {
 	mv.setViewName("redirect:/BoardView?b_idx=" + map.get("b_idx") + "&u_no=" + map.get("u_no") + "&m_no="
 			+ map.get("m_no"));
 	
-	System.out.println("쓰기:"+mv);
 	
 	return mv;
 	}
@@ -315,7 +314,6 @@ public class BoardController {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		
-		System.out.println(map);
 		
 		int total = boardMapper.countCommentList(map);
 		if (nowPage == null && cntPerPage == null) {
@@ -337,10 +335,48 @@ public class BoardController {
 		
 		result.put("commentlist", commentlist);
 		result.put("pg", pg);
-		System.out.println("리스트:"+result);
 		return result;
 	}
 	
+	@RequestMapping("/UserNoticeList")
+	public ModelAndView noticeList(BoardVo vo, PagingVo pds, int m_no,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage
+			) {
+		
+		Map<String, Object> map  =  new HashMap<>();  
+		map.put("m_no", m_no);
+		int total  =  adminMapper.countNotice(vo);
+		
+		if (nowPage == null && cntPerPage == null ) {
+			nowPage  = "1";
+			cntPerPage = "8";
+		} else if(nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "8";
+		}
+		
+		pds  =  new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		map.put("pg", pds);
+		map.put("start", pds.getStart());
+		map.put("end", pds.getEnd());
+		
+		
+		
+		List<BoardVo> noticeList  =  adminMapper.noticeList(map);
+		
+		ModelAndView mv  =  new ModelAndView();
+		mv.setViewName("board/noticelist");
+		mv.addObject("noticeList", noticeList);
+		mv.addObject("pg", pds);
+		mv.addObject("b_idx", vo.getB_idx());
+		mv.addObject("m_no", vo.getM_no());
+		
+		return mv;
+	}
+	
+
 	
 	
 }

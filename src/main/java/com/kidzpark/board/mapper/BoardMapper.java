@@ -57,6 +57,10 @@ public interface BoardMapper {
 
 	public int countCommentList(HashMap<String, Object> map);
 
+	public List<BoardVo> getnoticelist(Map<String, Object> map);
+
+	public List<BoardVo> likeCheck(HashMap<String, Object> map);
+
 
 
 

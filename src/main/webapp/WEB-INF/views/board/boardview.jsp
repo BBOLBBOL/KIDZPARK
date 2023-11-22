@@ -164,6 +164,19 @@
 																<a class="btn btn-primary w-100 py-3"
 																	href="/BoardDelete?b_idx=${map.b_idx}&m_no=${map.m_no}">삭제</a>
 															</div>
+															
+															<c:choose>
+														    <c:when test="${loginVo ne null and board.b_like eq null }">
+															<p style="text-align: center; font-size: 50px;"><a href="javascript:void(0);" onclick="boardLike(${board.b_idx})">🤍</a></p>
+															</c:when>
+															
+															<c:when test="${loginVo ne null and board.b_like ne null }">
+													        <p style="text-align: center; font-size: 50px;"><a href="javascript:void(0);" onclick="boardUnLike(${board.b_idx})">❤️</a></p>
+														     </c:when>
+														     
+															</c:choose>
+															
+															
 														</div>
 													</c:forEach>
 												</form>
