@@ -45,6 +45,12 @@ public interface AdminMapper {
 
 	void kidzzoneDelete(KidzzoneVo vo);
 
+	KidzzoneVo updateView(KidzzoneVo vo);
+
+	void KidzzoneUpdateFile(HashMap<String, Object> map);
+
+	void KidzzoneUpdateNoFile(HashMap<String, Object> map);
+
 	
 	
 	

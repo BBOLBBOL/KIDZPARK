@@ -108,10 +108,11 @@
 		    </tbody>
 		  </table>
 		  	<div style="margin: 10px 10px auto; text-align: right; ">
-            <a href="/NoticeWriteForm" class="btn btn-primary" style="margin-right : 30px;">키즈존 등록</a>
+            <a href="/KzWriteForm" class="btn btn-primary" style="margin-right : 30px;">키즈존 등록</a>
+            <a href="javascript:void(0);" class="btn btn-primary" style="margin-right : 30px;"  onclick="submitForm()">키즈존 수정</a>
             <a type="button" class="btn btn-danger" onclick="deleteValue();">삭제</a>
             </div>
-			<%@include file="/WEB-INF/views/include/admincspaging.jsp"%>
+			<%@include file="/WEB-INF/views/include/adminkidzzonepaging.jsp"%>
 		</div>
 	
 	<div
@@ -219,7 +220,7 @@ $("input[id='allCheck']").click(function() {
 
 function deleteValue() {
 	   var kz_no =  ${kz_no};
-	   var url  =  "/KidzzoneDelete;
+	   var url  =  "/KidzzoneDelete?kz_no=" + kz_no;
 	   var valueArr  =  [];
 	   var list  =  $("input[name='rowCheck']");
 	   for(var i = 0; i < list.length; i++) {
@@ -255,6 +256,27 @@ function deleteValue() {
 	   }
 	}  // deleteValue
 }
+
+
+function submitForm() {
+    // 체크된 체크박스의 값을 가져오기
+    var checkedCheckbox = document.querySelector('input[name="rowCheck"]:checked');
+
+    // 체크된 체크박스가 있는지 확인
+    if (checkedCheckbox) {
+        // 체크된 경우, 선택된 kz_no 값을 가져오기
+        var kz_no = checkedCheckbox.value;
+
+        // 수정 페이지로 이동하기
+        window.location.href = "/KidzzoneUpdateForm?kz_no=" + kz_no;
+    } else {
+        // 선택된 체크박스가 없는 경우에 대한 처리를 여기에 추가할 수 있습니다.
+        alert('체크박스를 선택하세요.');
+    }
+}
+
+
+
 
 </script>
 </body>

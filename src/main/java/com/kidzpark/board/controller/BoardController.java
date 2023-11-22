@@ -223,14 +223,12 @@ public class BoardController {
 
 		map.put("m_name", m_name);
 
-		List<BoardVo> boardView = boardMapper.boardView(map);
-		List<BoardVo> likeCheck = boardMapper.likeCheck(map);
+		List<BoardVo> boardView = boardMapper.boardView(map);		
 
 		ModelAndView mv = new ModelAndView();
 
 		mv.setViewName("board/boardview");
 		mv.addObject("boardView", boardView);
-		mv.addObject("likeCheck", likeCheck);
 		mv.addObject("map", map);
 		mv.addObject("pg", pg);
 

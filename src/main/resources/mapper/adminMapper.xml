@@ -206,10 +206,46 @@ FROM KIDZZONE
 <delete id="kidzzoneDelete">
 
 DELETE FROM KIDZZONE
-FROM KZ_NO  =  #{kz_no}
+WHERE KZ_NO  =  #{kz_no}
 
 
 </delete>
+
+<select id="updateView" resultType="com.kidzpark.kidzzone.domain.KidzzoneVo">
+
+SELECT *
+FROM KIDZZONE
+WHERE KZ_NO = #{kz_no}
+</select>
+
+<update id="KidzzoneUpdateFile">
+
+UPDATE KIDZZONE
+SET KZ_NAME  =  #{kz_name},
+    KZ_POSTCODE  =  #{kz_postcode},
+    KZ_ADDRESS   =  #{kz_address},
+    KZ_DETAILADDRESS = #{kz_detailaddress},
+    KZ_EXTRAADDRESS  =  #{kz_extraaddress},
+    KZ_EXPLANATION   =  #{kz_explanation},
+    KZ_OPENINGTIME   =  #{kz_openingtime},
+    KZ_IMG           =  #{kz_img}
+WHERE KZ_NO  =  #{kz_no}
+
+</update>
+
+<update id="KidzzoneUpdateNoFile">
+
+UPDATE KIDZZONE
+SET KZ_NAME  =  #{kz_name},
+    KZ_POSTCODE  =  #{kz_postcode},
+    KZ_ADDRESS   =  #{kz_address},
+    KZ_DETAILADDRESS = #{kz_detailaddress},
+    KZ_EXTRAADDRESS  =  #{kz_extraaddress},
+    KZ_EXPLANATION   =  #{kz_explanation},
+    KZ_OPENINGTIME   =  #{kz_openingtime}
+WHERE KZ_NO  =  #{kz_no}
+
+</update>
 
  
 </mapper>

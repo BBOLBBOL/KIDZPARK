@@ -255,5 +255,34 @@ public class AdminController {
 		return 1;
 	}
 	
+	@RequestMapping("/KidzzoneUpdateForm")
+	public ModelAndView kidzzoneUpdateForm(KidzzoneVo vo) {
+		
+		KidzzoneVo updateView  =  adminMapper.updateView(vo);
+		
+		ModelAndView mv  =  new ModelAndView();
+		mv.setViewName("admin/kidzzoneupdate");
+		mv.addObject("updateView", updateView);
+		
+		return mv;
+	}
+	
+	@RequestMapping("/KidzzoneUpdate")
+	public ModelAndView kidzzoneUpdate(@RequestParam MultipartFile kz_img,
+			@RequestParam HashMap<String, Object> map,
+			HttpServletRequest request) {
+		
+		if(!kz_img.isEmpty()) {
+			ImgFileAdmin.save(map, request);
+			adminMapper.KidzzoneUpdateFile(map);
+		} else {
+			adminMapper.KidzzoneUpdateNoFile(map);
+		}
+		
+		ModelAndView mv  =  new ModelAndView();
+		mv.setViewName("redirect:/KzList");
+		return mv;
+	}
+	
 	
 }
