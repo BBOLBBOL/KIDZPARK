@@ -17,7 +17,7 @@
 	SELECT * FROM PUSER WHERE U_ID = #{u_id}	
 </select>
 
-<update id="updatePw">
+<update id="updatePw" >
 	UPDATE PUSER SET 
 	  U_PW = #{u_pw}
 	 WHERE U_ID = #{u_id} 

@@ -72,16 +72,11 @@ input[type="password"]{
 
         <!-- Header End -->     
        <div class="wrap">
-       		<c:forEach var="info" items="${voList}">
-       			<div>
-       				<input type="hidden" name="u_pw0" id="user_pw0" value="${info.u_pw}" >
-       			</div>
-       		</c:forEach>
 			
-       		<form id="form" action="redirect:/UserUpdateForm" method="post">
-       		<input type="hidden" name="u_id" value="${info.u_id}">
+       		<form id="form" action="/UpdatePw" method="post">
+       		<input type="hidden" name="u_id" id="u_id" value="${loginVo.u_id}" >
        			<table>
-       			<h3 id="h3">새로운 비밀번호로 재설정해주세요<h3>
+       			<h3 id="h3">새로운 비밀번호로 재설정해주세요</h3>
        			<colgroup>
 					<col width="25%">
 					<col width="*">
@@ -123,27 +118,6 @@ input[type="password"]{
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
    <script>
-   $('form').submit(function (event) {
-	   
-	   var u_pw = $('#u_pw').val();
-	   var u_id = $('#u_id').val();
-	   $.ajax({
-		   url  : '/UpdatePwForm',
-		   type : 'POST,'
-		   data: {u_id : u_id, u_pw : u_pw},
-		   success: function (response) {
-	            
-	            alert('비밀번호가 수정 되었습니다.');
-	            window.close();
-	            event.preventDefault();
-	        },
-	        error: function (xhr, status, error) {
-	            alert('비밀번호 변경에 실패했습니다. 다시 시도해주세요.');
-	            console.error(xhr, status, error);
-	            event.preventDefault();
-	        }
-	   })
-   }
     
  $("#user_pw1")
 .blur(
@@ -182,8 +156,30 @@ $("#user_pw2").blur(
 		}
 	}); // pw2 blur end   
 	
-	
 </script>	
+<script>
+
+function submit(event){
+	event.preventDefault();
+	let u_pw = $('#user_pw1').val();
+    let u_id = $('#u_id').val();
+
+	$.ajax({
+		url  : '/UpdatePw',
+		   type : 'POST,'
+		   data: {u_id : u_id, u_pw : u_pw},
+		   success: function (response) {
+	            
+	            alert('비밀번호가 수정 되었습니다.');
+	            window.close();
+		   },
+		   error: function (xhr, status, error) {
+	            alert('비밀번호 변경에 실패했습니다. 다시 시도해주세요.');
+	            console.error(xhr, status, error);
+		   }
+	})
+}
+</script>
 </body>
 
 </html>

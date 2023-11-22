@@ -79,7 +79,11 @@ public class UserController {
 	
 	@RequestMapping("/UpdatePw")
 	public ModelAndView updatePw(UserVo vo) {
+		System.out.println("UpdatePw in vo : " + vo);
+		//userMapper.updatePw(vo);
 		List<UserVo> infoList = userMapper.updatePw(vo);
+		
+		//infoList.add(vo);
 		System.out.println("UpdatePw in infoList" + infoList);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("redirect:/UserUpdateForm");

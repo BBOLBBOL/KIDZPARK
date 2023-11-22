@@ -38,16 +38,18 @@
 	width: 80%;
 	padding: 20px;
 }
-
- .tb1 {
-    width: 100%; /* 테이블의 폭을 80%로 설정 */
-    margin: 0 auto; /* 가운데 정렬을 위해 auto 마진 설정 */
-    padding: 20px;
+.div1{
+padding: 20px;
 	background-color: #fff;
 	border: 1px solid #ddd;
 	border-radius: 5px;
 	width: 60%;
 	margin: auto;
+}
+ .tb1 {
+    width: 100%; /* 테이블의 폭을 80%로 설정 */
+    margin: 0 auto; /* 가운데 정렬을 위해 auto 마진 설정 */
+    
 }
 tr:nth-child(even) {
 	background-color: #f2f2f2;
@@ -156,6 +158,7 @@ input[type="text"], input[type="password"] {
                 
                 
           <div class="container-xxl py-5">
+          <div class="div1">
           <c:forEach var="info" items="${infoList}">
              <table class="tb1">
 				<colgroup>
@@ -223,6 +226,7 @@ input[type="text"], input[type="password"] {
 				</tr>
             </table>
             </c:forEach>
+            </div>
           </div>   
  
     <!-- Footer Start -->
