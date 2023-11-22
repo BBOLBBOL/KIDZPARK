@@ -62,6 +62,7 @@
            margin-bottom:3%;
     }
 </style>
+
 </head>
 
 <body>
@@ -75,91 +76,46 @@
 				class="row g-0 align-items-center flex-column-reverse flex-md-row">
 				<div class="p-5 mt-lg-5">
 					<h1 class="display-4 animated fadeIn mb-4"
-						style="margin-top: 13%; text-align: center;">${m_name}게시판</h1>
+						style="margin-top: 13%; text-align: center;">회원목록</h1>
 				</div>
 			</div>
 		</div>
+		<hr>
 		<!-- Header End -->
-
-
-
-		<!-- Search Start -->
-		<form action="/BoardSearchList" method="post">
-		<div class="container-fluid bg-primary mb-5 wow fadeIn"
-			data-wow-delay="0.1s" style="padding: 35px;">
-			<div class="container">
-			<input type="hidden" name="m_no" value="${m_no}">
-				<div class="row g-2">
-					<div class="col-md-10">
-						<div class="row g-2">
-							<div class="col-md-4"></div>
-							<div class="col-md-3">
-								<select class="form-select border-0 py-3" name="searchOption">
-									<option value="all" selected>검색</option>
-									<option value="b_title">제목</option>
-									<option value="b_cont">내용</option>
-									<option value="u_no">글쓴이</option>
-								</select>
-							</div>
-							<div class="col-md-3">
-								<input type="text" class="form-control border-0 py-3"
-									name="searchKeyword" placeholder="Search Keyword">
-							</div>
-							<div class="col-md-2">
-								<button type="submit" class="btn btn-dark border-0 w-100 py-3">Search</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		</form>
-		<!-- Search End -->
-
-
-
-		<div class="container-xxl py-5">
-			<hr>
-			<div style="margin: 10px 10px auto; text-align: center; ">
-			<a href="/BoardList?m_no=1" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">자유</a> <a
-				href="/BoardList?m_no=2" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">건강</a> <a
-				href="/BoardList?m_no=3" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">요리</a> <a
-				href="/BoardList?m_no=4" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">육아</a> <a
-				href="/BoardList?m_no=5" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">교육</a>
-				</div>
-			<table class="table table-hover">
-				<thead class="thead-white">
-					<tr>
-						<th scope="col">제목</th>
-						<th scope="col">글쓴이</th>
-						<th scope="col">작성일</th>
-						<th scope="col">조회</th>
-						<th scope="col">추천수</th>
-					</tr>
-				</thead>
-				<tbody class="tbody-white">
-					<c:forEach var="notice" items="${noticeList}">
-						<tr style="background-color: #ffebee;">
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=99">${notice.b_title}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=99">${notice.u_no}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=99" >${notice.b_writedate}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=99" >${notice.b_readcount}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=99" >${notice.b_like}</a></td>
-						</tr>
-					</c:forEach>
-					
-				</tbody>
-			</table>
-			<c:if test="${loginVo.u_no eq 99 }">
-			<div style="margin: 10px 10px auto; text-align: right; ">
-				<a href="/NoticeWriteForm?m_no=6" class="btn btn-primary" style="margin-right : 30px;">글쓰기</a>
-				</div>
-				</c:if>
-			<%@include file="/WEB-INF/views/include/pagingboard.jsp"%>
+		 <div class="container-xxl py-5">
+		 <table class="table table-hover">
+		   <thead class="thead-white">
+		    <tr>
+		    <th><input type="checkbox" id="allCheck"></th>
+		     <th scope="col">회원No</th>
+		       <th scope="col">회원ID</th>
+		       <th scope="col">회원이름</th>
+		       <th scope="col">회원주소</th>
+		       <th scope="col">닉네임</th>
+		       <th scope="col">번호</th>
+		       <th scope="col">등급</th>
+		    </tr>
+		    </thead>
+		    <tbody class="tbody-white">
+		    <c:forEach var="kzList" items="${kzList }">
+		    <tr>
+		      <td><input type="checkbox" name="rowCheck" id="rowCheck" value="${kzList.kz_no }"></td>
+		      <td>${kzList.kz_no }</td>
+		      <td>${kzList.kz_name}</td>
+		      <td>${kzList.kz_address } &nbsp; ${kzList.kz_detailaddress }</td>
+		      <td>${kzList.kz_explanation}</td>
+		      <td>${kzList.u_openingtime}</td>
+		    </tr>
+		    </c:forEach>
+		    </tbody>
+		  </table>
+		  	<div style="margin: 10px 10px auto; text-align: right; ">
+            <a type="button" class="btn btn-danger" onclick="deleteValue();">삭제</a>
+            </div>
+			<%@include file="/WEB-INF/views/include/admincspaging.jsp"%>
 		</div>
 	
-			<!-- Footer Start -->
-		<div
+	<div
 			class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn"
 			data-wow-delay="0.1s">
 			<div class="container py-5">
@@ -178,8 +134,8 @@
 					</div>
 					<div class="col-lg-3 col-md-6">
 						<h5 class="text-white mb-4">Quick Links</h5>
-						<a class="btn btn-link text-white-50" href="/Kidzzone">예스키즈존</a> <a
-							class="btn btn-link text-white-50" href="/BoardList">게시판</a> <a
+						<a class="btn btn-link text-white-50" href="">예스키즈존</a> <a
+							class="btn btn-link text-white-50" href="">게시판</a> <a
 							class="btn btn-link text-white-50" href="">채팅방</a> <a
 							class="btn btn-link text-white-50" href="">고객문의</a> <a
 							class="btn btn-link text-white-50" href="">마이 페이지</a>
@@ -231,10 +187,14 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- Footer End -->
-		</div>
+		</div>		
 
+		
+
+		<!-- Back to Top -->
+		<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
+			class="bi bi-arrow-up"></i></a>
+</div>
 	<!-- JavaScript Libraries -->
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script
@@ -246,6 +206,58 @@
 
 	<!-- Template Javascript -->
 	<script src="js/main.js"></script>
+	<script>
+//전체 체크    
+var chkObj  =  document.getElementsByName("rowCheck");
+var rowCnt  =  chkObj.length;
+
+$("input[id='allCheck']").click(function() {
+   var chk_listArr  =  $("input[name='rowCheck']");
+   for (var i=0; i<chk_listArr.length; i++) {
+      chk_listArr[i].checked  =  this.checked;
+   }
+});
+
+function deleteValue() {
+	   var u_no =  ${u_no};
+	   var url  =  "/AdminUserDelete?u_no=" + u_no;
+	   var valueArr  =  [];
+	   var list  =  $("input[name='rowCheck']");
+	   for(var i = 0; i < list.length; i++) {
+	      if(list[i].checked) {
+	         valueArr.push(list[i].value);
+	      }
+	   }
+	   if(valueArr.length == 0) {
+	      alert("선택하신 게 없습니다.");
+	   }
+	   else {
+	      var chk  =  confirm("정말 삭제하시겠습니까?");
+	      if(chk) {
+	      $.ajax({
+	         url  :  url,
+	         type : 'post',
+	         traditional : true,
+	         data : {
+	            'valueArr[]'  :  valueArr
+	         },
+	         success: function(jdata) {
+	            if(jdata == 1) {
+	               alert("삭제성공");
+	               location.reload();
+	               
+	            }
+	            else {
+	               alert("삭제 실패");
+	               event.preventDefault();
+	            }
+	         }
+	      });
+	   }
+	}  // deleteValue
+}
+
+</script>
 </body>
 
 </html>

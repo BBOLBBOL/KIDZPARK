@@ -134,7 +134,6 @@ WHERE RN BETWEEN #{start} AND #{end}
         B_IDX,
 		B_TITLE,
 		B_CONT,
-		B_LIKE,
 		B_READCOUNT,
 		B_WRITEDATE,
 		M_NO,
@@ -144,9 +143,8 @@ WHERE RN BETWEEN #{start} AND #{end}
 		#{b_title},
 		#{b_cont},
 		0,
-		0,
 		SYSDATE,
-		6,
+		99,
 		#{u_no}
      )
   </insert>
@@ -157,7 +155,6 @@ WHERE RN BETWEEN #{start} AND #{end}
         B_IDX,
 		B_TITLE,
 		B_CONT,
-		B_LIKE,
 		B_IMG,
 		B_READCOUNT,
 		B_WRITEDATE,
@@ -169,9 +166,8 @@ WHERE RN BETWEEN #{start} AND #{end}
 		#{b_cont},
 		#{b_img},
 		0,
-		0,
 		SYSDATE,
-		6,
+		99,
 		#{u_no}
      )
   </insert>
@@ -183,6 +179,29 @@ WHERE RN BETWEEN #{start} AND #{end}
 
 
 </delete>
+
+   <select id="kzList"
+  resultType="com.kidzpark.kidzzone.domain.KidzzoneVo">
+   SELECT *
+FROM (
+    SELECT ROWNUM RN, A.*
+    FROM (
+   SELECT  *
+   FROM    KIDZZONE 
+     ORDER BY KZ_NO
+    ) A
+)
+WHERE RN BETWEEN #{start} AND #{end} 
+ 
+</select>
+
+<select id="countKz" resultType="int">
+
+SELECT COUNT(*)
+FROM KIDZZONE
+
+
+</select>
 
 
  

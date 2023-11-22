@@ -57,7 +57,7 @@
                     <div class="navbar-nav ms-auto">
                         <a href="/" class="nav-item nav-link active">Home</a>
                         <a href="/Kidzzone" class="nav-item nav-link">YES 키즈존</a>
-                        <a href="/UserNoticeList?m_no=6"" class="nav-item nav-link">공지사항</a>
+                        <a href="/UserNoticeList?m_no=99" class="nav-item nav-link">공지사항</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">게시판 목록</a>
                             <div class="dropdown-menu rounded-0 m-0">
@@ -97,7 +97,7 @@
 							<b> ${loginVo.u_name} 님 환영합니다 </b>
 						</li>
 						<li style="list-style-type: none" class="nav-item">
-						  <img src="/imgpage/logon.png" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						  <img src="img/${loginVo.u_profileimg}" style="max-width: 80px; max-height: 80px; margin-right:10px;" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" href="/CheckEmailForm">내정보 확인/수정</a></li>
 								<li><a class="dropdown-item" href="#">2</a></li>
@@ -114,10 +114,10 @@
 							<b> ${loginVo.u_name} 님 환영합니다 </b>
 						</li>
 						<li style="list-style-type: none" class="nav-item">					
-						 <img src="/img/logon.png" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						 <img src="/img/logon.png" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"">
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="/KzWriteForm">Yes 키즈존 관리</a></li>
-								<li><a class="dropdown-item" href="/NoticeList?m_no=6">게시판 관리 / 공지사항 관리</a></li>
+								<li><a class="dropdown-item" href="/KzList">Yes 키즈존 관리</a></li>
+								<li><a class="dropdown-item" href="/NoticeList?m_no=99">게시판 관리 / 공지사항 관리</a></li>
 								<li><a class="dropdown-item" href="/CsList">고객센터</a></li>
 								<li><a class="dropdown-item" href="/AdminUserList">유저목록</a></li>
 								<li><hr class="dropdown-divider"></li>

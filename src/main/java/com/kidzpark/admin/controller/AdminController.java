@@ -194,7 +194,7 @@ public class AdminController {
 		}
 		
 		
-		return "redirect:/NoticeList?m_no=6";
+		return "redirect:/NoticeList?m_no=99";
 	}
 	
 	@ResponseBody
@@ -208,6 +208,35 @@ public class AdminController {
 		
 		
 		return 1;
+	}
+	
+	@RequestMapping("/KzList")
+	public ModelAndView kzList(KidzzoneVo vo, PagingVo pds,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage
+			) {
+		
+		int total  =  adminMapper.countKz(vo);  
+		
+		if (nowPage == null && cntPerPage == null ) {
+			nowPage  = "1";
+			cntPerPage = "8";
+		} else if(nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "8";
+		}
+		
+		pds  =  new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		
+		List<KidzzoneVo> kzList  =  adminMapper.kzList(pds);
+		
+		ModelAndView mv  =  new ModelAndView();
+		mv.setViewName("admin/kzlist");
+		mv.addObject("kzList", kzList);
+		mv.addObject("pds", pds);
+		
+		return mv;
 	}
 	
 	

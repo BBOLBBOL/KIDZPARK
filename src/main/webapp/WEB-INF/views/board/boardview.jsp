@@ -166,14 +166,21 @@
 															</div>
 															
 															<c:choose>
-														    <c:when test="${loginVo ne null and board.b_like eq null }">
-															<p style="text-align: center; font-size: 50px;"><a href="javascript:void(0);" onclick="boardLike(${board.b_idx})">🤍</a></p>
-															</c:when>
-															
-															<c:when test="${loginVo ne null and board.b_like ne null }">
-													        <p style="text-align: center; font-size: 50px;"><a href="javascript:void(0);" onclick="boardUnLike(${board.b_idx})">❤️</a></p>
-														     </c:when>
-														     
+																<c:when test="${empty likeCkeck.u_no}">
+																	<!-- 좋아요를 누르지 않은 경우 (빈하트) -->
+																	<p style="text-align: center; font-size: 50px;">
+																		<a href="javascript:void(0);"
+																			onclick="boardLike(${board.b_idx})">🤍</a>
+																	</p>
+																</c:when>
+																<c:when test="${not empty likeCkeck.u_no}">
+																	<!-- 좋아요를 누른 경우 (꽉찬 하트) -->
+																	<p style="text-align: center; font-size: 50px;">
+																		<a href="javascript:void(0);"
+																			onclick="boardUnLike(${board.b_idx})">❤️</a>
+																	</p>
+																</c:when>
+
 															</c:choose>
 															
 															

@@ -39,6 +39,10 @@ public interface AdminMapper {
 
 	void boardDelete(BoardVo vo);
 
+	List<KidzzoneVo> kzList(PagingVo pds);
+
+	int countKz(KidzzoneVo vo);
+
 	
 	
 	
