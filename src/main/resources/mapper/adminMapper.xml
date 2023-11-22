@@ -243,7 +243,7 @@ SET KZ_NAME  =  #{kz_name},
     KZ_EXTRAADDRESS  =  #{kz_extraaddress},
     KZ_EXPLANATION   =  #{kz_explanation},
     KZ_OPENINGTIME   =  #{kz_openingtime}
-WHERE KZ_NO  =  #{kz_no}
+WHERE KZ_NO  =  #{kz_no}   
 
 </update>
 

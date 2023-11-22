@@ -131,9 +131,9 @@ WHERE 1 = 1
  
  </select>
  
- <select id="reviewList" resultType="com.kidzpark.kidzzone.domain.ReviewVo">
+ <select id="reviewList" resultType="Map">
  
- SELECT Z.*, U.U_NICKNAME
+ SELECT Z.R_REVIEW,TO_CHAR(R_REVIEWDATE, 'YYYY-MM-DD') R_REVIEWDATE, Z.R_REVIEWIMG, Z.KZ_NO, Z.U_NO, U.U_NICKNAME
 FROM ZONEREVIEW Z
 LEFT JOIN PUSER U ON Z.U_NO  =  U.U_NO
 WHERE Z.KZ_NO = #{kz_no}

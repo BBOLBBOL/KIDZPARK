@@ -1,5 +1,6 @@
 package com.kidzpark.kidzzone.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +26,6 @@ public interface KidzzoneMapper {
 
 	int countKiddzoneSearch2(Map<String, Object> map);
 
-	List<ReviewVo> reviewList(ReviewVo vo);
+	HashMap<String, Object> reviewList(HashMap<String, Object> map);
 
 }

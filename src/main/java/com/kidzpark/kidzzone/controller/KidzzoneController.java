@@ -232,9 +232,13 @@ public class KidzzoneController {
 	
 	@RequestMapping("/KidzzoneReview")
 	@ResponseBody
-	public List<ReviewVo> kidzzoneReview(@ModelAttribute ReviewVo vo) {
+	public HashMap<String, Object> kidzzoneReview(@RequestParam int kz_no,
+			@RequestParam HashMap<String, Object> map
+			) {
 		
-		List<ReviewVo> reviewList  =  kidzzoneMapper.reviewList(vo);
+		map.put("kz_no", kz_no);
+		
+		HashMap<String, Object> reviewList  =  kidzzoneMapper.reviewList(map);
 		
 		System.out.println("List : " + reviewList);
 		return reviewList;

@@ -302,19 +302,21 @@ body {
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-
-        <!-- 리뷰 입력 폼 -->
-        <form>
+        <!-- 리뷰 내용은 여기에 동적으로 추가됩니다. -->
+        <div id="reviewContent"></div>
+        
+        <!-- 리뷰 작성 폼 -->
+        <form id="reviewForm">
           <div class="mb-3">
             <label for="reviewInput" class="form-label">리뷰 입력</label>
-            <textarea class="form-control" id="reviewInput" rows="3"></textarea>
+            <textarea class="form-control" id="reviewInput" name="reviewInput" rows="3"></textarea>
           </div>
           <!-- 추가적인 입력 폼들을 필요에 따라 추가할 수 있습니다. -->
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-        <button type="button" class="btn btn-primary">저장</button>
+        <button type="button" class="btn btn-primary" onclick="saveReview()">저장</button>
       </div>
     </div>
   </div>
@@ -522,48 +524,40 @@ function moveMap(movemap){
 }
 
 		    
-//JavaScript 함수를 사용하여 비동기 데이터 조회 및 모달 열기
 function openReviewModal(kz_no) {
-	var url  = '/KidzzoneReview?kz_no=' + kz_no;
+    var url = '/KidzzoneReview?kz_no=' + kz_no;
+
     // AJAX를 사용하여 데이터를 조회합니다.
     $.ajax({
         url: url,
         method: 'GET',
-        success: function(data) {                    
+        success: function(data) {
+            console.log("data : ", data);
+
+            // 데이터가 존재하는 경우
+            if (data) {
+                // 각 리뷰의 정보를 <p> 태그로 생성
+                var reviewContentHtml =
+                    '<p><strong>작성자 닉네임:</strong> ' + data.U_NICKNAME + '</p>' +
+                    '<p><strong>리뷰 내용:</strong> ' + data.R_REVIEW + '</p>' +
+                    '<p><strong>리뷰 작성일:</strong> ' + data.R_REVIEWDATE + '</p>';
+
+                // 리뷰 내용을 모달에 넣기
+                $('#reviewContent').html(reviewContentHtml);
+            } else {
+                // 데이터가 없을 경우 메시지 출력
+                $('#reviewContent').html('<p>리뷰가 없습니다.</p>');
+            }
+
             // 모달을 열기
             $('#exampleModal').modal('show');
-            
-            updateModalContent(data);
-            
         },
         error: function(error) {
             console.error('데이터 조회에 실패했습니다: ', error);
         }
     });
-}	
-	
-//모달 내용 업데이트 함수
-function updateModalContent(data) {
-    // 리뷰들을 표시하는 부분을 비우고 새로운 데이터로 채웁니다.
-    var modalBody = $('#exampleModal .modal-body');
-    modalBody.empty();
-    
-    // 리뷰들을 추가합니다.
-    for (var i = 0; i < data.length; i++) {
-        var review = data[i];
-        modalBody.append('<p>닉네임: ' + review.u_nickname + '</p>');
-        modalBody.append('<p>리뷰 내용: ' + review.review_content + '</p>');
-        // 필요한 데이터에 따라 추가적인 항목을 표시할 수 있습니다.
-    }
-    
-    // 리뷰 입력 폼을 추가합니다.
-    modalBody.append('<form><div class="mb-3">' +
-        '<label for="reviewInput" class="form-label">리뷰 입력</label>' +
-        '<textarea class="form-control" id="reviewInput" rows="3"></textarea>' +
-        '</div></form>');
 }
-
-
+	
 
 	</script>
 </body>
