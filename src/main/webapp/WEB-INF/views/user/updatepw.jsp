@@ -78,7 +78,7 @@ input[type="password"]{
        			</div>
        		</c:forEach>
 			
-       		<form id="form" action="/ChangePw" method="post">
+       		<form id="form" action="redirect:/UserUpdateForm" method="post">
        		<input type="hidden" name="u_id" value="${info.u_id}">
        			<table>
        			<h3 id="h3">새로운 비밀번호로 재설정해주세요<h3>

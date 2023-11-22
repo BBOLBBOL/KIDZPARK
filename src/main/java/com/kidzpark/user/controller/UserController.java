@@ -58,8 +58,8 @@ public class UserController {
 	
 	@RequestMapping("/UpdatePwForm")
 	public ModelAndView updatePwForm(UserVo vo) {
-		
-		List<UserVo> voList = new ArrayList<>();
+		System.out.println("UpdatePwForm in vo" + vo);
+		List<UserVo> voList = new ArrayList<>();	
 		voList.add(vo);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("user/updatepw");
