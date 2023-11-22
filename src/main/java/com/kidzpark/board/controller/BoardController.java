@@ -25,6 +25,7 @@ import com.kidzpark.board.domain.CommentVo;
 import com.kidzpark.board.mapper.BoardMapper;
 import com.kidzpark.kidzzone.domain.KidzzoneVo;
 import com.kidzpark.paging.PagingVo;
+import com.kidzpark.user.domain.UserVo;
 
 @Controller
 public class BoardController {
@@ -40,7 +41,7 @@ public class BoardController {
 	public ModelAndView boardlist(BoardVo vo, PagingVo pg, int m_no,
 			@RequestParam(value = "nowPage", required = false) String nowPage,
 			@RequestParam(value = "cntPerPage", required = false) String cntPerPage) {
-
+		
 		ModelAndView mv = new ModelAndView();
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -65,9 +66,9 @@ public class BoardController {
 
 		List<BoardVo> getboardlist = boardMapper.getboardlist(map);
 		List<BoardVo> getnoticelist = boardMapper.getnoticelist(map);
+		mv.addObject("getnoticelist", getnoticelist);
 		
 		mv.addObject("getboardlist", getboardlist);
-		mv.addObject("getnoticelist", getnoticelist);
 		mv.addObject("pg", pg);
 		mv.addObject("m_name", m_name);
 		mv.addObject("m_no", m_no);
@@ -111,6 +112,8 @@ public class BoardController {
 			map.put("pg", pg);
 
 			List<BoardVo> boardsearchlist = boardMapper.getboardlist(map);
+			List<BoardVo> getnoticelist = boardMapper.getnoticelist(map);
+			mv.addObject("getnoticelist", getnoticelist);
 
 			mv.addObject("boardsearchlist", boardsearchlist);
 			mv.addObject("pg", pg);
@@ -149,6 +152,8 @@ public class BoardController {
 			map.put("pg", pg);
 
 			List<KidzzoneVo> boardsearchlist = boardMapper.selectBoardSearchList(map);
+			List<BoardVo> getnoticelist = boardMapper.getnoticelist(map);
+			mv.addObject("getnoticelist", getnoticelist);
 
 			mv.addObject("boardsearchlist", boardsearchlist);
 			mv.addObject("pg", pg);
@@ -203,8 +208,6 @@ public class BoardController {
 			@RequestParam(value = "nowPage", required = false) String nowPage,
 			@RequestParam(value = "cntPerPage", required = false) String cntPerPage) {
 
-		System.out.println(map);
-
 		boardMapper.updateReadcount(map);
 
 		String m_name = boardMapper.selectMenuname(map);
@@ -218,20 +221,27 @@ public class BoardController {
 		} else if (cntPerPage == null) {
 			cntPerPage = "5";
 		}
+		
+		int boardlike = boardMapper.countboardlike(map);
+		
 
 		pg = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 
 		map.put("m_name", m_name);
 
 		List<BoardVo> boardView = boardMapper.boardView(map);
-
+		
 		ModelAndView mv = new ModelAndView();
 
+		map.put("boardlike", boardlike);
+		
 		mv.setViewName("board/boardview");
 		mv.addObject("boardView", boardView);
 		mv.addObject("map", map);
 		mv.addObject("pg", pg);
-
+		
+		System.out.println(mv);
+		
 		return mv;
 
 	}
@@ -284,8 +294,7 @@ public class BoardController {
 		}
 
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("redirect:/BoardView?b_idx=" + map.get("b_idx") + "&u_no=" + map.get("u_no") + "&m_no="
-				+ map.get("m_no"));
+		mv.setViewName("redirect:/BoardView?b_idx=" + map.get("b_idx")+ "&m_no=" + map.get("m_no"));
 
 		return mv;
 	}
@@ -299,8 +308,8 @@ public class BoardController {
 	
 	mv.addObject("map",map);
 	
-	mv.setViewName("redirect:/BoardView?b_idx=" + map.get("b_idx") + "&u_no=" + map.get("u_no") + "&m_no="
-			+ map.get("m_no"));
+	mv.setViewName("redirect:/BoardView?b_idx=" + map.get("b_idx") +"&u_no="+ map.get("u_no")+"&m_no=" + map.get("m_no"));
+	
 	
 	
 	return mv;
@@ -330,8 +339,6 @@ public class BoardController {
 		map.put("pg", pg);
 
 		List<CommentVo> commentlist = boardMapper.selectCommentList(map);
-		
-		System.out.println("코맨트"+commentlist);
 		
 		result.put("commentlist", commentlist);
 		result.put("pg", pg);

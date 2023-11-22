@@ -18,7 +18,7 @@ FROM (
     SELECT ROWNUM RN, A.*
     FROM (
    SELECT  *
-   FROM    BOARD
+   FROM    BOARD B LEFT JOIN PUSER U ON B.U_NO = U.U_NO
    WHERE   M_NO = #{m_no}
      ORDER BY B_WRITEDATE DESC
     ) A
@@ -34,7 +34,7 @@ FROM (
     SELECT ROWNUM RN, A.*
     FROM (
    SELECT  *
-   FROM    BOARD
+   FROM    BOARD B LEFT JOIN PUSER U ON B.U_NO = U.U_NO
    WHERE   M_NO = #{m_no}
    <if test="searchOption != 'all' and searchKeyword != ''">
         AND UPPER(${searchOption}) LIKE '%' || UPPER(#{searchKeyword}) || '%'
@@ -59,7 +59,7 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
   resultType="int">
    
    SELECT  COUNT(*)
-   FROM    BOARD
+   FROM    BOARD B JOIN PUSER U ON B.U_NO = U.U_NO
    WHERE   M_NO = #{m_no}
    <if test="searchOption != 'all' and searchKeyword != ''">
         AND UPPER(${searchOption}) LIKE '%' || UPPER(#{searchKeyword}) || '%'
@@ -73,7 +73,6 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
         B_IDX,
 		B_TITLE,
 		B_CONT,
-		B_LIKE,
 		B_READCOUNT,
 		B_WRITEDATE,
 		M_NO,
@@ -82,7 +81,6 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
           ( SELECT  NVL(MAX(B_IDX), 0)+1 FROM BOARD ),
 		#{b_title},
 		#{b_cont},
-		0,
 		0,
 		SYSDATE,
 		#{m_no},
@@ -97,7 +95,6 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
 		B_TITLE,
 		B_CONT,
 		B_IMG,
-		B_LIKE,
 		B_READCOUNT,
 		B_WRITEDATE,
 		M_NO,
@@ -108,7 +105,6 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
 		#{b_cont},
 		#{b_img},
 		0,
-		0,
 		SYSDATE,
 		#{m_no},
 		#{u_no}
@@ -117,11 +113,21 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
 
   <select id="boardView"
   resultType="map">
-   
+    
    SELECT  *
-   FROM    BOARD
-   WHERE   B_IDX = #{b_idx}
-	
+   FROM    BOARD B LEFT JOIN PUSER U ON B.U_NO = U.U_NO
+   WHERE   B.B_IDX = #{b_idx} 
+	 
+</select>
+
+  <select id="countboardlike"
+  resultType="int">
+    
+   SELECT  COUNT(*)
+   FROM    BOARDLIKE
+   WHERE   B_IDX = #{b_idx} 
+   AND     U_NO  = #{u_no} 
+	 
 </select>
 
 <update id="updateReadcount">
@@ -179,7 +185,7 @@ FROM (
     SELECT ROWNUM RN, A.*
     FROM (
 SELECT *
-    FROM COMMT
+    FROM COMMT C LEFT JOIN PUSER U ON C.U_NO = U.U_NO
 WHERE B_IDX = ${b_idx}
 ORDER BY C_IDX DESC
     ) A

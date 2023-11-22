@@ -75,7 +75,7 @@
 										<option value="all" selected>검색</option>
 										<option value="b_title">제목</option>
 										<option value="b_cont">내용</option>
-										<option value="u_no">글쓴이</option>
+										<option value="u_name">글쓴이</option>
 									</select>
 								</div>
 								<div class="col-md-3">
@@ -113,9 +113,8 @@
 										<div class="col-md-10">
 											<div class="wow fadeInUp" data-wow-delay="0.5s">
 												<form action="/BoardWrite" method="post" enctype="multipart/form-data">
-													<input type="hidden" name="u_no" value="1"> 
-													<input type="hidden" name="m_no" value="${m_no}"> <input
-														type="hidden" name="" value="${m_no}">
+													<input type="hidden" name="u_no" value="${loginVo.u_no}"> 
+													<input type="hidden" name="m_no" value="${m_no}">
 													<div class="row g-2">
 														<div class="col-md-12">
 															<div class="form-floating" style="margin: auto;">

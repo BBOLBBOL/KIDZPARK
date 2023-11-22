@@ -98,7 +98,7 @@
 									<option value="all" selected>검색</option>
 									<option value="b_title">제목</option>
 									<option value="b_cont">내용</option>
-									<option value="u_no">글쓴이</option>
+									<option value="u_name">글쓴이</option>
 								</select>
 							</div>
 							<div class="col-md-3">
@@ -130,21 +130,21 @@
 			<table class="table table-hover">
 				<thead class="thead-white">
 					<tr>
+						<th scope="col">추천수</th>
 						<th scope="col">제목</th>
 						<th scope="col">글쓴이</th>
 						<th scope="col">작성일</th>
 						<th scope="col">조회</th>
-						<th scope="col">추천수</th>
 					</tr>
 				</thead>
 				<tbody class="tbody-white">
 				<c:forEach var="notice" items="${getnoticelist}">
 						<tr style="background-color: #ffebee;">
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=${m_no}">${notice.b_title}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=${m_no}">${notice.u_no}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=${m_no}" >${notice.b_writedate}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=${m_no}" >${notice.b_readcount}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=${m_no}" >${notice.b_like}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}" >${notice.b_like}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}">${notice.b_title}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}">관리자</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}" >${notice.b_writedate}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}" >${notice.b_readcount}</a></td>
 						</tr>
 					</c:forEach>
 				
@@ -152,11 +152,11 @@
 				
 					<c:forEach var="board" items="${getboardlist}">
 						<tr>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}">${board.b_title}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}">${board.u_no}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_writedate}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_readcount}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=1&m_no=${m_no}" >${board.b_like}</a></td>
+							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}" >${board.b_like}</a></td>
+							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}">${board.b_title}</a></td>
+							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}">${board.u_name}</a></td>
+							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}" >${board.b_writedate}</a></td>
+							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}" >${board.b_readcount}</a></td>
 						</tr>
 					</c:forEach>
 				</tbody>

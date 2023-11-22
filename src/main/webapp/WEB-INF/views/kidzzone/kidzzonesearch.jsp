@@ -460,6 +460,7 @@ body {
 	                 position: marker.getPosition()
 	             });
 	             overlays.push(overlay);
+	             
 
 	             kakao.maps.event.addListener(marker, 'click', function() {
 	                 overlays.forEach(function(overlay) {

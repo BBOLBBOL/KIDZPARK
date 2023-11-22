@@ -61,6 +61,8 @@ public interface BoardMapper {
 
 	public List<BoardVo> likeCheck(HashMap<String, Object> map);
 
+	public int countboardlike(HashMap<String, Object> map);
+
 
 
 
