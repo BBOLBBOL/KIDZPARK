@@ -43,6 +43,8 @@ public interface AdminMapper {
 
 	int countKz(KidzzoneVo vo);
 
+	void kidzzoneDelete(KidzzoneVo vo);
+
 	
 	
 	

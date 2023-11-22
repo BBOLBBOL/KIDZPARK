@@ -227,6 +227,8 @@ public class AdminController {
 			cntPerPage = "8";
 		}
 		
+		int kz_no  =  vo.getKz_no();
+		
 		pds  =  new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 		
 		List<KidzzoneVo> kzList  =  adminMapper.kzList(pds);
@@ -235,8 +237,22 @@ public class AdminController {
 		mv.setViewName("admin/kzlist");
 		mv.addObject("kzList", kzList);
 		mv.addObject("pds", pds);
-		
+		mv.addObject("kz_no", kz_no);
 		return mv;
+	}
+	
+	@RequestMapping("/KidzzoneDelete")
+	@ResponseBody
+	public int kidzzoneDelete(@RequestParam(value = "valueArr[]")String[] valueArr, KidzzoneVo vo) {
+		
+		for (String value : valueArr) {
+			 vo.setKz_no(Integer.parseInt(value));
+			 adminMapper.kidzzoneDelete(vo);
+		}
+		
+		
+		
+		return 1;
 	}
 	
 	

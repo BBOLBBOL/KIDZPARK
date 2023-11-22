@@ -76,7 +76,7 @@
 				class="row g-0 align-items-center flex-column-reverse flex-md-row">
 				<div class="p-5 mt-lg-5">
 					<h1 class="display-4 animated fadeIn mb-4"
-						style="margin-top: 13%; text-align: center;">회원목록</h1>
+						style="margin-top: 13%; text-align: center;">키즈존목록</h1>
 				</div>
 			</div>
 		</div>
@@ -87,13 +87,11 @@
 		   <thead class="thead-white">
 		    <tr>
 		    <th><input type="checkbox" id="allCheck"></th>
-		     <th scope="col">회원No</th>
-		       <th scope="col">회원ID</th>
-		       <th scope="col">회원이름</th>
-		       <th scope="col">회원주소</th>
-		       <th scope="col">닉네임</th>
-		       <th scope="col">번호</th>
-		       <th scope="col">등급</th>
+		     <th scope="col">키즈존No</th>
+		       <th scope="col">키즈존 이름</th>
+		       <th scope="col">키즈존 주소</th>
+		       <th scope="col">키즈존 설명</th>
+		       <th scope="col">키즈존 영업시간</th>
 		    </tr>
 		    </thead>
 		    <tbody class="tbody-white">
@@ -104,12 +102,13 @@
 		      <td>${kzList.kz_name}</td>
 		      <td>${kzList.kz_address } &nbsp; ${kzList.kz_detailaddress }</td>
 		      <td>${kzList.kz_explanation}</td>
-		      <td>${kzList.u_openingtime}</td>
+		      <td>${kzList.kz_openingtime}</td>
 		    </tr>
 		    </c:forEach>
 		    </tbody>
 		  </table>
 		  	<div style="margin: 10px 10px auto; text-align: right; ">
+            <a href="/NoticeWriteForm" class="btn btn-primary" style="margin-right : 30px;">키즈존 등록</a>
             <a type="button" class="btn btn-danger" onclick="deleteValue();">삭제</a>
             </div>
 			<%@include file="/WEB-INF/views/include/admincspaging.jsp"%>
@@ -219,8 +218,8 @@ $("input[id='allCheck']").click(function() {
 });
 
 function deleteValue() {
-	   var u_no =  ${u_no};
-	   var url  =  "/AdminUserDelete?u_no=" + u_no;
+	   var kz_no =  ${kz_no};
+	   var url  =  "/KidzzoneDelete;
 	   var valueArr  =  [];
 	   var list  =  $("input[name='rowCheck']");
 	   for(var i = 0; i < list.length; i++) {

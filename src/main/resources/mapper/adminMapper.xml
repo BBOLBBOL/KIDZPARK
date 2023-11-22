@@ -203,6 +203,13 @@ FROM KIDZZONE
 
 </select>
 
+<delete id="kidzzoneDelete">
+
+DELETE FROM KIDZZONE
+FROM KZ_NO  =  #{kz_no}
+
+
+</delete>
 
  
 </mapper>
