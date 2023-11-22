@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kidzpark.chat.mapper.ChatMapper">
+
+
+<insert id="update" parameterType="com.kidzpark.chat.service.ChatMessage">
+
+INSERT INTO CHAT ( CHR_NO, CHR_MESSAGE, U_NO)
+VALUES( #{chr_no}, #{chr_message}, #{u_no})
+
+</insert>
+
+<insert id="insertRoom" >
+INSERT INTO CHATROOM ( CHR_NO, CHR_TITLE, CHR_OPENDATE, CHR_PEOPLECOUNT)
+VALUES( (SELECT NVL(MAX(CHR_NO),0)+1 FROM CHATROOM), #{chr_title}, SYSDATE, #{chr_peoplecount} )
+</insert>
+
+<select id="getRoom" resultType="com.kidzpark.chat.service.Room">
+SELECT 
+		CHR_NO
+	   ,CHR_TITLE
+	   ,CHR_OPENDATE
+	   ,CHR_PEOPLECOUNT
+	   
+ FROM CHATROOM 	   
+ ORDER BY CHR_NO ASC
+ 
+</select>
+
+<select id="msgList" resultType="com.kidzpark.chat.service.ChatMessage">
+SELECT
+	 C.MSG_ID
+	,C.CHR_NO
+	,C.CHR_MESSAGE
+	,C.CHR_SUBMITTIME
+	,C.U_NO
+	,P.U_NICKNAME
+ FROM  CHAT C LEFT JOIN PUSER P ON C.U_NO = P.U_NO 
+ WHERE C.CHR_NO = #{chr_no}
+ 
+</select>
+
+<insert id="insertMessage">
+	INSERT INTO CHAT ( MSG_ID, CHR_NO, CHR_MESSAGE, CHR_SUBMITTIME, U_NO)
+	VALUES( (SELECT NVL(MAX(MSG_ID),0)+1 FROM CHAT), #{chr_no}, #{chr_message}, SYSDATE, #{u_no} )
+</insert>
+
+</mapper>

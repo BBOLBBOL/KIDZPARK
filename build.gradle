@@ -31,11 +31,16 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.3.1'
 	
-	implementation 'org.mybatis:mybatis-spring'
+    implementation 'org.mybatis:mybatis-spring'
     implementation 'org.mybatis:mybatis'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-freemarker'
+    implementation 'org.webjars:stomp-websocket:2.3.3-1'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {

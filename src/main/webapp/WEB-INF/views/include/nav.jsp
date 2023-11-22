@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="utf-8">
 
@@ -67,11 +68,31 @@
                                 <a href="/BoardList?m_no=5" class="dropdown-item">교육</a>
                             </div>
                         </div>
-                        <a href="#" class="nav-item nav-link">채팅</a>
+                        <a href="/room" class="nav-item nav-link">채팅</a>
                         <a href="#" class="nav-item nav-link">고객센터</a>
                     </div>
-                    <a href="/Mypage" class="btn btn-primary px-3 d-none d-lg-flex">로그인</a>
-                </div>
+                    <c:choose>
+                    <c:when test="${loginVo eq null}">
+                    	<li style="list-style-type: none"><a href="/LoginForm" class="btn btn-primary px-3 d-none d-lg-flex">로그인</a></li>
+                    </c:when>
+                    <c:when test="${loginVo ne null}">
+						<li style="list-style-type: none">
+							<b> ${loginVo.u_name} 님 환영합니다 </b>
+						</li>
+						<li style="list-style-type: none" class="nav-item">
+						  <img src="/imgpage/logon.png" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							<ul class="dropdown-menu">
+								<li><a class="dropdown-item" href="/CheckEmailForm">내정보 확인/수정</a></li>
+								<li><a class="dropdown-item" href="#">2</a></li>
+								<li><a class="dropdown-item" href="#">3</a></li>
+								<li><a class="dropdown-item" href="#">4</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li><a class="dropdown-item" href="/LogOut">로그 아웃</a></li>
+							</ul>
+						</li>
+					</c:when>
+				</c:choose>
+			</div>
             </nav>
         <!-- Navbar End -->
 

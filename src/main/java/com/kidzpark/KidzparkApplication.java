@@ -11,10 +11,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 @SpringBootApplication
 @MapperScan(value = {"com.kidzpark.kidzzone.mapper"} )
 @MapperScan(value = {"com.kidzpark.board.mapper"} )
+@MapperScan(value = {"com.kidzpark.user.mapper"} )
+@MapperScan(value = {"com.kidzpark.chat.mapper"} )
 public class KidzparkApplication {
 
    public static void main(String[] args) {
