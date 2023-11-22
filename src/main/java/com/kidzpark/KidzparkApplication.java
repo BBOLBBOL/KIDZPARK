@@ -18,6 +18,8 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 @MapperScan(value = {"com.kidzpark.board.mapper"} )
 @MapperScan(value = {"com.kidzpark.user.mapper"} )
 @MapperScan(value = {"com.kidzpark.chat.mapper"} )
+@MapperScan(value = {"com.kidzpark.cs.mapper"} )
+@MapperScan(value = {"com.kidzpark.admin.mapper"} )
 public class KidzparkApplication {
 
    public static void main(String[] args) {

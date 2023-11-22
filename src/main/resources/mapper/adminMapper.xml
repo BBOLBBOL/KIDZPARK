@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kidzpark.admin.mapper.AdminMapper">
+
+ <select id="countAdminCsList" resultType="int">
+ 
+ 
+ SELECT COUNT(*)
+ FROM CSERVICE
+ 
+ 
+ 
+ </select>
+ 
+ <select id="AdminCsList" resultType="com.kidzpark.cs.domain.CsVo">
+
+SELECT *
+FROM (
+  SELECT ROWNUM RN, A.*
+  FROM (
+    SELECT
+      ER.CS_IDX,
+      ER.U_NO,
+      ER.CS_TITLE,
+      TO_CHAR(ER.CS_WRITERDATE, 'YYYY-MM-DD') CS_WRITERDATE, 
+      ER.CS_CATEGORY,
+      TO_CHAR(AN.CS_ANSWERDATE, 'YYYY-MM-DD') CS_ANSWERDATE
+  FROM CSERVICE ER
+  LEFT JOIN CSANSWER AN ON ER.CS_IDX = AN.CS_IDX
+  ORDER BY ER.CS_IDX ASC
+       
+  ) A
+)
+WHERE RN BETWEEN #{start} AND #{end}
+
+</select>
+ 
+ 
+  <select id="userList" resultType="com.kidzpark.user.domain.UserVo">
+
+SELECT *
+FROM (
+  SELECT ROWNUM RN, A.*
+  FROM (
+    SELECT
+		U_NO,
+		U_ID,
+		U_NAME,
+		U_ADDRESS,
+		U_DETAILADDRESS,
+		U_NICKNAME,
+		U_PHONE,
+		U_EMAIL,
+		U_GRADE
+       FROM PUSER
+       ORDER BY U_NO ASC
+  ) A
+)
+WHERE RN BETWEEN #{start} AND #{end} AND U_NO &lt;&gt; 99
+
+</select>
+ 
+ <select id="countAdminUserList" resultType="int">
+ 
+ SELECT COUNT(*) FROM PUSER
+ 
+ </select>
+ 
+ <delete id="userListDelete">
+ 
+ DELETE FROM PUSER
+ WHERE U_NO = #{u_no}
+ 
+ 
+ </delete>
+ 
+ <insert id="insertFileKz">
+ 
+ INSERT INTO KIDZZONE (KZ_NO, KZ_NAME, KZ_POSTCODE, KZ_ADDRESS, KZ_DETAILADDRESS, KZ_EXTRAADDRESS, KZ_EXPLANATION, KZ_OPENINGTIME, KZ_IMG)
+ VALUES ( (SELECT NVL(MAX(KZ_NO), 0)+1 FROM KIDZZONE),
+ 		   #{kz_name},
+ 		   #{kz_postcode},
+ 		   #{kz_address},
+ 		   #{kz_detailaddress},
+ 		   #{kz_extraaddress},
+ 		   #{kz_explanation},
+ 		   #{kz_openingtime},
+ 		   #{kz_img}
+ )
+ </insert>
+ 
+ 
+  <insert id="insertNoFileKz">
+ 
+ INSERT INTO KIDZZONE (KZ_NO, KZ_NAME, KZ_POSTCODE, KZ_ADDRESS, KZ_DETAILADDRESS, KZ_EXTRAADDRESS, KZ_EXPLANATION, KZ_OPENINGTIME)
+ VALUES ( (SELECT NVL(MAX(KZ_NO), 0)+1 FROM KIDZZONE),
+ 		   #{kz_name},
+ 		   #{kz_postcode},
+ 		   #{kz_address},
+ 		   #{kz_detailaddress},
+ 		   #{kz_extraaddress},
+ 		   #{kz_explanation},
+ 		   #{kz_openingtime}	   
+ )
+ </insert>
+ 
+ <select id="countNotice" resultType="int">
+ 
+ SELECT COUNT(*) FROM BOARD
+ WHERE M_NO  =  #{m_no}
+ 
+ 
+ </select>
+ 
+   <select id="noticeList"
+  resultType="com.kidzpark.board.domain.BoardVo">
+   SELECT *
+FROM (
+    SELECT ROWNUM RN, A.*
+    FROM (
+   SELECT  B.*
+   FROM    BOARD B
+   LEFT JOIN BOARDLIKE BL ON B.B_IDX = BL.B_IDX
+   WHERE B.M_NO = #{m_no}
+     ORDER BY B_WRITEDATE DESC
+    ) A
+)
+WHERE RN BETWEEN #{start} AND #{end} 
+ 
+</select>
+
+  <insert  id="insertNoticeNoFile">
+     INSERT INTO  BOARD (
+        B_IDX,
+		B_TITLE,
+		B_CONT,
+		B_LIKE,
+		B_READCOUNT,
+		B_WRITEDATE,
+		M_NO,
+		U_NO
+     ) VALUES (
+          ( SELECT  NVL(MAX(B_IDX), 0)+1 FROM BOARD ),
+		#{b_title},
+		#{b_cont},
+		0,
+		0,
+		SYSDATE,
+		6,
+		#{u_no}
+     )
+  </insert>
+  
+  
+    <insert  id="insertNoticeFile">
+       INSERT INTO  BOARD (
+        B_IDX,
+		B_TITLE,
+		B_CONT,
+		B_LIKE,
+		B_IMG,
+		B_READCOUNT,
+		B_WRITEDATE,
+		M_NO,
+		U_NO
+     ) VALUES (
+          ( SELECT  NVL(MAX(B_IDX), 0)+1 FROM BOARD ),
+		#{b_title},
+		#{b_cont},
+		#{b_img},
+		0,
+		0,
+		SYSDATE,
+		6,
+		#{u_no}
+     )
+  </insert>
+
+<delete id="boardDelete">
+
+ DELETE FROM BOARD
+ WHERE b_idx  =  #{b_idx}
+
+
+</delete>
+
+
+ 
+</mapper>
