@@ -298,7 +298,7 @@ body {
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">리뷰 모달</h5>
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -444,7 +444,6 @@ positions.forEach(function(position) {
                 position: coords
             });
             markers.push(marker);
-            
             var content = '<div class="wrap">' + 
             '    <div class="info">' + 
             '        <div class="title">' + 
@@ -453,17 +452,50 @@ positions.forEach(function(position) {
             '        </div>' + 
             '        <div class="body">' + 
             '            <div class="img">' +
-            '                <img src="img/'+position.kz_img+'" width="73" height="70">' +
+            '                <img src="/img/'+position.kz_img+'" width="73" height="70">' +
             '           </div>' + 
             '            <div class="desc">' + 
             '                <div class="ellipsis">'+position.kz_address+'</div>' +
             '                <div class="jibun ellipsis">(우)' +position.kz_postcode +
             '                <div><a href="javascript:void(0);" onclick="openReviewModal(\'' + position.kz_no + '\')" class="link">리뷰보기</a></div>' +  
+            '                <div id="like"></div>' +  
             '           <div>' + 
             '            </div>' + 
             '        </div>' + 
             '    </div>' +    
             '</div>';
+               
+       
+            function kidzzoneLikeUser(position) {
+                console.log(position);
+                var kz_no = position.kz_no;
+                var u_no = ${loginVo.u_no};
+                console.log("함수시작 :  ");
+                $.ajax({
+                    type: "GET",
+                    url: "/KidzzoneLikeUser",
+                    data: {
+                        kz_no: kz_no,
+                        u_no: u_no
+                    },
+                    success: function(response) {
+                        let tag = '';
+                        console.log("리스폰 : ", response);
+                        if (response.u_no !== null && response.kidzzoneLikeUser == 0) {
+                            tag += '<p style="font-size: 10px;"><a href="javascript:void:(0);" onclick="kidzzoneLike(' + kz_no + ',' + u_no + ')">🤍</a></p>';
+                        } else if (response.u_no !== null && response.kidzzoneLikeUser == 1) {
+                            tag += '<p style="font-size: 10px;"><a href="javascript:void:(0);" onclick="kidzzoneUnLike(' + kz_no + ',' + u_no + ')">❤️</a></p>';
+                        }
+                        $("#like").html(tag);
+                    },
+                    error: function(error) {
+                        console.error("오류 : ", error);
+                    }
+                });
+                console.log("함수 끝 : ");
+            }
+            
+            
             var overlay = new kakao.maps.CustomOverlay({
                 content: content,
                 map: map,
@@ -480,6 +512,10 @@ positions.forEach(function(position) {
         }
     });
 });
+
+
+
+
 
 // 인덱스를 기반으로 오버레이를 닫는 함수를 정의합니다
 function closeOverlay(index) {
@@ -540,15 +576,15 @@ function openReviewModal(kz_no) {
         url: url,
         method: 'GET',
         success: function(data) {
-            console.log("data : ", data);
+            console.log("data : ", data.reviewList);
 
             // 데이터가 존재하는 경우
-            if (data && data.length > 0) {
+            if (data && data.reviewList.length > 0) {
                 // 각 리뷰의 정보를 <p> 태그로 생성
                 var reviewContentHtml = '';
                 
-                for (var i = 0; i < data.length; i++) {
-                    var review = data[i];
+                for (var i = 0; i < data.reviewList.length; i++) {
+                    var review = data.reviewList[i];
                     var deleteButtonHtml = '<button class="btn btn-danger" onclick="deleteReview('+ review.KZ_NO + ',' + review.R_NO + ')">삭제</button>';
                     var reviewImgHtml = review.R_REVIEWIMG ?
                         '<p><strong>리뷰사진:</strong> <img src="/img/' + review.R_REVIEWIMG + '" style="width: 100px;"></p>' :
@@ -563,11 +599,14 @@ function openReviewModal(kz_no) {
                         '<hr>'; // 리뷰 간에 구분선을 추가하였습니다.
                 }
 
+                $('.modal-title').html(review.KZ_NAME + ' 점 리뷰');
+                
                 // 리뷰 내용을 모달에 넣기
                 $('#reviewContent').html(reviewContentHtml);
             } else {
                 // 데이터가 없을 경우 메시지 출력
                 $('#reviewContent').html('<p>리뷰가 없습니다.</p>');
+                $('.modal-title').html( data.kz_name + '&nbsp; 점 리뷰');
             }
             
             $('#kz_no').val(kz_no);
@@ -645,6 +684,44 @@ function deleteReview(kz_no, r_no) {
         }
     });
 }
+
+
+
+
+function kidzzoneLike(kz_no, u_no) {
+	$.ajax({
+		type : "POST",
+		url  : "/KidzzoneLike",
+		data : {
+			kz_no : kz_no,
+			U_no  : u_no
+		},
+		success : function() {
+			console.log("관심매장 추가 완료 !");
+		},
+		error : function(error) {
+			console.error("관심매장 추가 실패 !", error);	
+		}
+	});
+}
+
+function kidzzoneUnLike(kz_no, u_no) {
+	$.ajax({
+		type : "DELETE",
+		url  : "/KidzzoneUnLike",
+		data : {
+			kz_no : kz_no,
+			U_no  : u_no
+		},
+		success : function() {
+			console.log("관심매장 삭제 완료 !");
+		},
+		error : function(error) {
+			console.error("관심매장 삭제 실패 !", error);	
+		}
+	});
+}
+
 
 
 

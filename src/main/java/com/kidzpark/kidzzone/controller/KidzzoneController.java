@@ -34,7 +34,8 @@ public class KidzzoneController {
 	@ResponseBody
 	@RequestMapping(value = "/Kidzzone", method = RequestMethod.GET)
 	public ModelAndView kidzzone(KidzzoneVo vo) {
-
+		
+		
 		List<KidzzoneVo> selectkiddzone = kidzzoneMapper.selectKiddzone();
 
 		ModelAndView mv = new ModelAndView();
@@ -237,15 +238,24 @@ public class KidzzoneController {
 	
 	@RequestMapping("/KidzzoneReview")
 	@ResponseBody
-	public List<HashMap<String, Object>> kidzzoneReview(@RequestParam int kz_no,
+	public HashMap<String, Object> kidzzoneReview(
 			@RequestParam HashMap<String, Object> map
 			) {
 		
 		
-		List<HashMap<String, Object>> reviewList  =  kidzzoneMapper.reviewList(map);
+		    List<ReviewVo> reviewList  =  kidzzoneMapper.reviewList(map);
+		    
+		    String kz_name  =  kidzzoneMapper.kz_name(map);
+		    
+		    map.put("reviewList", reviewList);
+		    map.put("kz_name", kz_name);
+		    
+			System.out.println("List : " + reviewList);
+			System.out.println("kz_name : " + kz_name);
+			
+			
+			return map;
 		
-		System.out.println("List : " + reviewList);
-		return reviewList;
 	}
 
 	@RequestMapping("/SaveReview")
@@ -285,6 +295,41 @@ public class KidzzoneController {
 		return map;
 	}
 	
+	@RequestMapping("/KidzzoneLikeUser")
+	@ResponseBody
+	public HashMap<String, Object> kidzzoneLikeUser(@RequestParam HashMap<String, Object> map) {
+		
+		HashMap<String, Object> result  =  new HashMap<String, Object>();
+		
+		int kidzzoneLikeUser  =  kidzzoneMapper.countKidzzoneLikeUser(map);
+		result.put("kidzzoneLikeUser", kidzzoneLikeUser);
+		result.put("u_no", map.get("u_no"));
+		
+	    
+		System.out.println(kidzzoneLikeUser);
+		System.out.println("map : " + result);
+		
+		return result;
+	}
+	
+	
+	@RequestMapping("/KidzzoneLike") 
+		public HashMap<String, Object> kidzzoneLike(@RequestParam HashMap<String, Object> map ) {
+
+			kidzzoneMapper.kidzzoneLike(map);
+			
+			
+			return map;
+		}
+	
+	@RequestMapping("/KidzzoneUnLike") 
+	public HashMap<String, Object> kidzzoneUnLike(@RequestParam HashMap<String, Object> map ) {
+		
+		kidzzoneMapper.kidzzoneUnLike(map);
+		
+		
+		return map;
+	}
 	
 	
 	
