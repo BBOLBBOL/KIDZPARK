@@ -16,6 +16,7 @@ VALUES( (SELECT NVL(MAX(CHR_NO),0)+1 FROM CHATROOM), #{chr_title}, SYSDATE)
 </insert>
 
 <select id="getRoom" resultType="com.kidzpark.chat.service.Room">
+
 SELECT 
 		C.CHR_NO,
 		C.CHR_TITLE,
@@ -42,7 +43,6 @@ SELECT
 	,P.U_NICKNAME
  FROM  CHAT C LEFT JOIN PUSER P ON C.U_NO = P.U_NO 
  WHERE C.CHR_NO = #{chr_no}
- 
 </select>
 
 <insert id="insertMessage">

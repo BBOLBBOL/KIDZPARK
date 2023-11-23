@@ -40,8 +40,8 @@
 	.container1 h1{
 		text-align: left;
 		padding: 5px 5px 5px 15px;
-		color: #FFBB00;
-		border-left: 3px solid #FFBB00;
+		color: #00B98E;
+		border-left: 3px solid #00B98E;
 		margin-bottom: 20px;
 	}
 	.roomContainer{
@@ -54,29 +54,33 @@
 		border: none;
 	}
 	.roomList th{
-		border: 1px solid #FFBB00;
+		border: 1px solid #00B98E;
 		background-color: #fff;
-		color: #FFBB00;
+		color: #00B98E;
 	}
 	.roomList td{
-		border: 1px solid #FFBB00;
+		border: 1px solid #00B98E;
 		background-color: #fff;
 		text-align: left;
-		color: #FFBB00;
+		color: #00B98E;
 	}
 	.roomList .num{
 		width: 75px;
 		text-align: center;
 	}
 	.roomList .room{
-		width: 350px;
+		width: 320px;
 	}
 	.roomList .go{
 		width: 71px;
 		text-align: center;
 	}
+	.roomList .member{
+		width: 100px;
+		text-align: center;
+	}
 	button{
-		background-color: #FFBB00;
+		background-color: #00B98E;
 		font-size: 14px;
 		color: #000;
 		border: 1px solid #000;
@@ -91,6 +95,7 @@
 		width: 330px;
 		height: 25px;
 	}
+<!-- FFBB00 노란색 -->
 </style>
 <script>
 </script>
@@ -105,7 +110,7 @@
 	}
 
 	function getRoom(){
-		commonAjax('/getRoom', "", 'post', function(result){
+		cAjax('/getRoom', "", 'post', function(result){
 			createChatingRoom(result);
 		});
 	}
@@ -114,7 +119,7 @@
 		$("#createRoom").click(function(){
 			var msg = {	chr_title : $('#chr_title').val()	};
 
-			commonAjax('/createRoom', msg, 'post', function(result){
+			cAjax('/createRoom', msg, 'post', function(result){
 				createChatingRoom(result);
 			});
 
@@ -129,22 +134,29 @@
 
 	function createChatingRoom(res){
 		if(res != null){
-			var tag = "<tr><th class='num'>순서</th><th class='room'>방 이름</th><th class='go'></th></tr>";
+			var tag = "<tr><th class='num'>순서</th><th class='room'>방 이름</th><th class='go'></th><th class='member'>참여인원</th></tr>";
 			res.forEach(function(d, idx){
+				console.log(d);
 				var rn = d.chr_title.trim();
 				var chr_no = d.chr_no;
 				var u_no = ${loginVo.u_no};
+				
+				//cAjax('/getChatroomMembers', { chr_no: chr_no, u_no: u_no }, 'post', function (members) {
+		        var Count = d.chr_peoplecount;
+				
 				tag += "<tr>"+
 							"<td class='num'>"+(idx+1)+"</td>"+
 							"<td class='room'>"+ rn +"</td>"+
 							"<td class='go'><button type='button' onclick='goRoom(\""+chr_no+"\", \""+rn+"\", \""+u_no+"\")'>참여</button></td>" +
-						"</tr>";	
-			});
-			$("#roomList").empty().append(tag);
-		}
-	}
+							"<td class='member'>"+ Count +"</td>"+
+						"</tr>";
+				$("#roomList").empty().append(tag);
+				//});
+			}); // forEach end
+		} // if end
+	} // createChatingRoom end
 
-	function commonAjax(url, parameter, type, calbak, contentType){
+	function cAjax(url, parameter, type, calbak, contentType){
 		$.ajax({
 			url: url,
 			data: parameter,
@@ -159,6 +171,7 @@
 			}
 		});
 	}
+	
 </script>
 <body>
 
