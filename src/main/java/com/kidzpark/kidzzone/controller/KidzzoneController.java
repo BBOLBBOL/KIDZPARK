@@ -55,7 +55,7 @@ public class KidzzoneController {
 		}
 		mv.addObject("json", json);
 		
-		System.out.println(json);
+		System.out.println( "json : " + json);
 
 		return mv;
 
@@ -304,6 +304,7 @@ public class KidzzoneController {
 		int kidzzoneLikeUser  =  kidzzoneMapper.countKidzzoneLikeUser(map);
 		result.put("kidzzoneLikeUser", kidzzoneLikeUser);
 		result.put("u_no", map.get("u_no"));
+		result.put("kz_no", map.get("kz_no"));
 		
 	    
 		System.out.println(kidzzoneLikeUser);
@@ -314,6 +315,7 @@ public class KidzzoneController {
 	
 	
 	@RequestMapping("/KidzzoneLike") 
+	@ResponseBody
 		public HashMap<String, Object> kidzzoneLike(@RequestParam HashMap<String, Object> map ) {
 
 			kidzzoneMapper.kidzzoneLike(map);
@@ -322,7 +324,8 @@ public class KidzzoneController {
 			return map;
 		}
 	
-	@RequestMapping("/KidzzoneUnLike") 
+	@RequestMapping("/KidzzoneUnLike")
+	@ResponseBody
 	public HashMap<String, Object> kidzzoneUnLike(@RequestParam HashMap<String, Object> map ) {
 		
 		kidzzoneMapper.kidzzoneUnLike(map);

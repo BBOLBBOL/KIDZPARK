@@ -307,7 +307,7 @@ body {
         
         <!-- 리뷰 작성 폼 -->
         <form id="reviewForm" enctype="multipart/form-data">
-        <input type="hidden" name="u_no" value="${loginVo.u_no }">
+        <input type="hidden" name="u_no" value="${loginVo.u_no }" id="u_no">
         <input type="hidden" name="kz_no" id="kz_no">
           <div class="mb-3">
             <label for="reviewInput" class="form-label">리뷰 입력</label>
@@ -352,6 +352,7 @@ body {
 	    // 페이지 로드 완료 후 updatePage 함수 실행
 	    updatePage();
 	    mysite();
+	    
 	};
 	
     let pg = '${pg}'; // 페이지네이션 정보
@@ -436,6 +437,10 @@ var markers = []; // 마커를 담을 배열
 var overlays = []; // 오버레이를 담을 배열
 
 positions.forEach(function(position) {
+	console.log("position : ", position);
+	 let kz_no = position.kz_no; // 변수를 블록 스코프로 변경
+	 let u_no = document.getElementById('u_no').value; // 변수를 블록 스코프로 변경
+	 
     geocoder.addressSearch(position.kz_address, function(result, status) {
         if (status === kakao.maps.services.Status.OK) {
             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -458,43 +463,14 @@ positions.forEach(function(position) {
             '                <div class="ellipsis">'+position.kz_address+'</div>' +
             '                <div class="jibun ellipsis">(우)' +position.kz_postcode +
             '                <div><a href="javascript:void(0);" onclick="openReviewModal(\'' + position.kz_no + '\')" class="link">리뷰보기</a></div>' +  
-            '                <div id="like"></div>' +  
+            '                <div id="Like"></div>' +  
             '           <div>' + 
             '            </div>' + 
             '        </div>' + 
             '    </div>' +    
             '</div>';
                
-       
-            function kidzzoneLikeUser(position) {
-                console.log(position);
-                var kz_no = position.kz_no;
-                var u_no = ${loginVo.u_no};
-                console.log("함수시작 :  ");
-                $.ajax({
-                    type: "GET",
-                    url: "/KidzzoneLikeUser",
-                    data: {
-                        kz_no: kz_no,
-                        u_no: u_no
-                    },
-                    success: function(response) {
-                        let tag = '';
-                        console.log("리스폰 : ", response);
-                        if (response.u_no !== null && response.kidzzoneLikeUser == 0) {
-                            tag += '<p style="font-size: 10px;"><a href="javascript:void:(0);" onclick="kidzzoneLike(' + kz_no + ',' + u_no + ')">🤍</a></p>';
-                        } else if (response.u_no !== null && response.kidzzoneLikeUser == 1) {
-                            tag += '<p style="font-size: 10px;"><a href="javascript:void:(0);" onclick="kidzzoneUnLike(' + kz_no + ',' + u_no + ')">❤️</a></p>';
-                        }
-                        $("#like").html(tag);
-                    },
-                    error: function(error) {
-                        console.error("오류 : ", error);
-                    }
-                });
-                console.log("함수 끝 : ");
-            }
-            
+
             
             var overlay = new kakao.maps.CustomOverlay({
                 content: content,
@@ -503,16 +479,51 @@ positions.forEach(function(position) {
             });
             overlays.push(overlay);
 
+       		kidzzoneLikeUser(kz_no, u_no)
+
             kakao.maps.event.addListener(marker, 'click', function() {
                 overlays.forEach(function(overlay) {
                     overlay.setMap(null);
                 });
                 overlay.setMap(map);
+                
             });
         }
     });
 });
 
+function kidzzoneLikeUser(kz_no, u_no) {
+
+    console.log("함수시작 :  ");
+    $.ajax({
+        type: "GET",
+        url: "/KidzzoneLikeUser",
+        data: {
+            kz_no: kz_no,
+            u_no: u_no
+        },
+        success: function(response) {
+            let tag = '';
+            
+            if (response.u_no != null && response.kidzzoneLikeUser == 0) {
+            	console.log("리스폰 : ", response);
+                tag += '<p style="font-size: 20px;"><a href="javascript:void:(0);" onclick="kidzzoneLike(' + kz_no + ',' + u_no + ')">🤍</a></p>';
+            } else if (response.u_no != null && response.kidzzoneLikeUser == 1) {
+                tag += '<p style="font-size: 20px;"><a href="javascript:void:(0);" onclick="kidzzoneUnLike(' + kz_no + ',' + u_no + ')">❤️</a></p>';
+            }
+            
+            
+            console.log("Before #Like: ", $("#Like").html());
+            $("#Like").html(tag);
+            console.log("After #Like: ", $("#Like").html());
+            
+        },
+        error: function(error) {
+            console.error("오류 : ", error);
+        }
+    });
+    console.log("함수 끝 : ");
+}
 
 
 
@@ -694,9 +705,10 @@ function kidzzoneLike(kz_no, u_no) {
 		url  : "/KidzzoneLike",
 		data : {
 			kz_no : kz_no,
-			U_no  : u_no
+			u_no  : u_no
 		},
 		success : function() {
+			
 			console.log("관심매장 추가 완료 !");
 		},
 		error : function(error) {
@@ -711,7 +723,7 @@ function kidzzoneUnLike(kz_no, u_no) {
 		url  : "/KidzzoneUnLike",
 		data : {
 			kz_no : kz_no,
-			U_no  : u_no
+			u_no  : u_no
 		},
 		success : function() {
 			console.log("관심매장 삭제 완료 !");

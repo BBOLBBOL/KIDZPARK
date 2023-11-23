@@ -22,7 +22,7 @@ WHERE RN BETWEEN #{start} AND #{end}
   resultType="com.kidzpark.kidzzone.domain.KidzzoneVo">
    
  SELECT *
-    FROM KIDZZONE
+    FROM KIDZZONE K
 	
 </select>
 
@@ -193,7 +193,7 @@ ORDER BY R_REVIEWDATE ASC
  	U_NO
  ) VALUES (
  	#{kz_no},
- 	#{u_no}E
+ 	#{u_no}
  )
  
  </insert>
