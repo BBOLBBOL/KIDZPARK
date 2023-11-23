@@ -41,9 +41,9 @@ public interface BoardMapper {
 
 	public String selectMenuname(int m_no);
 
-	public void BoardWrite1(HashMap<String, Object> map);
+	public void boardWrite1(HashMap<String, Object> map);
 
-	public void BoardWrite2(HashMap<String, Object> map);
+	public void boardWrite2(HashMap<String, Object> map);
 
 	public void updateReadcount(HashMap<String, Object> map);
 
@@ -61,7 +61,11 @@ public interface BoardMapper {
 
 	public List<BoardVo> likeCheck(HashMap<String, Object> map);
 
-	public int countboardlike(HashMap<String, Object> map);
+	public int countboardlikeuser(HashMap<String, Object> map);
+
+	public void boardUnLike(HashMap<String, Object> map);
+
+	public void boardLike(HashMap<String, Object> map);
 
 
 

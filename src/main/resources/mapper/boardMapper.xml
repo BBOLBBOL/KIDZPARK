@@ -68,7 +68,7 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
 	
 </select>
 
-  <insert  id="BoardWrite1">
+  <insert  id="boardWrite1">
      INSERT INTO  BOARD (
         B_IDX,
 		B_TITLE,
@@ -89,7 +89,10 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
   </insert>
   
   
-  <insert  id="BoardWrite2">
+  
+  
+  
+  <insert  id="boardWrite2">
        INSERT INTO  BOARD (
         B_IDX,
 		B_TITLE,
@@ -120,15 +123,6 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
 	 
 </select>
 
-  <select id="countboardlike"
-  resultType="int">
-    
-   SELECT  COUNT(*)
-   FROM    BOARDLIKE
-   WHERE   B_IDX = #{b_idx} 
-   AND     U_NO  = #{u_no} 
-	 
-</select>
 
 <update id="updateReadcount">
 UPDATE BOARD SET 
@@ -141,6 +135,7 @@ DELETE FROM BOARD
 WHERE B_IDX = #{b_idx} 
 
 </delete>
+
 
 <update id="boardUpdate1">
 UPDATE BOARD SET 
@@ -160,6 +155,7 @@ B_WRITEDATE = SYSDATE
 WHERE B_IDX = #{b_idx} 
 
 </update>
+
 
 <insert  id="commentWrite">
      INSERT INTO  COMMT (
@@ -200,6 +196,14 @@ SELECT COUNT(*) FROM COMMT
 WHERE B_IDX = ${b_idx}
  
  </select>
+ 
+<select id="countboardlikeuser" resultType="int">
+ 
+SELECT COUNT(*) FROM BOARDLIKE
+WHERE B_IDX = ${b_idx}
+AND   U_NO  = ${u_no}
+
+ </select>
 
   <select id="getnoticelist"
   resultType="com.kidzpark.board.domain.BoardVo">
@@ -210,6 +214,30 @@ WHERE B_IDX = ${b_idx}
      ORDER BY B_WRITEDATE DESC
 </select>
 
+  <select id="countboardlike"
+  resultType="int">
+   SELECT  COUNT(*)
+   FROM    BOARDLIKE
+   WHERE   B_IDX = #{b_idx} 
+   AND     U_NO  = #{u_no} 
+</select>
+
+<delete id="boardUnLike">
+DELETE FROM BOARDLIKE
+WHERE B_IDX = #{b_idx}
+AND   U_NO  = #{u_no}
+
+</delete>
+
+<insert  id="boardLike">
+     INSERT INTO  BOARDLIKE (
+		B_IDX,
+		U_NO
+     ) VALUES (
+		#{b_idx},
+		#{u_no}
+     )
+  </insert>
 
 
 </mapper>

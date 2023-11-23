@@ -1,9 +1,6 @@
 package com.kidzpark.board.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -11,12 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kidzpark.admin.mapper.AdminMapper;
@@ -25,7 +20,6 @@ import com.kidzpark.board.domain.CommentVo;
 import com.kidzpark.board.mapper.BoardMapper;
 import com.kidzpark.kidzzone.domain.KidzzoneVo;
 import com.kidzpark.paging.PagingVo;
-import com.kidzpark.user.domain.UserVo;
 
 @Controller
 public class BoardController {
@@ -75,7 +69,7 @@ public class BoardController {
 
 		mv.setViewName("board/board");
 
-		System.out.println("notice : " + getnoticelist);
+		System.out.println("notice : " + getboardlist);
 
 		return mv;
 	}
@@ -191,9 +185,9 @@ public class BoardController {
 
 		if (!b_img.isEmpty()) {
 			ImgFile.save(map, request);
-			boardMapper.BoardWrite2(map);
+			boardMapper.boardWrite2(map);
 		} else {
-			boardMapper.BoardWrite1(map);
+			boardMapper.boardWrite1(map);
 		}
 
 		ModelAndView mv = new ModelAndView();
@@ -207,7 +201,7 @@ public class BoardController {
 	public ModelAndView view(PagingVo pg, @RequestParam HashMap<String, Object> map, 
 			@RequestParam(value = "nowPage", required = false) String nowPage,
 			@RequestParam(value = "cntPerPage", required = false) String cntPerPage) {
-
+		
 		boardMapper.updateReadcount(map);
 
 		String m_name = boardMapper.selectMenuname(map);
@@ -222,7 +216,6 @@ public class BoardController {
 			cntPerPage = "5";
 		}
 		
-		int boardlike = boardMapper.countboardlike(map);
 		
 
 		pg = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
@@ -233,17 +226,29 @@ public class BoardController {
 		
 		ModelAndView mv = new ModelAndView();
 
-		map.put("boardlike", boardlike);
 		
 		mv.setViewName("board/boardview");
 		mv.addObject("boardView", boardView);
 		mv.addObject("map", map);
 		mv.addObject("pg", pg);
 		
-		System.out.println(mv);
-		
 		return mv;
 
+	}
+	
+	@RequestMapping("/Boardlikeuser")
+	@ResponseBody
+	public Map<String, Object> boardlikeuser(@RequestParam HashMap<String, Object> map){
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		int boardlikeuser = boardMapper.countboardlikeuser(map);
+		result.put("boardlikeuser", boardlikeuser);
+		result.put("u_no", map.get("u_no"));
+		
+		System.out.println("결과"+result);
+		
+		return result;
 	}
 
 	// 글 지우기
@@ -381,6 +386,23 @@ public class BoardController {
 		mv.addObject("m_no", vo.getM_no());
 		
 		return mv;
+	}
+	
+		
+	@RequestMapping("/BoardUnLike")
+	public Map<String, Object> boardUnLike(@RequestParam HashMap<String, Object> map){
+	
+		boardMapper.boardUnLike(map);
+		return map;
+	
+	}
+	
+	@RequestMapping("/BoardLike")
+	public Map<String, Object> boardLike(@RequestParam HashMap<String, Object> map){
+		
+		boardMapper.boardLike(map);
+		return map;
+		
 	}
 	
 

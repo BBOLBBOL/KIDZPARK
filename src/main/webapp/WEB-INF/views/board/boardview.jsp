@@ -114,8 +114,8 @@
 											<div class="wow fadeInUp" data-wow-delay="0.5s">
 												<form action="/BoardUpdateForm" method="post">
 													<input type="hidden" name="b_idx" value="${map.b_idx}">
-													<c:forEach var="board" items="${boardView}">
 														<div class="row g-2">
+													<c:forEach var="board" items="${boardView}">
 															<div class="col-md-12">
 																<div class="form-floating" style="margin: auto;">
 																	<input type="text" class="form-control" id="b_title"
@@ -147,6 +147,7 @@
 																	</c:choose>
 																</div>
 																<br>
+																<div id="like"></div>
 															</div>
 															<div class="col-3"
 																style="margin-left: 15px; margin-right: 15px;">
@@ -161,22 +162,8 @@
 																<a class="btn btn-primary w-100 py-3"
 																	href="/BoardDelete?b_idx=${map.b_idx}&m_no=${map.m_no}">삭제</a>
 															</div>
-															<c:choose>
-																<c:when
-																	test="${loginVo ne null and board.b_like eq null }">
-																	<p style="text-align: center; font-size: 50px;">
-																		<a href="javascript:void(0);" onclick="boardLike()">🤍</a>
-																	</p>
-																</c:when>
-																<c:when
-																	test="${loginVo ne null and board.b_like ne null }">
-																	<p style="text-align: center; font-size: 50px;">
-																		<a href="javascript:void(0);" onclick="boardUnLike()">❤️</a>
-																	</p>
-																</c:when>
-															</c:choose>
-														</div>
 													</c:forEach>
+														</div>
 												</form>
 											</div>
 										</div>
@@ -336,6 +323,68 @@
 	<!-- Template Javascript -->
 	<script src="js/main.js"></script>
 	<script>
+	
+		function boardlikeuser(){
+			$.ajax({
+				type: "GET",
+	   			 url: "/Boardlikeuser", // 요청 URL
+	   			 data: {
+    				b_idx: ${map.b_idx},
+    				u_no: ${map.u_no}
+	   			 },
+	   			success: function(response) {	    	
+			        let tag = '';
+
+		            if (response.u_no !== null && response.boardlikeuser == 0) {
+		                tag += '<p style="text-align: center; font-size: 50px;"><a href="javascript:void(0);" onclick="boardLike()">🤍</a></p>';
+		            } else if (response.u_no !== null && response.boardlikeuser == 1) {
+		                tag += '<p style="text-align: center; font-size: 50px;"><a href="javascript:void(0);" onclick="boardUnLike()">❤️</a></p>';
+		            }
+
+		            $("#like").html(tag);
+			},
+	   			 error: function(jqXHR, textStatus, errorThrown) {
+	 		        console.log("오류: ", textStatus, errorThrown); // 오류 정보 출력
+	 		    }
+			});
+		}
+	
+	    function boardUnLike(){
+	    	$.ajax({
+				type: "DELETE",
+	   			 url: "/BoardUnLike", // 요청 URL
+	   			 data: {
+    				b_idx: ${map.b_idx},
+    				u_no: ${map.u_no}
+	   			 },
+	   			success: function() {	
+	   				console.log("성공");
+			},
+	   			 error: function(jqXHR, textStatus, errorThrown) {
+	 		    	 boardlikeuser();
+	 		    }
+			});
+
+	    }
+	    
+	    function boardLike(){
+	    	$.ajax({
+				type: "POST",
+	   			 url: "/BoardLike", // 요청 URL
+	   			 data: {
+    				b_idx: ${map.b_idx},
+    				u_no: ${map.u_no}
+	   			 },
+	   			success: function() {	    
+	   				console.log("성공");
+	   				
+			},
+	   			 error: function(jqXHR, textStatus, errorThrown) {
+	 		       boardlikeuser();
+	 		    }
+			});
+	    }
+     
 		function goBack() {
 			window.history.back();
 		}
@@ -344,6 +393,7 @@
 		window.onload = function() {
 		    // 페이지 로드 완료 후 updatePage 함수 실행
 		    updatePage();
+		    boardlikeuser();
 		};
 		
 	    let pg = '${pg}'; // 페이지네이션 정보
