@@ -32,4 +32,6 @@ public interface KidzzoneMapper {
 
 	void insertReviewNoFile(HashMap<String, Object> map);
 
+	void deleteReview(HashMap<String, Object> map);
+
 }

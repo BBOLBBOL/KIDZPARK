@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -270,6 +271,21 @@ public class KidzzoneController {
 		
 		return map;
 	}
+	
+	@DeleteMapping("/DeleteReview")
+	@ResponseBody
+	public HashMap<String, Object> deleteReview(@RequestParam int r_no,
+			@RequestParam HashMap<String, Object> map
+			) {
+		
+		map.put("r_no", r_no);
+		
+		kidzzoneMapper.deleteReview(map);
+		
+		return map;
+	}
+	
+	
 	
 	
 	

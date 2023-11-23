@@ -549,6 +549,7 @@ function openReviewModal(kz_no) {
                 
                 for (var i = 0; i < data.length; i++) {
                     var review = data[i];
+                    var deleteButtonHtml = '<button class="btn btn-danger" onclick="deleteReview('+ review.KZ_NO + ',' + review.R_NO + ')">삭제</button>';
                     var reviewImgHtml = review.R_REVIEWIMG ?
                         '<p><strong>리뷰사진:</strong> <img src="/img/' + review.R_REVIEWIMG + '" style="width: 100px;"></p>' :
                         '';
@@ -558,6 +559,7 @@ function openReviewModal(kz_no) {
                         '<p><strong>작성자 닉네임:</strong> ' + review.U_NICKNAME + '</p>' +
                         '<p><strong>리뷰 작성일:</strong> ' + review.R_REVIEWDATE + '</p>' +
                         '<p><strong>리뷰 내용:</strong> ' + review.R_REVIEW + '</p>' +
+                        deleteButtonHtml +
                         '<hr>'; // 리뷰 간에 구분선을 추가하였습니다.
                 }
 
@@ -593,7 +595,7 @@ function readURL(input) {
 }
 
 function saveReview() {
-	 var kz_no = $('#kz_no_for_review').val();
+	 var kz_no = $('#kz_no').val();
      var formData = new FormData($('#reviewForm')[0]);
      formData.append('kz_no', kz_no);
     $.ajax({
@@ -606,7 +608,7 @@ function saveReview() {
             console.log('리뷰가 성공적으로 저장되었습니다.');
             console.log("받기 : " + response)
             alert("리뷰가 등록되었습니다!.")
-            $('#exampleModal').modal('hide');
+            openReviewModal(kz_no);
         },
         error: function(error) {
             console.error('리뷰 저장에 실패했습니다: ', error);
@@ -621,6 +623,27 @@ function resetReviewForm() {
     $('#preview').attr('src', ''); // 빈 문자열로 src 속성을 비움
     
     
+}
+
+
+function deleteReview(kz_no, r_no) {
+    // AJAX를 사용하여 리뷰를 삭제하는 요청 보내기
+    $.ajax({
+        url: '/DeleteReview',
+        method: 'DELETE',
+        data: {
+            r_no: r_no
+        },
+        success: function(response) {
+            console.log('리뷰가 성공적으로 삭제되었습니다.');
+            alert("리뷰가 삭제되었습니다!.")
+            // 삭제 후 모달을 닫거나, 삭제된 리뷰를 화면에서 갱신할 수 있습니다.
+            openReviewModal(kz_no);
+        },
+        error: function(error) {
+            console.error('리뷰 삭제에 실패했습니다: ', error);
+        }
+    });
 }
 
 
