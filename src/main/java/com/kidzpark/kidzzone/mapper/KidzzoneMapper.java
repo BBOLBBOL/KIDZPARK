@@ -26,6 +26,10 @@ public interface KidzzoneMapper {
 
 	int countKiddzoneSearch2(Map<String, Object> map);
 
-	HashMap<String, Object> reviewList(HashMap<String, Object> map);
+	List<HashMap<String, Object>> reviewList(HashMap<String, Object> map);
+
+	void insertReviewFile(HashMap<String, Object> map);
+
+	void insertReviewNoFile(HashMap<String, Object> map);
 
 }

@@ -306,11 +306,19 @@ body {
         <div id="reviewContent"></div>
         
         <!-- 리뷰 작성 폼 -->
-        <form id="reviewForm">
+        <form id="reviewForm" enctype="multipart/form-data">
+        <input type="hidden" name="u_no" value="${loginVo.u_no }">
+        <input type="hidden" name="kz_no" id="kz_no">
           <div class="mb-3">
             <label for="reviewInput" class="form-label">리뷰 입력</label>
-            <textarea class="form-control" id="reviewInput" name="reviewInput" rows="3"></textarea>
+            <textarea class="form-control" id="reviewInput" name="r_review" rows="3"></textarea>
           </div>
+           <div class="mb-3">
+            <label for="imageInput" class="form-label">사진 업로드</label>
+            <input type="file" class="form-control" id="imageInput" name="r_reviewimg" accept="image/*" onchange="readURL(this)">
+            <br>
+            <img id="preview" style="width: 100px;">
+    </div>
           <!-- 추가적인 입력 폼들을 필요에 따라 추가할 수 있습니다. -->
         </form>
       </div>
@@ -535,12 +543,23 @@ function openReviewModal(kz_no) {
             console.log("data : ", data);
 
             // 데이터가 존재하는 경우
-            if (data) {
+            if (data && data.length > 0) {
                 // 각 리뷰의 정보를 <p> 태그로 생성
-                var reviewContentHtml =
-                    '<p><strong>작성자 닉네임:</strong> ' + data.U_NICKNAME + '</p>' +
-                    '<p><strong>리뷰 내용:</strong> ' + data.R_REVIEW + '</p>' +
-                    '<p><strong>리뷰 작성일:</strong> ' + data.R_REVIEWDATE + '</p>';
+                var reviewContentHtml = '';
+                
+                for (var i = 0; i < data.length; i++) {
+                    var review = data[i];
+                    var reviewImgHtml = review.R_REVIEWIMG ?
+                        '<p><strong>리뷰사진:</strong> <img src="/img/' + review.R_REVIEWIMG + '" style="width: 100px;"></p>' :
+                        '';
+
+                    reviewContentHtml +=
+                        reviewImgHtml +
+                        '<p><strong>작성자 닉네임:</strong> ' + review.U_NICKNAME + '</p>' +
+                        '<p><strong>리뷰 작성일:</strong> ' + review.R_REVIEWDATE + '</p>' +
+                        '<p><strong>리뷰 내용:</strong> ' + review.R_REVIEW + '</p>' +
+                        '<hr>'; // 리뷰 간에 구분선을 추가하였습니다.
+                }
 
                 // 리뷰 내용을 모달에 넣기
                 $('#reviewContent').html(reviewContentHtml);
@@ -548,7 +567,10 @@ function openReviewModal(kz_no) {
                 // 데이터가 없을 경우 메시지 출력
                 $('#reviewContent').html('<p>리뷰가 없습니다.</p>');
             }
-
+            
+            $('#kz_no').val(kz_no);
+            
+            resetReviewForm();
             // 모달을 열기
             $('#exampleModal').modal('show');
         },
@@ -557,7 +579,51 @@ function openReviewModal(kz_no) {
         }
     });
 }
-	
+
+function readURL(input) {
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			document.getElementById('preview').src = e.target.result;
+		};
+		reader.readAsDataURL(input.files[0]);
+	} else {
+		document.getElementById('preview').src = "";
+	}
+}
+
+function saveReview() {
+	 var kz_no = $('#kz_no_for_review').val();
+     var formData = new FormData($('#reviewForm')[0]);
+     formData.append('kz_no', kz_no);
+    $.ajax({
+        url: '/SaveReview',
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            console.log('리뷰가 성공적으로 저장되었습니다.');
+            console.log("받기 : " + response)
+            alert("리뷰가 등록되었습니다!.")
+            $('#exampleModal').modal('hide');
+        },
+        error: function(error) {
+            console.error('리뷰 저장에 실패했습니다: ', error);
+        }
+    });
+}
+
+function resetReviewForm() {
+    // 폼 리셋
+    $('#reviewForm')[0].reset();
+
+    $('#preview').attr('src', ''); // 빈 문자열로 src 속성을 비움
+    
+    
+}
+
+
 
 	</script>
 </body>

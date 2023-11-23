@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kidzpark.kidzzone.domain.ImgFile;
 import com.kidzpark.kidzzone.domain.KidzzoneVo;
 import com.kidzpark.kidzzone.domain.ReviewVo;
 import com.kidzpark.kidzzone.mapper.KidzzoneMapper;
@@ -232,16 +236,42 @@ public class KidzzoneController {
 	
 	@RequestMapping("/KidzzoneReview")
 	@ResponseBody
-	public HashMap<String, Object> kidzzoneReview(@RequestParam int kz_no,
+	public List<HashMap<String, Object>> kidzzoneReview(@RequestParam int kz_no,
 			@RequestParam HashMap<String, Object> map
 			) {
 		
-		map.put("kz_no", kz_no);
 		
-		HashMap<String, Object> reviewList  =  kidzzoneMapper.reviewList(map);
+		List<HashMap<String, Object>> reviewList  =  kidzzoneMapper.reviewList(map);
 		
 		System.out.println("List : " + reviewList);
 		return reviewList;
 	}
 
+	@RequestMapping("/SaveReview")
+	@ResponseBody
+	public HashMap<String, Object> saveReview(@RequestParam HashMap<String, Object> map,
+			@RequestParam MultipartFile r_reviewimg,
+			@RequestParam String r_review,
+			@RequestParam int kz_no,
+			@RequestParam int u_no,
+			HttpServletRequest request
+			) {
+		
+		map.put("kz_no", kz_no);
+		map.put("u_no", u_no);
+		
+		if(!r_reviewimg.isEmpty()) {
+			ImgFile.save(map, request);
+			kidzzoneMapper.insertReviewFile(map);
+		} else {
+			kidzzoneMapper.insertReviewNoFile(map);
+		}
+		System.out.println("map : " + map);
+		
+		return map;
+	}
+	
+	
+	
+	
 }

@@ -137,9 +137,36 @@ WHERE 1 = 1
 FROM ZONEREVIEW Z
 LEFT JOIN PUSER U ON Z.U_NO  =  U.U_NO
 WHERE Z.KZ_NO = #{kz_no}
+ORDER BY R_REVIEWDATE ASC
  
  
  </select>
+ 
+ <insert id="insertReviewFile">
+ 
+ INSERT INTO ZONEREVIEW( KZ_NO, U_NO, R_REVIEW, R_REVIEWDATE, R_REVIEWIMG )
+ VALUES (
+ #{kz_no},
+ #{u_no},
+ #{r_review},
+ SYSDATE,
+ #{r_reviewimg}
+ )
+ 
+ </insert>
+ 
+ <insert id="insertReviewNoFile">
+ 
+ INSERT INTO ZONEREVIEW( KZ_NO, U_NO, R_REVIEW, R_REVIEWDATE )
+ VALUES (
+ #{kz_no},
+ #{u_no},
+ #{r_review},
+ SYSDATE
+ )
+ 
+ </insert>
+ 
  
  
 </mapper>
