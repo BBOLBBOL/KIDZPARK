@@ -253,7 +253,7 @@ public class BoardController {
 
 	// 글 지우기
 	@RequestMapping("/BoardDelete")
-	public ModelAndView delete(@RequestParam HashMap<String, Object> map) {
+	public ModelAndView boarddelete(@RequestParam HashMap<String, Object> map) {
 
 		boardMapper.boardDelete(map);
 
@@ -405,7 +405,136 @@ public class BoardController {
 		
 	}
 	
+	@RequestMapping("/MyArticles")
+	public ModelAndView myarticles(BoardVo vo, PagingVo pg, int m_no, int u_no,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage) {
+		
+		ModelAndView mv = new ModelAndView();
 
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("m_no", m_no);
+		map.put("u_no", u_no);
+
+		String m_name = boardMapper.selectMenuname(map);
+
+		int total = boardMapper.countMyarticles(map);
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "5";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "5";
+		}
+
+		pg = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+
+		map.put("pg", pg);
+
+		List<BoardVo> myarticles = boardMapper.getmyarticles(map);
+		
+		mv.addObject("myarticles", myarticles);
+		mv.addObject("pg", pg);
+		mv.addObject("m_name", m_name);
+		mv.addObject("m_no", m_no);
+
+		mv.setViewName("board/myarticles");
+
+		return mv;
+	}
+	
+	@RequestMapping("/SearchArticles")
+	@ResponseBody
+	public ModelAndView searcharticles(BoardVo vo, PagingVo pg, int m_no, int u_no,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage,
+			@RequestParam(value = "searchOption", required = false) String searchOption,
+			@RequestParam(value = "searchKeyword", required = false) String searchKeyword) throws Exception {
+
+		if (searchOption.equals("all") || searchKeyword.equals("")) {
+			ModelAndView mv = new ModelAndView();
+
+			Map<String, Object> map = new HashMap<String, Object>();
+
+			map.put("m_no", m_no);
+			map.put("u_no", u_no);
+
+			String m_name = boardMapper.selectMenuname(map);
+
+			int total = boardMapper.countMyarticles(map);
+			if (nowPage == null && cntPerPage == null) {
+				nowPage = "1";
+				cntPerPage = "5";
+			} else if (nowPage == null) {
+				nowPage = "1";
+			} else if (cntPerPage == null) {
+				cntPerPage = "5";
+			}
+
+			pg = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+
+			map.put("pg", pg);
+
+			List<BoardVo> myarticles = boardMapper.getmyarticles(map);
+
+			mv.addObject("myarticles", myarticles);
+			mv.addObject("pg", pg);
+			mv.addObject("m_name", m_name);
+			mv.addObject("m_no", m_no);
+
+			mv.setViewName("board/myarticles");
+
+
+			return mv;
+
+		} else {
+			
+
+			ModelAndView mv = new ModelAndView();
+
+			Map<String, Object> map = new HashMap<String, Object>();
+
+			map.put("searchKeyword", searchKeyword);
+			map.put("searchOption", searchOption);
+			map.put("m_no", m_no);
+			map.put("u_no", u_no);
+
+
+			String m_name = boardMapper.selectMenuname(map);
+
+			int total = boardMapper.countSearchArticles(map);
+			if (nowPage == null && cntPerPage == null) {
+				nowPage = "1";
+				cntPerPage = "5";
+			} else if (nowPage == null) {
+				nowPage = "1";
+			} else if (cntPerPage == null) {
+				cntPerPage = "5";
+			}
+
+			pg = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+
+			map.put("pg", pg);
+
+			List<BoardVo> searcharticles = boardMapper.getSearchArticles(map);
+
+			mv.addObject("searcharticles", searcharticles);
+			mv.addObject("pg", pg);
+			mv.addObject("m_name", m_name);
+			mv.addObject("m_no", m_no);
+			mv.addObject("searchKeyword", searchKeyword);
+			mv.addObject("searchOption", searchOption);
+
+			mv.setViewName("board/searcharticles");
+
+
+			return mv;
+		}
+
+	}
+	
 	
 	
 }

@@ -67,6 +67,14 @@ public interface BoardMapper {
 
 	public void boardLike(HashMap<String, Object> map);
 
+	public int countMyarticles(Map<String, Object> map);
+
+	public List<BoardVo> getmyarticles(Map<String, Object> map);
+
+	public int countSearchArticles(Map<String, Object> map);
+
+	public List<BoardVo> getSearchArticles(Map<String, Object> map);
+
 
 
 
