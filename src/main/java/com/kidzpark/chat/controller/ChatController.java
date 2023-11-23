@@ -45,6 +45,7 @@ public class ChatController {
 		roomList = chatMapper.getRoom(map);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("chat/room");
+		System.out.println(roomList);
 		return mv;
 	}
 	
@@ -90,11 +91,20 @@ public class ChatController {
 		ModelAndView mv = new ModelAndView();
 		int chr_no = Integer.parseInt((String) map.get("chr_no"));
 		
+		System.out.println(map);
+		
 		UserVo loggedInUser = (UserVo) session.getAttribute("loginVo");
 	    String u_nickname = loggedInUser.getU_nickname();
 		List<Room> new_list = roomList.stream().filter(o->o.getChr_no()==chr_no).collect(Collectors.toList());
 		if(new_list != null && new_list.size() > 0) {
+			
+			int chatusercount =  chatMapper.countChatroommember(map);
+			
+			if(chatusercount < 1) {
+			chatMapper.joinChatroom(map);
+			} 
 			mv.addObject("chr_title", map.get("chr_title"));
+			mv.addObject("u_id", map.get("u_id"));
 			mv.addObject("chr_no", map.get("chr_no"));
 			mv.addObject("u_nickname", u_nickname); // 사용자 정보를 전달
 			mv.setViewName("chat/chat");

@@ -301,13 +301,6 @@ input[type="text"], input[type="password"] {
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
     <script>
-    function ChangePw(){
-    	var u_id = $('#u_id').val();
-    	var u_pw = $('#user_pw1').val();
-    	var url = '/UpdatePwForm?u_id=' + u_id + '&u_pw=' + u_pw;
-        window.open(url, '비밀번호 변경', 'width=400,height=300');
-    }
-    
     function u_execDaumPostcode() {
 		new daum.Postcode(
 				{
@@ -360,56 +353,7 @@ input[type="text"], input[type="password"] {
 					}
 				}).open();
 	}
-    
-    function readURL(input) {
-		if (input.files && input.files[0]) {
-			var reader = new FileReader();
-			reader.onload = function(e) {
-				document.getElementById('preview').src = e.target.result;
-			};
-			reader.readAsDataURL(input.files[0]);
-		} else {
-			document.getElementById('preview').src = "";
-		}
-	}
-    
-    var isIdChecked  =  false;
 	   
-	   function validateForm() {
-	      var requiredFields = document.querySelectorAll('input[required]');
-	      for (var i = 0; i < requiredFields.length; i++) {
-	          if (requiredFields[i].value.trim() === '') {
-	              alert("필수 입력란을 작성하세요.");
-	              event.preventDefault();
-	              return false;
-	          }
-	      }
-	      return true;
-	  }
-	   
-	   
-	  $('form').submit(function (event) {
-		    event.preventDefault(); // 기본 동작 중단
-
-		    // AJAX로 서버에 폼 데이터 전송
-		    $.ajax({
-		        url: '/UserUpdate',
-		        type: 'POST',
-		        data: new FormData(this),
-		        contentType: false,
-		        processData: false,
-		        success: function (response) {
-		            
-		            alert('회원수정이 완료되었습니다.');
-		            // 다른 동작 수행 (예: 페이지 이동 등)
-		            window.location.href = '/';
-		        },
-		        error: function (xhr, status, error) {
-		            alert('회원수정에 실패했습니다. 다시 시도해주세요.');
-		            console.error(xhr, status, error);
-		        }
-		    });
-		});
     </script>
     
 </body>

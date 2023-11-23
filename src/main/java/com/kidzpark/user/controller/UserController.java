@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kidzpark.user.domain.ImgFile;
 import com.kidzpark.user.domain.UserVo;
 import com.kidzpark.user.mapper.UserMapper;
 import com.kidzpark.user.service.MailService;
@@ -63,12 +67,24 @@ public class UserController {
 	public ModelAndView updateForm(UserVo vo) {
 		System.out.println("UserVo2 : " + vo);
 		
-		List<UserVo> infoList = userMapper.userInfo(vo);
-		System.out.println("infoList : " + infoList);
+		//List<UserVo> infoList = userMapper.userInfo(vo);
+		//System.out.println("infoList : " + infoList);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("user/update");
-		mv.addObject("infoList", infoList);
+		//mv.addObject("infoList", infoList);
 		return mv;
+	}
+	
+	@RequestMapping("/InfoList")
+	@ResponseBody
+	public ResponseEntity<UserVo> infoList(UserVo vo) {
+		UserVo userVo = userMapper.userInfo1(vo); // 적절한 메서드로 사용자 정보를 가져오는 예시
+
+	    if (userVo != null) {
+	        return new ResponseEntity<>(userVo, HttpStatus.OK);
+	    } else {
+	        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	    }
 	}
 	
 	@GetMapping("/UpdatePwForm")
@@ -96,5 +112,18 @@ public class UserController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-	
+	@RequestMapping("/UserUpdate")
+	public ModelAndView userUpdate(@RequestParam MultipartFile u_profileimg, @RequestParam HashMap<String, Object> map, HttpServletRequest request){
+		if( !u_profileimg.isEmpty() ) {
+			ImgFile.save( map, request );
+			System.out.println("map1 : " + map);
+			userMapper.userUpdate1(map);
+		} else {
+			System.out.println("map2 : " + map);
+			userMapper.userUpdate2(map);
+		}
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/index");
+		return mv;
+	}
 }

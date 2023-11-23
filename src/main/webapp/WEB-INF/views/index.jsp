@@ -262,9 +262,6 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    <script>
-    console.log(${loginVo});
-    </script>
 </body>
 
 </html>

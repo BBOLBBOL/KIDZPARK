@@ -23,5 +23,9 @@ public interface ChatMapper {
 
 	void insertMessage(ChatMessage message);
 
+	void joinChatroom(HashMap<Object, Object> map);
+
+	int countChatroommember(HashMap<Object, Object> map);
+
 
 }

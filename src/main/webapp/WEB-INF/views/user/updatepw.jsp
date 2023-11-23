@@ -73,7 +73,7 @@ input[type="password"]{
         <!-- Header End -->     
        <div class="wrap">
 			
-       		<form id="form" action="/UpdatePw" method="post">
+       		<form id="form" action="/UpdatePw" method="post" onsubmit="submitForm(event)">
        		<input type="hidden" name="u_id" id="u_id" value="${loginVo.u_id}" >
        			<table>
        			<h3 id="h3">새로운 비밀번호로 재설정해주세요</h3>
@@ -96,7 +96,7 @@ input[type="password"]{
 					<tr>
 					<td colspan="2">
 						<div id="div1">
-							<button id="submit" type="submit" onclick="submitForm()" class="btn btn-primary">변경하기</button>
+							<button id="submit" type="submit" class="btn btn-primary">변경하기</button>
 						</div>
 					</td>
 				</tr>
@@ -159,25 +159,28 @@ $("#user_pw2").blur(
 <script>
 function submitForm(event){
 	event.preventDefault();
-	let u_pw = $('#user_pw1').val();
+    let u_pw = $('#user_pw1').val();
     let u_id = $('#u_id').val();
 
-	$.ajax({
-		url  : '/UpdatePw',
-		   type : 'POST',
-		   data: {u_id : u_id, u_pw : u_pw},
-		   success: function (response) {
-			    alert('비밀번호 수정이 완료되었습니다.');
-			    window.close();
-			    
-		   },
-		   error: function (xhr, status, error) {
-	            alert('비밀번호 변경에 실패했습니다. 다시 시도해주세요.');
-	            console.error(xhr, status, error);
-		   }
-	});
+    $.ajax({
+        url  : '/UpdatePw',
+        type : 'POST',
+        data: {u_id : u_id, u_pw : u_pw},
+        success: function (response) {
+            alert('비밀번호 수정이 완료되었습니다.');
+            
+            // 아래 두 줄이 팝업 창이 닫힐 때 실행되는 코드입니다.
+            window.opener.$('#user_pw1').val(response.u_pw); // 부모 창의 필요한 요소에 접근하여 값을 변경
+            window.opener.location.reload(); // 부모 창 새로고침
+
+            window.close();
+        },
+        error: function (xhr, status, error) {
+            alert('비밀번호 변경에 실패했습니다. 다시 시도해주세요.');
+            console.error(xhr, status, error);
+        }
+    });
 }
-$("#submit").click(submitForm);
 
 </script>
 </body>

@@ -19,6 +19,15 @@
 	
 </select>
 
+<select id="pCheck"
+  parameterType="com.kidzpark.user.domain.UserVo"
+  resultType = "int">
+   
+   SELECT COUNT(U_PHONE) FROM PUSER 
+    WHERE U_PHONE  =  #{u_phone}
+	
+</select>
+
 <select id="NCheck"
   parameterType="com.kidzpark.user.domain.UserVo"
   resultType = "int">

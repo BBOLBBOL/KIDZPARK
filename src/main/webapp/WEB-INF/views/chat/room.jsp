@@ -98,6 +98,7 @@
 
 <script type="text/javascript">
 	var ws;
+
 	window.onload = function(){
 		getRoom();
 		createRoom();
@@ -118,11 +119,12 @@
 			});
 
 			$("#chr_title").val("");
+			window.location.href = '/room';
 		});
 	}
 
-	function goRoom(number, name){
-		location.href="/moveChating?chr_title="+name+"&"+"chr_no="+number;
+	function goRoom(number, name, u_no){
+		location.href="/moveChating?chr_title="+name+"&"+"chr_no="+number+"&"+"u_no="+u_no;
 	}
 
 	function createChatingRoom(res){
@@ -131,10 +133,11 @@
 			res.forEach(function(d, idx){
 				var rn = d.chr_title.trim();
 				var chr_no = d.chr_no;
+				var u_no = ${loginVo.u_no};
 				tag += "<tr>"+
 							"<td class='num'>"+(idx+1)+"</td>"+
 							"<td class='room'>"+ rn +"</td>"+
-							"<td class='go'><button type='button' onclick='goRoom(\""+chr_no+"\", \""+rn+"\")'>참여</button></td>" +
+							"<td class='go'><button type='button' onclick='goRoom(\""+chr_no+"\", \""+rn+"\", \""+u_no+"\")'>참여</button></td>" +
 						"</tr>";	
 			});
 			$("#roomList").empty().append(tag);

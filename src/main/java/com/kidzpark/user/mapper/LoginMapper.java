@@ -22,5 +22,7 @@ public interface LoginMapper {
 	UserVo login(UserVo vo);
 
 	void updatePw(UserVo vo);
+
+	int pCheck(String u_phone);
 	
 }

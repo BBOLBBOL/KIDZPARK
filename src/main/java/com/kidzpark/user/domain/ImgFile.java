@@ -62,7 +62,7 @@ public class ImgFile {
 	        }
 	        
 	        map.put("u_profileimg", u_profileimg);
-	      //  System.out.println("map2 : " + map);
+	        System.out.println("map5 : " + map);
 	       // u_profileimg = vo.getU_id();
 	       // vo.setU_profileimg(u_profileimg);
 	 }

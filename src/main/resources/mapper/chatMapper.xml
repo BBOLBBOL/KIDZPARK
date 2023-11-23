@@ -17,12 +17,19 @@ VALUES( (SELECT NVL(MAX(CHR_NO),0)+1 FROM CHATROOM), #{chr_title}, SYSDATE)
 
 <select id="getRoom" resultType="com.kidzpark.chat.service.Room">
 SELECT 
-		CHR_NO
-	   ,CHR_TITLE
-	   ,CHR_OPENDATE
-	   
- FROM CHATROOM 	   
- ORDER BY CHR_NO ASC
+		C.CHR_NO,
+		C.CHR_TITLE,
+		C.CHR_OPENDATE,
+		(SELECT COUNT(CB.U_NO) FROM CHATMEMBER CB WHERE CB.CHR_NO = C.CHR_NO) AS CHR_PEOPLECOUNT 
+ FROM CHATROOM C 	   
+ ORDER BY C.CHR_NO ASC
+ 
+</select>
+
+<select id="countChatroommember" resultType="int">
+SELECT  COUNT(*)
+ FROM CHATMEMBER 	   
+ WHERE U_NO = #{u_no} AND CHR_NO = #{chr_no}
  
 </select>
 
@@ -41,6 +48,11 @@ SELECT
 <insert id="insertMessage">
 	INSERT INTO CHAT (CHR_NO, CHR_MESSAGE, CHR_SUBMITTIME, U_NO)
 	VALUES( #{chr_no}, #{chr_message}, SYSDATE, #{u_no} )
+</insert>
+
+<insert id="joinChatroom">
+	INSERT INTO CHATMEMBER (CHR_NO, U_NO)
+	VALUES( #{chr_no}, #{u_no} )
 </insert>
 
 </mapper>
