@@ -29,45 +29,94 @@
  <!-- Template Stylesheet -->
  <link href="css/style.css" rel="stylesheet">
 	
-	<style>
-		*{
-			margin:0;
-			padding:0;
-		}
-		.container1{
-			width: 600px;
-			margin: 0 auto;
-			padding: 25px
-		}
-		.container1 h1{
-			text-align: left;
-			padding: 5px 5px 5px 15px;
-			color: #FFBB00;
-			border-left: 3px solid #FFBB00;
-			margin-bottom: 20px;
-		}
-		.chating{
-			background-color: #000;
-			width: 500px;
-			height: 500px;
-			overflow: auto;
-		}
-		.chating .me{
-			color: #F6F6F6;
-			text-align: right;
-		}
-		.chating .others{
-			color: #FFE400;
-			text-align: left;
-		}
-		input{
-			width: 330px;
-			height: 25px;
-		}
-		#yourMsg{
-			display: none;
-		}
-	</style>
+<style>
+*{
+	margin:0;
+	padding:0;
+}
+.container1{
+	width: 600px;
+	margin: 0 auto;
+	padding: 25px
+}
+.container1 h1{
+	text-align: center;
+	padding: 5px 5px 5px 15px;
+	color: #00B98E;
+	margin-bottom: 20px;
+}
+.chating{
+	background-color: #fff;
+	width: 500px;
+	height: 500px;
+	overflow: auto;
+	margin: auto;
+}
+.chating .others {
+	text-align: left;
+    padding: 11px 12px 9px;
+    color: black;
+    background-color: #f4f4f4;
+    overflow: hidden;
+    border-radius: 3px 16px 16px;
+    font-size: 15px;
+    line-height: 1.33;
+    word-break: break-word;
+    word-wrap: break-word;
+    vertical-align: bottom;
+    margin-bottom: 10px; /* 각 채팅 엘리먼트 사이에 간격 추가 */
+    display: block; /* inline-block 대신 block으로 변경 */
+    width: fit-content; /* 콘텐츠의 크기만큼만 배경이 적용되도록 설정 */
+}
+
+.chating .me {
+    text-align: right;
+    padding: 11px 12px 9px;
+    overflow: hidden;
+    display: block;
+    clear: both;  /* 추가된 부분 */
+    position: relative;
+    z-index: 0;
+    max-width: 100%;
+    margin-left: auto;  /* 추가된 부분 */
+    border-radius: 16px 16px 3px;
+    font-size: 15px;
+    line-height: 1.33;
+    background-color: #d9f7e7;
+    word-break: break-word;
+    word-wrap: break-word;
+    vertical-align: bottom;
+    margin-bottom: 10px;
+    width: fit-content;
+}
+
+input{
+	width: 350px;
+	height: 40x;
+	margin-right : 10px;
+	padding: 9px 70px 7px 10px;
+    box-sizing: border-box;
+    border-radius: 18px;
+    background-color: #f5f6f8;
+}
+#yourMsg{
+	display: none;
+}
+#sendBtn {
+	margin-left : 10px;
+	display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    vertical-align: top;
+    transform-origin: center center 27px;
+    background-color: white;
+    border: none; /* 테두리 제거 */
+}
+#leftBtn {
+
+}
+</style>
 </head>
 
 <script type="text/javascript">
@@ -190,18 +239,99 @@
                 </c:choose>
             </c:forEach>
 		</div>
-		
+		<br>
 		<div id="yourMsg">
-			<table class="inputTable">
+			<table class="inputTable" style="margin: auto;">
 				<tr>
-					<th>메시지</th>
 					<th><input id="chatting" name="chr_message" placeholder="보내실 메시지를 입력하세요."></th>
-					<th><button onclick="send()" id="sendBtn">보내기</button></th>
-					<th><button onclick="leftBtn()" id="leftBtn">나가기</button></th>
+					<th><button onclick="send()" id="sendBtn">
+					<img src="https://ca-fe.pstatic.net/web-talk/static/img/sprite_talkwrite_1cd38f.svg#04b56c-usage" alt="Send" style="max-width: 100%; max-height: 100%;">
+					</button>
+					</th>
 				</tr>
 			</table>
+			<br>
+			<div style="text-align: center;">
+					<button onclick="leftBtn()" id="leftBtn" class="btn btn-secondary">나가기</button>
+			</div>		
 		</div>
 	</div>
+		<!-- Footer Start -->
+		<div
+			class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn"
+			data-wow-delay="0.1s">
+			<div class="container py-5">
+				<div class="row g-5">
+					<div class="col-lg-3 col-md-6">
+						<h5 class="text-white mb-4">Get In Touch</h5>
+						<p class="mb-2">
+							<i class="fa fa-map-marker-alt me-3"></i>그린아카데미
+						</p>
+						<p class="mb-2">
+							<i class="fa fa-phone-alt me-3"></i>010-0000-0000
+						</p>
+						<p class="mb-2">
+							<i class="fa fa-envelope me-3"></i>green@naver.com
+						</p>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<h5 class="text-white mb-4">Quick Links</h5>
+						<a class="btn btn-link text-white-50" href="/Kidzzone">예스키즈존</a> <a
+							class="btn btn-link text-white-50" href="/BoardList">게시판</a> <a
+							class="btn btn-link text-white-50" href="">채팅방</a> <a
+							class="btn btn-link text-white-50" href="">고객문의</a> <a
+							class="btn btn-link text-white-50" href="">마이 페이지</a>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<h5 class="text-white mb-4">Newsletter</h5>
+						<p>
+							어린이 관련 뉴스를 <br>이메일로 받아보세요!
+						</p>
+						<div class="position-relative mx-auto" style="max-width: 400px;">
+							<input class="form-control bg-transparent w-100 py-3 ps-4 pe-5"
+								type="text" placeholder="이메일 입력">
+							<button type="button"
+								class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">구독</button>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-6">
+						<h5 class="text-white mb-4">About</h5>
+						<p>
+							키즈파크에 오신것을 환영합니다.<br>많은 이용 부탁드립니다!
+						</p>
+						<div class="d-flex pt-2">
+							<a class="btn btn-outline-light btn-social" href=""><i
+								class="fab fa-twitter"></i></a> <a
+								class="btn btn-outline-light btn-social" href=""><i
+								class="fab fa-facebook-f"></i></a> <a
+								class="btn btn-outline-light btn-social" href=""><i
+								class="fab fa-youtube"></i></a> <a
+								class="btn btn-outline-light btn-social" href=""><i
+								class="fab fa-linkedin-in"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="copyright">
+					<div class="row">
+						<div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+							&copy; <a class="border-bottom" href="#">KidzPark</a>, All Right
+							Reserved.
+
+						</div>
+						<div class="col-md-6 text-center text-md-end">
+							<div class="footer-menu">
+								<a href="">Home</a> <a href="">게시판</a> <a href="">채팅방</a> <a
+									href="">고객센터</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Footer End -->
+		</div>
 	<!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

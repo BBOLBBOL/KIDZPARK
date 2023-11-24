@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.kidzpark.chat.service.ChatMessage;
-import com.kidzpark.chat.service.Room;
+import com.kidzpark.chat.domain.ChatMessage;
+import com.kidzpark.chat.domain.Room;
 
 @Mapper
 public interface ChatMapper {

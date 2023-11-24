@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kidzpark.chat.domain.ChatMessage;
+import com.kidzpark.chat.domain.Room;
 import com.kidzpark.chat.mapper.ChatMapper;
-import com.kidzpark.chat.service.ChatMessage;
-import com.kidzpark.chat.service.Room;
 import com.kidzpark.user.domain.UserVo;
 
 @Controller
@@ -36,7 +36,6 @@ public class ChatController {
 		mv.setViewName("chat/chat");
 		return mv;
 	}
-	
 	/**
 	 * 방 페이지
 	 * @return

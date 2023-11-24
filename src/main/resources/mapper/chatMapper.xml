@@ -3,7 +3,7 @@
 <mapper namespace="com.kidzpark.chat.mapper.ChatMapper">
 
 
-<insert id="update" parameterType="com.kidzpark.chat.service.ChatMessage">
+<insert id="update" parameterType="com.kidzpark.chat.domain.ChatMessage">
 
 INSERT INTO CHAT ( CHR_NO, CHR_MESSAGE, U_NO)
 VALUES( #{chr_no}, #{chr_message}, #{u_no})
@@ -15,7 +15,7 @@ INSERT INTO CHATROOM ( CHR_NO, CHR_TITLE, CHR_OPENDATE)
 VALUES( (SELECT NVL(MAX(CHR_NO),0)+1 FROM CHATROOM), #{chr_title}, SYSDATE)
 </insert>
 
-<select id="getRoom" resultType="com.kidzpark.chat.service.Room">
+<select id="getRoom" resultType="com.kidzpark.chat.domain.Room">
 
 SELECT 
 		C.CHR_NO,
@@ -34,7 +34,7 @@ SELECT  COUNT(*)
  
 </select>
 
-<select id="msgList" resultType="com.kidzpark.chat.service.ChatMessage">
+<select id="msgList" resultType="com.kidzpark.chat.domain.ChatMessage">
 SELECT
 	 C.CHR_NO
 	,C.CHR_MESSAGE
