@@ -1,4 +1,4 @@
-package com.kidzpark.chat.service;
+package com.kidzpark.chat.domain;
 
 import lombok.Getter;
 import lombok.Setter;

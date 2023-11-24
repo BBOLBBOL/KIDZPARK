@@ -9,15 +9,16 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kidzpark.chat.domain.ChatMessage;
+import com.kidzpark.chat.domain.Room;
 import com.kidzpark.chat.mapper.ChatMapper;
-import com.kidzpark.chat.service.ChatMessage;
-import com.kidzpark.chat.service.Room;
 import com.kidzpark.user.domain.UserVo;
 
 @Controller
@@ -35,7 +36,6 @@ public class ChatController {
 		mv.setViewName("chat/chat");
 		return mv;
 	}
-	
 	/**
 	 * 방 페이지
 	 * @return
@@ -45,6 +45,7 @@ public class ChatController {
 		roomList = chatMapper.getRoom(map);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("chat/room");
+		System.out.println(roomList);
 		return mv;
 	}
 	
@@ -56,13 +57,11 @@ public class ChatController {
 	@RequestMapping("/createRoom")
 	public @ResponseBody List<Room> createRoom(@RequestParam HashMap<Object, Object> map){
 		String chr_title = (String) map.get("chr_title");
-		
 		if(chr_title != null && !chr_title.trim().equals("")) {
 			Room room = new Room();
 			room.setChr_title(chr_title);
 			
 			chatMapper.insertRoom(room);
-			
 			roomList.add(room);
 		}
 		return roomList;
@@ -75,9 +74,8 @@ public class ChatController {
 	 */
 	@RequestMapping("/getRoom")
 	public @ResponseBody List<Room> getRoom(@RequestParam HashMap<Object, Object> map){
-		
 		roomList = chatMapper.getRoom(map);
-		
+		System.out.println("roomList : " + roomList);
 		return roomList;
 	}
 	
@@ -90,11 +88,20 @@ public class ChatController {
 		ModelAndView mv = new ModelAndView();
 		int chr_no = Integer.parseInt((String) map.get("chr_no"));
 		
+		System.out.println(map);
+		
 		UserVo loggedInUser = (UserVo) session.getAttribute("loginVo");
 	    String u_nickname = loggedInUser.getU_nickname();
 		List<Room> new_list = roomList.stream().filter(o->o.getChr_no()==chr_no).collect(Collectors.toList());
 		if(new_list != null && new_list.size() > 0) {
+			
+			int chatusercount =  chatMapper.countChatroommember(map);
+			
+			if(chatusercount < 1) {
+			chatMapper.joinChatroom(map);
+			} 
 			mv.addObject("chr_title", map.get("chr_title"));
+			mv.addObject("u_id", map.get("u_id"));
 			mv.addObject("chr_no", map.get("chr_no"));
 			mv.addObject("u_nickname", u_nickname); // 사용자 정보를 전달
 			mv.setViewName("chat/chat");
@@ -113,4 +120,13 @@ public class ChatController {
 	    chatMapper.insertMessage(message);
 	    return "success";
 	}
+	
+	@PostMapping("/getChatroomMembers")
+	@ResponseBody
+	public int getChatroomMembers(@RequestParam HashMap<Object, Object> map) {
+		int members =  chatMapper.countChatroommember(map);
+		System.out.println("map : "+ map);
+        return members;
+	}
+	
 }

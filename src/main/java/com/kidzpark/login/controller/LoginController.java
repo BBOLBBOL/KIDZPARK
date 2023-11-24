@@ -128,6 +128,15 @@ public class LoginController {
 		return result;
 	}
 	
+	// 핸드폰체크
+	@GetMapping("/pCheck")
+	@ResponseBody
+	public int  pCheck(UserVo vo) {
+		String u_phone = vo.getU_phone();
+		int result  = loginMapper.pCheck(u_phone);
+		return result;
+	}
+	
 	// 구글이메일 인증
 	@PostMapping("/Mail")
 	@ResponseBody

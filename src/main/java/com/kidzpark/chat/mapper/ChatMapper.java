@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.kidzpark.chat.service.ChatMessage;
-import com.kidzpark.chat.service.Room;
+import com.kidzpark.chat.domain.ChatMessage;
+import com.kidzpark.chat.domain.Room;
 
 @Mapper
 public interface ChatMapper {
@@ -22,6 +22,10 @@ public interface ChatMapper {
 	List<ChatMessage> msgList(ChatMessage msg);
 
 	void insertMessage(ChatMessage message);
+
+	void joinChatroom(HashMap<Object, Object> map);
+
+	int countChatroommember(HashMap<Object, Object> map);
 
 
 }

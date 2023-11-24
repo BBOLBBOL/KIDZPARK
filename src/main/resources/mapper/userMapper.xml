@@ -16,11 +16,36 @@
 <select id="userInfo" parameterType="com.kidzpark.user.domain.UserVo">
 	SELECT * FROM PUSER WHERE U_ID = #{u_id}	
 </select>
+<select id="userInfo1" parameterType="com.kidzpark.user.domain.UserVo">
+	SELECT * FROM PUSER WHERE U_ID = #{u_id}	
+</select>
 
-<update id="updatePw">
+<update id="updatePw" parameterType="com.kidzpark.user.domain.UserVo">
 	UPDATE PUSER SET 
 	  U_PW = #{u_pw}
 	 WHERE U_ID = #{u_id} 
+</update>
+<update id="userUpdate1">
+	UPDATE PUSER SET
+	U_POSTCODE      = #{u_postcode},
+	U_ADDRESS       = #{u_address},
+	U_DETAILADDRESS = #{u_detailaddress},
+	U_EXTRAADDRESS  = #{u_extraaddress},
+	U_PHONE         = #{u_phone},
+	U_PROFILEIMG    = #{u_profileimg},
+	U_NICKNAME      = #{u_nickname}
+	WHERE U_ID      = #{u_id}
+</update>
+
+<update id="userUpdate2">
+	UPDATE PUSER SET
+	U_POSTCODE      = #{u_postcode},
+	U_ADDRESS       = #{u_address},
+	U_DETAILADDRESS = #{u_detailaddress},
+	U_EXTRAADDRESS  = #{u_extraaddress},
+	U_PHONE         = #{u_phone},
+	U_NICKNAME      = #{u_nickname}
+	WHERE U_ID      = #{u_id}
 </update>
 
 </mapper>

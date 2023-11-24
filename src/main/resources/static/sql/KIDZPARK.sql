@@ -1,3 +1,11 @@
+BEGIN
+  FOR cur_rec IN (SELECT table_name FROM user_tables) LOOP
+    EXECUTE IMMEDIATE 'DROP TABLE ' || cur_rec.table_name || ' CASCADE CONSTRAINTS';
+  END LOOP;
+END;
+/
+-- 위에는 모든 테이블 삭제 명령어
+
 CREATE TABLE puser (
   u_no NUMBER(6) PRIMARY KEY,
   u_id VARCHAR2(150) UNIQUE,
@@ -27,7 +35,6 @@ CREATE TABLE board (
   b_title VARCHAR2(255),
   b_cont VARCHAR2(4000),
   b_img VARCHAR2(255),
-  b_like NUMBER,
   b_readcount NUMBER,
   b_writedate DATE,
   b_update DATE,
@@ -48,8 +55,7 @@ CREATE TABLE commt (
 CREATE TABLE chatroom (
   chr_no NUMBER(6) PRIMARY KEY,
   chr_title VARCHAR2(255),
-  chr_opendate DATE,
-  chr_peoplecount NUMBER
+  chr_opendate DATE
 );
 
 CREATE TABLE chat (
@@ -59,6 +65,13 @@ CREATE TABLE chat (
   u_no NUMBER,
   FOREIGN KEY (chr_no) REFERENCES chatroom(chr_no),
   FOREIGN KEY (u_no) REFERENCES puser(u_no)
+);
+
+CREATE TABLE chatmember(
+chr_no number,
+u_no number,
+FOREIGN KEY (chr_no) REFERENCES chatroom(chr_no),
+FOREIGN KEY (u_no) REFERENCES puser(u_no)
 );
 
 CREATE TABLE kidzzone (
@@ -108,3 +121,9 @@ cs_answerdate DATE,
   FOREIGN KEY (cs_idx) REFERENCES cservice(cs_idx)
   );
 
+CREATE TABLE boardlike(
+  b_idx number,
+  u_no  number,
+  FOREIGN KEY (b_idx) REFERENCES board(b_idx),
+  FOREIGN KEY (u_no) REFERENCES puser(u_no)
+)
