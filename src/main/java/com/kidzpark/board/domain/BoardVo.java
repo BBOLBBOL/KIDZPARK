@@ -25,7 +25,9 @@ public class BoardVo {
    private String b_update;
    @NonNull
    private int    m_no;
-   @NonNull
    private int    u_no;
+   @NonNull
+   private String u_name;
+   
    
 }

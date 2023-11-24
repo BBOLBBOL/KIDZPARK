@@ -17,9 +17,18 @@
 FROM (
     SELECT ROWNUM RN, A.*
     FROM (
-   SELECT  *
-   FROM    BOARD
-   WHERE   M_NO = #{m_no}
+   SELECT B.B_IDX,
+B.B_TITLE,
+B.B_CONT,
+B.B_IMG,
+B.B_READCOUNT,
+B.B_WRITEDATE,
+B.M_NO,
+B.U_NO,
+(SELECT COUNT(U_NO) FROM BOARDLIKE BL WHERE B.B_IDX = BL.B_IDX) 
+AS B_LIKE
+   FROM    BOARD B LEFT JOIN PUSER U ON B.U_NO = U.U_NO
+   WHERE   B.M_NO = #{m_no}
      ORDER BY B_WRITEDATE DESC
     ) A
 )
@@ -33,8 +42,19 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
 FROM (
     SELECT ROWNUM RN, A.*
     FROM (
-   SELECT  *
-   FROM    BOARD
+    SELECT ROWNUM RN, A.*
+    FROM (
+   SELECT B.B_IDX,
+B.B_TITLE,
+B.B_CONT,
+B.B_IMG,
+B.B_READCOUNT,
+B.B_WRITEDATE,
+B.M_NO,
+B.U_NO,
+(SELECT COUNT(U_NO) FROM BOARDLIKE BL WHERE B.B_IDX = BL.B_IDX) 
+AS B_LIKE
+   FROM    BOARD B LEFT JOIN PUSER U ON B.U_NO = U.U_NO
    WHERE   M_NO = #{m_no}
    <if test="searchOption != 'all' and searchKeyword != ''">
         AND UPPER(${searchOption}) LIKE '%' || UPPER(#{searchKeyword}) || '%'
@@ -59,7 +79,7 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
   resultType="int">
    
    SELECT  COUNT(*)
-   FROM    BOARD
+   FROM    BOARD B JOIN PUSER U ON B.U_NO = U.U_NO
    WHERE   M_NO = #{m_no}
    <if test="searchOption != 'all' and searchKeyword != ''">
         AND UPPER(${searchOption}) LIKE '%' || UPPER(#{searchKeyword}) || '%'
@@ -68,12 +88,11 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
 	
 </select>
 
-  <insert  id="BoardWrite1">
+  <insert  id="boardWrite1">
      INSERT INTO  BOARD (
         B_IDX,
 		B_TITLE,
 		B_CONT,
-		B_LIKE,
 		B_READCOUNT,
 		B_WRITEDATE,
 		M_NO,
@@ -83,7 +102,6 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
 		#{b_title},
 		#{b_cont},
 		0,
-		0,
 		SYSDATE,
 		#{m_no},
 		#{u_no}
@@ -91,13 +109,15 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
   </insert>
   
   
-  <insert  id="BoardWrite2">
+  
+  
+  
+  <insert  id="boardWrite2">
        INSERT INTO  BOARD (
         B_IDX,
 		B_TITLE,
 		B_CONT,
 		B_IMG,
-		B_LIKE,
 		B_READCOUNT,
 		B_WRITEDATE,
 		M_NO,
@@ -108,7 +128,6 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
 		#{b_cont},
 		#{b_img},
 		0,
-		0,
 		SYSDATE,
 		#{m_no},
 		#{u_no}
@@ -117,12 +136,13 @@ WHERE RN BETWEEN #{pg.start} AND #{pg.end}
 
   <select id="boardView"
   resultType="map">
-   
+    
    SELECT  *
-   FROM    BOARD
-   WHERE   B_IDX = #{b_idx}
-	
+   FROM    BOARD B LEFT JOIN PUSER U ON B.U_NO = U.U_NO
+   WHERE   B.B_IDX = #{b_idx} 
+	 
 </select>
+
 
 <update id="updateReadcount">
 UPDATE BOARD SET 
@@ -135,6 +155,7 @@ DELETE FROM BOARD
 WHERE B_IDX = #{b_idx} 
 
 </delete>
+
 
 <update id="boardUpdate1">
 UPDATE BOARD SET 
@@ -154,6 +175,7 @@ B_WRITEDATE = SYSDATE
 WHERE B_IDX = #{b_idx} 
 
 </update>
+
 
 <insert  id="commentWrite">
      INSERT INTO  COMMT (
@@ -179,7 +201,7 @@ FROM (
     SELECT ROWNUM RN, A.*
     FROM (
 SELECT *
-    FROM COMMT
+    FROM COMMT C LEFT JOIN PUSER U ON C.U_NO = U.U_NO
 WHERE B_IDX = ${b_idx}
 ORDER BY C_IDX DESC
     ) A
@@ -194,6 +216,14 @@ SELECT COUNT(*) FROM COMMT
 WHERE B_IDX = ${b_idx}
  
  </select>
+ 
+<select id="countboardlikeuser" resultType="int">
+ 
+SELECT COUNT(*) FROM BOARDLIKE
+WHERE B_IDX = ${b_idx}
+AND   U_NO  = ${u_no}
+
+ </select>
 
   <select id="getnoticelist"
   resultType="com.kidzpark.board.domain.BoardVo">
@@ -204,6 +234,103 @@ WHERE B_IDX = ${b_idx}
      ORDER BY B_WRITEDATE DESC
 </select>
 
+  <select id="countboardlike"
+  resultType="int">
+   SELECT  COUNT(*)
+   FROM    BOARDLIKE
+   WHERE   B_IDX = #{b_idx} 
+   AND     U_NO  = #{u_no} 
+</select>
+
+<delete id="boardUnLike">
+DELETE FROM BOARDLIKE
+WHERE B_IDX = #{b_idx}
+AND   U_NO  = #{u_no}
+
+</delete>
+
+<insert  id="boardLike">
+     INSERT INTO  BOARDLIKE (
+		B_IDX,
+		U_NO
+     ) VALUES (
+		#{b_idx},
+		#{u_no}
+     )
+  </insert>
+  
+  <select id="countMyarticles" resultType="int">
+  SELECT COUNT(*)
+  FROM BOARD
+  WHERE M_NO = #{m_no}
+  AND   U_NO = #{u_no}
+  </select>
+  
+  <select id="getmyarticles" resultType="com.kidzpark.board.domain.BoardVo">
+  
+    SELECT *
+FROM (
+    SELECT ROWNUM RN, A.*
+    FROM (
+   SELECT B.B_IDX,
+B.B_TITLE,
+B.B_CONT,
+B.B_IMG,
+B.B_READCOUNT,
+B.B_WRITEDATE,
+B.M_NO,
+B.U_NO,
+(SELECT COUNT(U_NO) FROM BOARDLIKE BL WHERE B.B_IDX = BL.B_IDX) 
+AS B_LIKE
+   FROM    BOARD B LEFT JOIN PUSER U ON B.U_NO = U.U_NO
+   WHERE   B.M_NO = #{m_no}
+   AND     B.U_NO = #{u_no}
+     ORDER BY B_WRITEDATE DESC
+    ) A
+)
+WHERE RN BETWEEN #{pg.start} AND #{pg.end}   
+  
+  </select>
+  
+  <select id="getSearchArticles"
+  resultType="com.kidzpark.board.domain.BoardVo">
+   SELECT *
+FROM (
+    SELECT ROWNUM RN, A.*
+    FROM (
+   SELECT B.B_IDX,
+B.B_TITLE,
+B.B_CONT,
+B.B_IMG,
+B.B_READCOUNT,
+B.B_WRITEDATE,
+B.M_NO,
+B.U_NO,
+(SELECT COUNT(U_NO) FROM BOARDLIKE BL WHERE B.B_IDX = BL.B_IDX) 
+AS B_LIKE
+   FROM    BOARD B LEFT JOIN PUSER U ON B.U_NO = U.U_NO
+   WHERE   B.M_NO = #{m_no}
+   AND     B.U_NO = #{u_no}
+   <if test="searchOption != 'all' and searchKeyword != ''">
+        AND UPPER(${searchOption}) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+    </if>
+      ORDER BY B_WRITEDATE DESC
+    ) A
+)
+WHERE RN BETWEEN #{pg.start} AND #{pg.end} 
+	
+</select>
+
+<select id="countSearchArticles" resultType="int">
+  SELECT  COUNT(*)
+   FROM    BOARD B JOIN PUSER U ON B.U_NO = U.U_NO
+   WHERE   B.M_NO = #{m_no}
+   AND     B.U_NO = #{u_no}
+   <if test="searchOption != 'all' and searchKeyword != ''">
+        AND UPPER(${searchOption}) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+    </if>
+    
+  </select>
 
 
 </mapper>

@@ -6,7 +6,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>메인화면</title>
+<title>내가 쓴 글</title>
 <meta content="width=device-width, initial-scale=1.0" name="viewport">
 <meta content="" name="keywords">
 <meta content="" name="description">
@@ -75,7 +75,7 @@
 				class="row g-0 align-items-center flex-column-reverse flex-md-row">
 				<div class="p-5 mt-lg-5">
 					<h1 class="display-4 animated fadeIn mb-4"
-						style="margin-top: 13%; text-align: center;">${m_name}게시판</h1>
+						style="margin-top: 13%; text-align: center;">내가 쓴 ${m_name}게시판</h1>
 				</div>
 			</div>
 		</div>
@@ -84,11 +84,12 @@
 
 
 		<!-- Search Start -->
-		<form action="/BoardSearchList" method="post">
+		<form action="/SearchArticles" method="post">
 		<div class="container-fluid bg-primary mb-5 wow fadeIn"
 			data-wow-delay="0.1s" style="padding: 35px;">
 			<div class="container">
 			<input type="hidden" name="m_no" value="${m_no}">
+			<input type="hidden" name="u_no" value="${loginVo.u_no}">
 				<div class="row g-2">
 					<div class="col-md-10">
 						<div class="row g-2">
@@ -98,7 +99,6 @@
 									<option value="all" selected>검색</option>
 									<option value="b_title">제목</option>
 									<option value="b_cont">내용</option>
-									<option value="u_name">글쓴이</option>
 								</select>
 							</div>
 							<div class="col-md-3">
@@ -121,11 +121,11 @@
 		<div class="container-xxl py-5">
 			<hr>
 			<div style="margin: 10px 10px auto; text-align: center; ">
-			<a href="/BoardList?m_no=1" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">자유</a> <a
-				href="/BoardList?m_no=2" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">건강</a> <a
-				href="/BoardList?m_no=3" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">요리</a> <a
-				href="/BoardList?m_no=4" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">육아</a> <a
-				href="/BoardList?m_no=5" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">교육</a>
+			<a href="/MyArticles?m_no=1&u_no=${loginVo.u_no}" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">자유</a> <a
+				href="/MyArticles?m_no=2&u_no=${loginVo.u_no}" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">건강</a> <a
+				href="/MyArticles?m_no=3&u_no=${loginVo.u_no}" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">요리</a> <a
+				href="/MyArticles?m_no=4&u_no=${loginVo.u_no}" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">육아</a> <a
+				href="/MyArticles?m_no=5&u_no=${loginVo.u_no}" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">교육</a>
 				</div>
 			<table class="table table-hover">
 				<thead class="thead-white">
@@ -138,34 +138,22 @@
 					</tr>
 				</thead>
 				<tbody class="tbody-white">
-				<c:forEach var="notice" items="${getnoticelist}">
-						<tr style="background-color: #ffebee;">
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}" >${notice.b_like}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}">${notice.b_title}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}">관리자</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}" >${notice.b_writedate}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}" >${notice.b_readcount}</a></td>
-						</tr>
-					</c:forEach>
-				
-				
-				
-					<c:forEach var="board" items="${getboardlist}">
+					<c:forEach var="article" items="${myarticles}">
 						<tr>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}" >${board.b_like}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}">${board.b_title}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}">${board.u_name}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}" >${board.b_writedate}</a></td>
-							<td><a href="/BoardView?b_idx=${board.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}" >${board.b_readcount}</a></td>
+							<td><a href="/BoardView?b_idx=${article.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}&ma=1" >${article.b_like}</a></td>
+							<td><a href="/BoardView?b_idx=${article.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}&ma=1">${article.b_title}</a></td>
+							<td><a href="/BoardView?b_idx=${article.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}&ma=1">${article.u_name}</a></td>
+							<td><a href="/BoardView?b_idx=${article.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}&ma=1" >${article.b_writedate}</a></td>
+							<td><a href="/BoardView?b_idx=${article.b_idx}&u_no=${loginVo.u_no}&m_no=${m_no}&ma=1" >${article.b_readcount}</a></td>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
 			<div style="margin: 10px 10px auto; text-align: right; ">
-				<a href="/BoardWriteForm?m_no=${m_no}" class="btn btn-primary" style="margin-right : 30px;">글쓰기</a>
+				<a href="/BoardWriteForm?m_no=${m_no}&ma=1" class="btn btn-primary" style="margin-right : 30px;">글쓰기</a>
 				</div>
 				
-			<%@include file="/WEB-INF/views/include/pagingboard.jsp"%>
+			<%@include file="/WEB-INF/views/include/pagingmyarticles.jsp"%>
 		</div>
 	
 			<!-- Footer Start -->
