@@ -39,6 +39,20 @@ public interface AdminMapper {
 
 	void boardDelete(BoardVo vo);
 
+	List<KidzzoneVo> kzList(PagingVo pds);
+
+	int countKz(KidzzoneVo vo);
+
+	void kidzzoneDelete(KidzzoneVo vo);
+
+	KidzzoneVo updateView(KidzzoneVo vo);
+
+	void KidzzoneUpdateFile(HashMap<String, Object> map);
+
+	void KidzzoneUpdateNoFile(HashMap<String, Object> map);
+
+	String m_name(Map<String, Object> map);
+
 	
 	
 	

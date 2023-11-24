@@ -97,12 +97,11 @@
 							<b> ${loginVo.u_name} 님 환영합니다 </b>
 						</li>
 						<li style="list-style-type: none" class="nav-item">
-						  <img src="/imgpage/logon.png" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						  <img src="img/${loginVo.u_profileimg}" style="max-width: 80px; max-height: 80px; margin-right:10px;" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" href="/UserInfo?u_id=${loginVo.u_id}">내정보 확인/수정</a></li>
 								<li><a class="dropdown-item" href="/MyArticles?m_no=1&u_no=${loginVo.u_no}">내가 쓴 글</a></li>
-								<li><a class="dropdown-item" href="#">3</a></li>
-								<li><a class="dropdown-item" href="#">4</a></li>
+                                <li><a class="dropdown-item" href="/UserLikeList?u_no=${loginVo.u_no }">내 관심매장</a></li>
 								<li><hr class="dropdown-divider"></li>
 								<li><a class="dropdown-item" href="/LogOut">로그 아웃</a></li>
 							</ul>
@@ -114,10 +113,10 @@
 							<b> ${loginVo.u_name} 님 환영합니다 </b>
 						</li>
 						<li style="list-style-type: none" class="nav-item">					
-						 <img src="/img/logon.png" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						 <img src="/img/logon.png" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"">
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" href="/KzWriteForm">Yes 키즈존 관리</a></li>
-								<li><a class="dropdown-item" href="/NoticeList?m_no=6">게시판 관리 / 공지사항 관리</a></li>
+								<li><a class="dropdown-item" href="/KzList">Yes 키즈존 관리</a></li>
+								<li><a class="dropdown-item" href="/NoticeList?m_no=99">게시판 관리 / 공지사항 관리</a></li>
 								<li><a class="dropdown-item" href="/CsList">고객센터</a></li>
 								<li><a class="dropdown-item" href="/AdminUserList">유저목록</a></li>
 								<li><hr class="dropdown-divider"></li>

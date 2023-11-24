@@ -75,7 +75,7 @@ WHERE RN BETWEEN #{start} AND #{end} AND U_NO &lt;&gt; 99
  
  <insert id="insertFileKz">
  
- INSERT INTO KIDZZONE (KZ_NO, KZ_NAME, KZ_POSTCODE, KZ_ADDRESS, KZ_DETAILADDRESS, KZ_EXTRAADDRESS, KZ_EXPLANATION, KZ_OPENINGTIME, KZ_IMG)
+ INSERT INTO KIDZZONE (KZ_NO, KZ_NAME, KZ_POSTCODE, KZ_ADDRESS, KZ_DETAILADDRESS, KZ_EXTRAADDRESS, KZ_EXPLANATION, KZ_OPENINGTIME, KZ_CATEGORY, KZ_IMG)
  VALUES ( (SELECT NVL(MAX(KZ_NO), 0)+1 FROM KIDZZONE),
  		   #{kz_name},
  		   #{kz_postcode},
@@ -84,6 +84,7 @@ WHERE RN BETWEEN #{start} AND #{end} AND U_NO &lt;&gt; 99
  		   #{kz_extraaddress},
  		   #{kz_explanation},
  		   #{kz_openingtime},
+ 		   #{kz_category},
  		   #{kz_img}
  )
  </insert>
@@ -91,7 +92,7 @@ WHERE RN BETWEEN #{start} AND #{end} AND U_NO &lt;&gt; 99
  
   <insert id="insertNoFileKz">
  
- INSERT INTO KIDZZONE (KZ_NO, KZ_NAME, KZ_POSTCODE, KZ_ADDRESS, KZ_DETAILADDRESS, KZ_EXTRAADDRESS, KZ_EXPLANATION, KZ_OPENINGTIME)
+ INSERT INTO KIDZZONE (KZ_NO, KZ_NAME, KZ_POSTCODE, KZ_ADDRESS, KZ_DETAILADDRESS, KZ_EXTRAADDRESS, KZ_EXPLANATION, KZ_OPENINGTIME, KZ_CATEGORY)
  VALUES ( (SELECT NVL(MAX(KZ_NO), 0)+1 FROM KIDZZONE),
  		   #{kz_name},
  		   #{kz_postcode},
@@ -99,7 +100,8 @@ WHERE RN BETWEEN #{start} AND #{end} AND U_NO &lt;&gt; 99
  		   #{kz_detailaddress},
  		   #{kz_extraaddress},
  		   #{kz_explanation},
- 		   #{kz_openingtime}	   
+ 		   #{kz_openingtime},
+ 		   #{kz_category}	   
  )
  </insert>
  
@@ -133,7 +135,6 @@ WHERE RN BETWEEN #{start} AND #{end}
         B_IDX,
 		B_TITLE,
 		B_CONT,
-		B_LIKE,
 		B_READCOUNT,
 		B_WRITEDATE,
 		M_NO,
@@ -143,9 +144,8 @@ WHERE RN BETWEEN #{start} AND #{end}
 		#{b_title},
 		#{b_cont},
 		0,
-		0,
 		SYSDATE,
-		6,
+		99,
 		#{u_no}
      )
   </insert>
@@ -156,7 +156,6 @@ WHERE RN BETWEEN #{start} AND #{end}
         B_IDX,
 		B_TITLE,
 		B_CONT,
-		B_LIKE,
 		B_IMG,
 		B_READCOUNT,
 		B_WRITEDATE,
@@ -168,9 +167,8 @@ WHERE RN BETWEEN #{start} AND #{end}
 		#{b_cont},
 		#{b_img},
 		0,
-		0,
 		SYSDATE,
-		6,
+		99,
 		#{u_no}
      )
   </insert>
@@ -183,6 +181,81 @@ WHERE RN BETWEEN #{start} AND #{end}
 
 </delete>
 
+   <select id="kzList"
+  resultType="com.kidzpark.kidzzone.domain.KidzzoneVo">
+   SELECT *
+FROM (
+    SELECT ROWNUM RN, A.*
+    FROM (
+   SELECT  *
+   FROM    KIDZZONE 
+     ORDER BY KZ_NO
+    ) A
+)
+WHERE RN BETWEEN #{start} AND #{end} 
+ 
+</select>
 
+<select id="countKz" resultType="int">
+
+SELECT COUNT(*)
+FROM KIDZZONE
+
+
+</select>
+
+<delete id="kidzzoneDelete">
+
+DELETE FROM KIDZZONE
+WHERE KZ_NO  =  #{kz_no}
+
+
+</delete>
+
+<select id="updateView" resultType="com.kidzpark.kidzzone.domain.KidzzoneVo">
+
+SELECT *
+FROM KIDZZONE
+WHERE KZ_NO = #{kz_no}
+</select>
+
+<update id="KidzzoneUpdateFile">
+
+UPDATE KIDZZONE
+SET KZ_NAME  =  #{kz_name},
+    KZ_POSTCODE  =  #{kz_postcode},
+    KZ_ADDRESS   =  #{kz_address},
+    KZ_DETAILADDRESS = #{kz_detailaddress},
+    KZ_EXTRAADDRESS  =  #{kz_extraaddress},
+    KZ_EXPLANATION   =  #{kz_explanation},
+    KZ_OPENINGTIME   =  #{kz_openingtime},
+    KZ_IMG           =  #{kz_img}
+WHERE KZ_NO  =  #{kz_no}
+
+</update>
+
+<update id="KidzzoneUpdateNoFile">
+
+UPDATE KIDZZONE
+SET KZ_NAME  =  #{kz_name},
+    KZ_POSTCODE  =  #{kz_postcode},
+    KZ_ADDRESS   =  #{kz_address},
+    KZ_DETAILADDRESS = #{kz_detailaddress},
+    KZ_EXTRAADDRESS  =  #{kz_extraaddress},
+    KZ_EXPLANATION   =  #{kz_explanation},
+    KZ_OPENINGTIME   =  #{kz_openingtime}
+WHERE KZ_NO  =  #{kz_no}   
+
+</update>
+
+
+<select id="m_name"
+  resultType="String">
+   
+   SELECT  M_NAME
+   FROM    MENU
+   WHERE   M_NO = #{m_no}
+	
+</select>
  
 </mapper>

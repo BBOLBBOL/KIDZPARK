@@ -61,7 +61,16 @@
            margin-top:5%;
            margin-bottom:3%;
     }
+    
+        .name {
+        white-space: nowrap;         /* 텍스트 줄 바꿈 금지 */
+        overflow: hidden;            /* 넘치는 부분 감춤 */
+        text-overflow: ellipsis;     /* 넘치는 부분에 ... 표시 */
+        max-width: 10em;             /* 최대 너비 설정 (10em은 예시) */
+    }
+    
 </style>
+
 </head>
 
 <body>
@@ -75,95 +84,48 @@
 				class="row g-0 align-items-center flex-column-reverse flex-md-row">
 				<div class="p-5 mt-lg-5">
 					<h1 class="display-4 animated fadeIn mb-4"
-						style="margin-top: 13%; text-align: center;">${m_name } 목록</h1>
+						style="margin-top: 13%; text-align: center;">키즈존목록</h1>
 				</div>
 			</div>
 		</div>
+		<hr>
 		<!-- Header End -->
-
-
-
-		<!-- Search Start -->
-		<form action="/BoardSearchList" method="post">
-		<div class="container-fluid bg-primary mb-5 wow fadeIn"
-			data-wow-delay="0.1s" style="padding: 35px;">
-			<div class="container">
-			<input type="hidden" name="m_no" value="${m_no}">
-				<div class="row g-2">
-					<div class="col-md-10">
-						<div class="row g-2">
-							<div class="col-md-4"></div>
-							<div class="col-md-3">
-								<select class="form-select border-0 py-3" name="searchOption">
-									<option value="all" selected>검색</option>
-									<option value="b_title">제목</option>
-									<option value="b_cont">내용</option>
-									<option value="u_no">글쓴이</option>
-								</select>
-							</div>
-							<div class="col-md-3">
-								<input type="text" class="form-control border-0 py-3"
-									name="searchKeyword" placeholder="Search Keyword">
-							</div>
-							<div class="col-md-2">
-								<button type="submit" class="btn btn-dark border-0 w-100 py-3">Search</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		</form>
-		<!-- Search End -->
-
-
-
-		<div class="container-xxl py-5">
-			<hr>
-			<div style="margin: 10px 10px auto; text-align: center; ">
-			<a href="/NoticeList?m_no=1" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">자유</a> <a
-				href="/NoticeList?m_no=2" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">건강</a> <a
-				href="/NoticeList?m_no=3" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">요리</a> <a
-				href="/NoticeList?m_no=4" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">육아</a> <a
-				href="/NoticeList?m_no=5" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">교육</a> <a
-				href="/NoticeList?m_no=99" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">공지</a>
-				
-				
-				</div>
-			<table class="table table-hover">
-				<thead class="thead-white">
-					<tr>
-					    <th><input type="checkbox" id="allCheck"></th>
-						<th scope="col">제목</th>
-						<th scope="col">글쓴이</th>
-						<th scope="col">작성일</th>
-						<th scope="col">조회</th>
-						<th scope="col">추천수</th>
-					</tr>
-				</thead>
-				<tbody class="tbody-white">
-					<c:forEach var="notice" items="${noticeList}">
-						<tr>
-						    <td><input type="checkbox" name="rowCheck" id="rowCheck" value="${notice.b_idx }"></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=99&m_no=${m_no}">${notice.b_title}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=99&m_no=${m_no}">${notice.u_no}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=99&m_no=${m_no}" >${notice.b_writedate}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=99&m_no=${m_no}" >${notice.b_readcount}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=99&m_no=${m_no}" >${notice.b_like}</a></td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-			<div style="margin: 10px 10px auto; text-align: right; ">
-				<a href="/NoticeWriteForm?m_no=${m_no}" class="btn btn-primary" style="margin-right : 10px;">글쓰기</a>
-				<a type="button" class="btn btn-danger" onclick="deleteValue();">삭제</a>
-				</div>
-				
-			<%@include file="/WEB-INF/views/include/adminpagingboard.jsp"%>
+		 <div class="container-xxl py-5">
+		 <table class="table table-hover">
+		   <thead class="thead-white">
+		    <tr>
+		    <th><input type="checkbox" id="allCheck"></th>
+		     <th scope="col">키즈존No</th>
+		       <th scope="col">키즈존 이름</th>
+		       <th scope="col">키즈존 분류</th>
+		       <th scope="col">키즈존 주소</th>
+		       <th scope="col">키즈존 설명</th>
+		       <th scope="col">키즈존 영업시간</th>
+		    </tr>
+		    </thead>
+		    <tbody class="tbody-white">
+		    <c:forEach var="kzList" items="${kzList }">
+		    <tr>
+		      <td><input type="checkbox" name="rowCheck" id="rowCheck" value="${kzList.kz_no }"></td>
+		      <td>${kzList.kz_no }</td>
+		      <td>${kzList.kz_name}</td>
+		      <td>${kzList.kz_category}</td>
+		      <td class="name">${kzList.kz_address } &nbsp; ${kzList.kz_detailaddress }</td>
+		      <td class="name">${kzList.kz_explanation}</td>
+		      <td>${kzList.kz_openingtime}</td>
+		    </tr>
+		    </c:forEach>
+		    </tbody>
+		  </table>
+		  	<div style="margin: 10px 10px auto; text-align: right; ">
+            <a href="/KzWriteForm" class="btn btn-primary" style="margin-right : 10px;">키즈존 등록</a>
+            <a href="javascript:void(0);" class="btn btn-primary" style="margin-right : 10px;"  onclick="submitForm()">키즈존 수정</a>
+            <a type="button" class="btn btn-danger" onclick="deleteValue();">삭제</a>
+            </div>
+			<%@include file="/WEB-INF/views/include/adminkidzzonepaging.jsp"%>
 		</div>
 	
-			<!-- Footer Start -->
-		<div
+	<div
 			class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn"
 			data-wow-delay="0.1s">
 			<div class="container py-5">
@@ -182,8 +144,8 @@
 					</div>
 					<div class="col-lg-3 col-md-6">
 						<h5 class="text-white mb-4">Quick Links</h5>
-						<a class="btn btn-link text-white-50" href="/Kidzzone">예스키즈존</a> <a
-							class="btn btn-link text-white-50" href="/BoardList">게시판</a> <a
+						<a class="btn btn-link text-white-50" href="">예스키즈존</a> <a
+							class="btn btn-link text-white-50" href="">게시판</a> <a
 							class="btn btn-link text-white-50" href="">채팅방</a> <a
 							class="btn btn-link text-white-50" href="">고객문의</a> <a
 							class="btn btn-link text-white-50" href="">마이 페이지</a>
@@ -235,10 +197,14 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<!-- Footer End -->
-		</div>
+		</div>		
 
+		
+
+		<!-- Back to Top -->
+		<a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i
+			class="bi bi-arrow-up"></i></a>
+</div>
 	<!-- JavaScript Libraries -->
 	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<script
@@ -263,8 +229,8 @@ $("input[id='allCheck']").click(function() {
 });
 
 function deleteValue() {
-	   var b_idx =  ${b_idx};
-	   var url  =  "/AdmimBoardDelete?b_idx=" + b_idx;
+	   var kz_no =  ${kz_no};
+	   var url  =  "/KidzzoneDelete?kz_no=" + kz_no;
 	   var valueArr  =  [];
 	   var list  =  $("input[name='rowCheck']");
 	   for(var i = 0; i < list.length; i++) {
@@ -300,6 +266,27 @@ function deleteValue() {
 	   }
 	}  // deleteValue
 }
+
+
+function submitForm() {
+    // 체크된 체크박스의 값을 가져오기
+    var checkedCheckbox = document.querySelector('input[name="rowCheck"]:checked');
+
+    // 체크된 체크박스가 있는지 확인
+    if (checkedCheckbox) {
+        // 체크된 경우, 선택된 kz_no 값을 가져오기
+        var kz_no = checkedCheckbox.value;
+
+        // 수정 페이지로 이동하기
+        window.location.href = "/KidzzoneUpdateForm?kz_no=" + kz_no;
+    } else {
+        // 선택된 체크박스가 없는 경우에 대한 처리를 여기에 추가할 수 있습니다.
+        alert('체크박스를 선택하세요.');
+    }
+}
+
+
+
 
 </script>
 </body>

@@ -54,7 +54,7 @@
 				class="row g-0 align-items-center flex-column-reverse flex-md-row">
 				<div class="p-5 mt-lg-5">
 					<h1 class="display-4 animated fadeIn mb-4"
-						style="margin-top: 13%; text-align: center;">Yes 키즈존 등록</h1>
+						style="margin-top: 13%; text-align: center;">Yes 키즈존 수정</h1>
 				</div>
 			</div>
 		</div>
@@ -108,32 +108,19 @@
                 </div>
                     <div class="col-md-10">
                         <div class="wow fadeInUp" data-wow-delay="0.5s">
-                            <form action="/KzWrite" method="POST" enctype="multipart/form-data">
-                            
+                            <form action="/KidzzoneUpdate" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="kz_no" value="${updateView.kz_no }">
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <div class="form-floating" style="margin:auto;">
-                                            <input type="text" class="form-control" id="name" placeholder="" name="kz_name">
+                                            <input type="text" class="form-control" id="name" placeholder="" name="kz_name" value="${updateView.kz_name }">
                                             <label for="name">매장 이름</label>
                                         </div>
                                         <br>
                                     </div>
-                                     <div class="col-md-6">
-                                        <div class="form-floating">
-                                        <select class="form-select border-1 py-3" name="kz_category" id="category">
-			     							<option value="no">카테고리</option>
-			     							<option value="음식점">음식점</option>
-			     							<option value="키즈카페" >키즈카페</option>
-			     							<option value="체험활동" >체험활동</option>
-			     							<option value="카페 문의" >카페</option>			     
-			     						</select>
-			     						</div>
-			     						</div>
-                                    
-
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-floating" style="margin:auto;">
-                                            <input type="text" class="form-control" id="name" placeholder="" name="kz_openingtime">
+                                            <input type="text" class="form-control" id="name" placeholder="" name="kz_openingtime" value="${updateView.kz_openingtime }">
                                             <label for="name">영업 시간</label>
                                         </div>
                                         <br>
@@ -141,7 +128,7 @@
                                                                                                        
                                     <div class="col-md-6">
                                         <div class="form-floating" style="margin:auto;">
-                                            <input type="text" class="form-control" id="kz_postcode"  placeholder="우편번호" name="kz_postcode">	
+                                            <input type="text" class="form-control" id="kz_postcode"  placeholder="우편번호" name="kz_postcode" value="${updateView.kz_postcode }">	
                                             <label for="name">우편번호</label>
                                         </div>
                                         <br>
@@ -153,26 +140,36 @@
                                     
                                     <div class="col-md-12">
                                         <div class="form-floating" style="margin:auto;">
-                                            <input type="text" class="form-control" id="kz_address"  placeholder="우편번호" name="kz_address"><br>
+                                            <input type="text" class="form-control" id="kz_address"  placeholder="우편번호" name="kz_address" value="${updateView.kz_address }"><br>
                                             <label for="name">매장 주소</label>
                                         </div>
                                     </div>
                                     
                                     <div class="col-md-12">
                                         <div class="form-floating" style="margin:auto;">
-                                            <input type="text" class="form-control" id="kz_detailaddress"  placeholder="우편번호" name="kz_detailaddress"><br>
+                                            <input type="text" class="form-control" id="kz_detailaddress"  placeholder="우편번호" name="kz_detailaddress" value="${updateView.kz_detailaddress }"><br>
                                             <label for="name">상세 주소</label>
                                         </div>
                                     </div>
                                     
                                     <div class="col-md-12">
                                         <div class="form-floating" style="margin:auto;">
-                                            <input type="text" class="form-control" id="kz_extraaddress"  placeholder="우편번호" name="kz_extraaddress"><br>                                          
+                                            <input type="text" class="form-control" id="kz_extraaddress"  placeholder="우편번호" name="kz_extraaddress" value="${updateView.kz_extraaddress }"><br>                                          
                                             <label for="name">참고 항목</label>
                                         </div>
                                     </div>
                                     
+			     					<c:if test="${empty updateView.kz_img }">
+			     					<div class="col-md-12">
+                                        <div class="form-floating" style="margin:auto;">
+                                            <input type="file" class="form-control" id="name" placeholder="" name="kz_img" accept="image/*" onchange="readURL(this)">
+                                            <label for="name">매장사진</label>
+                                            <br>
+			     					</div>
+			     					</div>
+			     					</c:if>
 			     					
+			     					<c:if test="${not empty updateView.kz_img }">
 			     					<div class="col-md-12">
                                         <div class="form-floating" style="margin:auto;">
                                             <input type="file" class="form-control" id="name" placeholder="" name="kz_img" accept="image/*" onchange="readURL(this)">
@@ -181,19 +178,33 @@
 			     					</div>
 			     					</div>
 			     					
+			     					  <div class="col-md-12">
+                                        <div class="form-floating" style="margin:auto;">
+                                            <img id="preview" style="max-width: 100%; max-height: 50%;" src="/img/${updateView.kz_img }">
+                                        </div>
+                                        <br>
+                                    </div>			     					
+			     					
+			     					</c:if>
+			     					
+			     					
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 150px" name="kz_explanation"></textarea>
+                                            <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 150px" name="kz_explanation" >${updateView.kz_explanation }</textarea>
                                             <label for="message">매장설명</label>
                                         </div>
                                         <br>
                                     </div>
+                                    
+                                    <c:if test="${empty updateView.kz_img }">
                                     <div class="col-md-12">
                                         <div class="form-floating" style="margin:auto;">
                                             <img id="preview" style="max-width: 100%; max-height: 50%;">
                                         </div>
                                         <br>
                                     </div>
+                                    </c:if>
+                                    
                                     <div class="col-12">
                                          <input type="submit" value="등록" onclick="confirmSubmit();" class="btn btn-primary w-100 py-3" >
                                     </div>

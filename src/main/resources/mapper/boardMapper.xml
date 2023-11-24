@@ -230,7 +230,7 @@ AND   U_NO  = ${u_no}
 
    SELECT  *
    FROM    BOARD
-   WHERE   M_NO = 6
+   WHERE   M_NO = 99
      ORDER BY B_WRITEDATE DESC
 </select>
 

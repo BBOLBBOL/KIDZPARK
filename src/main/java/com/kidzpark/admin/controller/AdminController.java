@@ -140,6 +140,7 @@ public class AdminController {
 			@RequestParam(value = "cntPerPage", required = false) String cntPerPage
 			) {
 		
+		
 		Map<String, Object> map  =  new HashMap<>();  
 		map.put("m_no", m_no);
 		int total  =  adminMapper.countNotice(vo);
@@ -162,12 +163,16 @@ public class AdminController {
 		
 		List<BoardVo> noticeList  =  adminMapper.noticeList(map);
 		
+		String m_name  =  adminMapper.m_name(map);
+		
 		ModelAndView mv  =  new ModelAndView();
 		mv.setViewName("admin/noticelist");
 		mv.addObject("noticeList", noticeList);
 		mv.addObject("pg", pds);
 		mv.addObject("b_idx", vo.getB_idx());
 		mv.addObject("m_no", vo.getM_no());
+		mv.addObject("m_name", m_name);
+
 		System.out.println("mv : " + mv);
 		return mv;
 	}
@@ -194,7 +199,7 @@ public class AdminController {
 		}
 		
 		
-		return "redirect:/NoticeList?m_no=6";
+		return "redirect:/NoticeList?m_no=99";
 	}
 	
 	@ResponseBody
@@ -208,6 +213,80 @@ public class AdminController {
 		
 		
 		return 1;
+	}
+	
+	@RequestMapping("/KzList")
+	public ModelAndView kzList(KidzzoneVo vo, PagingVo pds,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage
+			) {
+		
+		int total  =  adminMapper.countKz(vo);  
+		
+		if (nowPage == null && cntPerPage == null ) {
+			nowPage  = "1";
+			cntPerPage = "8";
+		} else if(nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "8";
+		}
+		
+		int kz_no  =  vo.getKz_no();
+		
+		pds  =  new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		
+		List<KidzzoneVo> kzList  =  adminMapper.kzList(pds);
+		
+		ModelAndView mv  =  new ModelAndView();
+		mv.setViewName("admin/kzlist");
+		mv.addObject("kzList", kzList);
+		mv.addObject("pds", pds);
+		mv.addObject("kz_no", kz_no);
+		return mv;
+	}
+	
+	@RequestMapping("/KidzzoneDelete")
+	@ResponseBody
+	public int kidzzoneDelete(@RequestParam(value = "valueArr[]")String[] valueArr, KidzzoneVo vo) {
+		
+		for (String value : valueArr) {
+			 vo.setKz_no(Integer.parseInt(value));
+			 adminMapper.kidzzoneDelete(vo);
+		}
+		
+		
+		
+		return 1;
+	}
+	
+	@RequestMapping("/KidzzoneUpdateForm")
+	public ModelAndView kidzzoneUpdateForm(KidzzoneVo vo) {
+		
+		KidzzoneVo updateView  =  adminMapper.updateView(vo);
+		
+		ModelAndView mv  =  new ModelAndView();
+		mv.setViewName("admin/kidzzoneupdate");
+		mv.addObject("updateView", updateView);
+		
+		return mv;
+	}
+	
+	@RequestMapping("/KidzzoneUpdate")
+	public ModelAndView kidzzoneUpdate(@RequestParam MultipartFile kz_img,
+			@RequestParam HashMap<String, Object> map,
+			HttpServletRequest request) {
+		
+		if(!kz_img.isEmpty()) {
+			ImgFileAdmin.save(map, request);
+			adminMapper.KidzzoneUpdateFile(map);
+		} else {
+			adminMapper.KidzzoneUpdateNoFile(map);
+		}
+		
+		ModelAndView mv  =  new ModelAndView();
+		mv.setViewName("redirect:/KzList");
+		return mv;
 	}
 	
 	

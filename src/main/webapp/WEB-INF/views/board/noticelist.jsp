@@ -135,11 +135,11 @@
 				<tbody class="tbody-white">
 					<c:forEach var="notice" items="${noticeList}">
 						<tr style="background-color: #ffebee;">
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&m_no=6">${notice.b_title}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&m_no=6">관리자</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&m_no=6" >${notice.b_writedate}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&m_no=6" >${notice.b_readcount}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&m_no=6" >${notice.b_like}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=99">${notice.b_title}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=99">관리자</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=99" >${notice.b_writedate}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=99" >${notice.b_readcount}</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=99" >${notice.b_like}</a></td>
 						</tr>
 					</c:forEach>
 					
