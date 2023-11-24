@@ -69,8 +69,6 @@ public class BoardController {
 
 		mv.setViewName("board/board");
 
-		System.out.println("notice : " + getboardlist);
-
 		return mv;
 	}
 
@@ -166,14 +164,24 @@ public class BoardController {
 
 	// 새글 쓰기
 	@RequestMapping("/BoardWriteForm")
-	public ModelAndView BoardWriteForm(int m_no) {
-
-		// write.jsp
+	public ModelAndView BoardWriteForm(int m_no, @RequestParam HashMap<String, Object> map) {
+		
+		System.out.println("폼"+map);
+		
 		ModelAndView mv = new ModelAndView();
+		
+		
+		if( map.get("ma") != null) {
+			mv.addObject("ma", map.get("ma"));
+		}
+		
+		// write.jsp
 		String m_name = boardMapper.selectMenuname(m_no);
 		mv.setViewName("board/boardwrite");
 		mv.addObject("m_no", m_no);
 		mv.addObject("m_name", m_name);
+		
+		System.out.println(mv);
 
 		return mv;
 	}
@@ -182,6 +190,7 @@ public class BoardController {
 	@RequestMapping("/BoardWrite")
 	public ModelAndView wirte(@RequestParam MultipartFile b_img, @RequestParam HashMap<String, Object> map,
 			HttpServletRequest request) {
+		System.out.println(map);
 
 		if (!b_img.isEmpty()) {
 			ImgFile.save(map, request);
@@ -191,8 +200,16 @@ public class BoardController {
 		}
 
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("redirect:/BoardList?m_no=" + map.get("m_no"));
-		return mv;
+		mv.addObject("map", map);
+		
+		if(map.get("ma") == null  ) {
+			mv.setViewName("redirect:/BoardList?m_no="+ map.get("m_no"));
+			return mv;
+		}
+		else {
+			mv.setViewName("redirect:/MyArticles?m_no="+ map.get("m_no")+"&u_no="+map.get("u_no")+"&ma="+map.get("ma"));
+			return mv;
+		}
 
 	}
 
@@ -201,6 +218,8 @@ public class BoardController {
 	public ModelAndView view(PagingVo pg, @RequestParam HashMap<String, Object> map, 
 			@RequestParam(value = "nowPage", required = false) String nowPage,
 			@RequestParam(value = "cntPerPage", required = false) String cntPerPage) {
+		
+		System.out.println(map);
 		
 		boardMapper.updateReadcount(map);
 
@@ -216,8 +235,6 @@ public class BoardController {
 			cntPerPage = "5";
 		}
 		
-		
-
 		pg = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 
 		map.put("m_name", m_name);
@@ -231,7 +248,9 @@ public class BoardController {
 		mv.addObject("boardView", boardView);
 		mv.addObject("map", map);
 		mv.addObject("pg", pg);
-		
+		if(map.get("ma") != null) {
+		mv.addObject("ma", map.get("ma"));
+		}
 		return mv;
 
 	}
@@ -254,13 +273,21 @@ public class BoardController {
 	// 글 지우기
 	@RequestMapping("/BoardDelete")
 	public ModelAndView boarddelete(@RequestParam HashMap<String, Object> map) {
+		
+		System.out.println(map);
 
 		boardMapper.boardDelete(map);
 
 		ModelAndView mv = new ModelAndView();
+		if(map.get("ma") == null ) {
 		mv.setViewName("redirect:/BoardList?m_no="+ map.get("m_no"));
 
 		return mv;
+		}
+		else {
+			mv.setViewName("redirect:/MyArticles?m_no="+ map.get("m_no")+"&u_no="+map.get("u_no"));
+			return mv;
+		}
 	}
 
 	// 수정 폼
@@ -268,6 +295,8 @@ public class BoardController {
 	public ModelAndView UpdateForm(@RequestParam HashMap<String, Object> map) {
 
 		String m_name = boardMapper.selectMenuname(map);
+		
+	    System.out.println(map);
 
 		map.put("m_name", m_name);
 
@@ -275,12 +304,11 @@ public class BoardController {
 
 		ModelAndView mv = new ModelAndView();
 
-		map.put("m_name", m_name);
-
-		mv.setViewName("board/boardupdate");
 		mv.addObject("boardView", boardView);
 		mv.addObject("map", map);
-
+		
+		mv.setViewName("board/boardupdate");
+		
 		return mv;
 	}
 
@@ -297,11 +325,19 @@ public class BoardController {
 		} else {
 			boardMapper.boardUpdate2(map);
 		}
+		System.out.println(map);
 
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("redirect:/BoardView?b_idx=" + map.get("b_idx")+ "&m_no=" + map.get("m_no"));
+		if(map.get("ma") == null ) {
+			mv.setViewName("redirect:/BoardView?m_no="+ map.get("m_no"));
+			
+			return mv;
+		}
+		else {
+			mv.setViewName("redirect:/BoardView?m_no="+ map.get("m_no")+"&u_no="+map.get("u_no")+"&ma="+map.get("ma"));
+			return mv;
+		}
 
-		return mv;
 	}
 	
 	@RequestMapping("/CommentWrite")
@@ -356,6 +392,8 @@ public class BoardController {
 			@RequestParam(value = "cntPerPage", required = false) String cntPerPage
 			) {
 		
+		String m_name = boardMapper.selectMenuname(m_no);
+		
 		Map<String, Object> map  =  new HashMap<>();  
 		map.put("m_no", m_no);
 		int total  =  adminMapper.countNotice(vo);
@@ -384,6 +422,7 @@ public class BoardController {
 		mv.addObject("pg", pds);
 		mv.addObject("b_idx", vo.getB_idx());
 		mv.addObject("m_no", vo.getM_no());
+		mv.addObject("m_name", m_name);
 		
 		return mv;
 	}

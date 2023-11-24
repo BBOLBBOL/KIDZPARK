@@ -84,7 +84,7 @@
 
 
 		<!-- Search Start -->
-		<form action="/BoardSearchList" method="post">
+			<form action="/SearchArticles" method="post">
 		<div class="container-fluid bg-primary mb-5 wow fadeIn"
 			data-wow-delay="0.1s" style="padding: 35px;">
 			<div class="container">
@@ -117,15 +117,14 @@
 		<!-- Search End -->
 
 
-
 		<div class="container-xxl py-5">
 			<hr>
 			<div style="margin: 10px 10px auto; text-align: center; ">
-			<a href="/BoardList?m_no=1" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">자유</a> <a
-				href="/BoardList?m_no=2" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">건강</a> <a
-				href="/BoardList?m_no=3" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">요리</a> <a
-				href="/BoardList?m_no=4" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">육아</a> <a
-				href="/BoardList?m_no=5" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">교육</a>
+				<a href="/MyArticles?m_no=1&u_no=${loginVo.u_no}" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">자유</a> <a
+				href="/MyArticles?m_no=2&u_no=${loginVo.u_no}" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">건강</a> <a
+				href="/MyArticles?m_no=3&u_no=${loginVo.u_no}" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">요리</a> <a
+				href="/MyArticles?m_no=4&u_no=${loginVo.u_no}" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">육아</a> <a
+				href="/MyArticles?m_no=5&u_no=${loginVo.u_no}" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">교육</a>
 				</div>
 			<table class="table table-hover">
 				<thead class="thead-white">

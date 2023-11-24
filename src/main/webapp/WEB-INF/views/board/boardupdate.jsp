@@ -113,6 +113,9 @@
 										<div class="col-md-10">
 											<div class="wow fadeInUp" data-wow-delay="0.5s">
 												<form action="/BoardUpdate" method="post" enctype="multipart/form-data">
+													<c:if test="${loginVo.u_no eq map.u_no && map.ma ne null }">
+													<input type="hidden" name="ma" value="${map.ma}"> 
+													</c:if>
 													<input type="hidden" name="u_no" value="${loginVo.u_no}"> 
 													<input type="hidden" name="m_no" value="${map.m_no}">
 													<input type="hidden" name="b_idx" value="${map.b_idx}">

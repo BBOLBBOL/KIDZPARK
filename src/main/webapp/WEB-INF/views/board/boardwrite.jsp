@@ -113,6 +113,9 @@
 										<div class="col-md-10">
 											<div class="wow fadeInUp" data-wow-delay="0.5s">
 												<form action="/BoardWrite" method="post" enctype="multipart/form-data">
+													<c:if test="${ma ne null }">
+													<input type="hidden" name="ma" value="${ma}"> 
+													</c:if>
 													<input type="hidden" name="u_no" value="${loginVo.u_no}"> 
 													<input type="hidden" name="m_no" value="${m_no}">
 													<div class="row g-2">
@@ -259,6 +262,7 @@
 	<!-- Template Javascript -->
 	<script src="js/main.js"></script>
 	<script>
+	
 	function readURL(input) {
 			if (input.files && input.files[0]) {
 				var reader = new FileReader();

@@ -57,7 +57,7 @@
                     <div class="navbar-nav ms-auto">
                         <a href="/" class="nav-item nav-link active">Home</a>
                         <a href="/Kidzzone" class="nav-item nav-link">YES 키즈존</a>
-                        <a href="/UserNoticeList?m_no=6"" class="nav-item nav-link">공지사항</a>
+                        <a href="/UserNoticeList?m_no=99" class="nav-item nav-link">공지사항</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">게시판 목록</a>
                             <div class="dropdown-menu rounded-0 m-0">
@@ -100,7 +100,7 @@
 						  <img src="/imgpage/logon.png" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" href="/CheckEmailForm">내정보 확인/수정</a></li>
-								<li><a class="dropdown-item" href="#">2</a></li>
+								<li><a class="dropdown-item" href="/MyArticles?m_no=1&u_no=${loginVo.u_no}">내가 쓴 글</a></li>
 								<li><a class="dropdown-item" href="#">3</a></li>
 								<li><a class="dropdown-item" href="#">4</a></li>
 								<li><hr class="dropdown-divider"></li>
