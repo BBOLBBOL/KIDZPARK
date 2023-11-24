@@ -68,7 +68,7 @@ public class BoardController {
 		mv.addObject("m_no", m_no);
 
 		mv.setViewName("board/board");
-
+		
 		return mv;
 	}
 
@@ -155,6 +155,7 @@ public class BoardController {
 			mv.addObject("searchOption", searchOption);
 
 			mv.setViewName("board/boardsearch");
+			
 
 
 			return mv;
@@ -165,8 +166,6 @@ public class BoardController {
 	// 새글 쓰기
 	@RequestMapping("/BoardWriteForm")
 	public ModelAndView BoardWriteForm(int m_no, @RequestParam HashMap<String, Object> map) {
-		
-		System.out.println("폼"+map);
 		
 		ModelAndView mv = new ModelAndView();
 		
@@ -181,8 +180,6 @@ public class BoardController {
 		mv.addObject("m_no", m_no);
 		mv.addObject("m_name", m_name);
 		
-		System.out.println(mv);
-
 		return mv;
 	}
 
@@ -190,7 +187,6 @@ public class BoardController {
 	@RequestMapping("/BoardWrite")
 	public ModelAndView wirte(@RequestParam MultipartFile b_img, @RequestParam HashMap<String, Object> map,
 			HttpServletRequest request) {
-		System.out.println(map);
 
 		if (!b_img.isEmpty()) {
 			ImgFile.save(map, request);
@@ -218,8 +214,6 @@ public class BoardController {
 	public ModelAndView view(PagingVo pg, @RequestParam HashMap<String, Object> map, 
 			@RequestParam(value = "nowPage", required = false) String nowPage,
 			@RequestParam(value = "cntPerPage", required = false) String cntPerPage) {
-		
-		System.out.println(map);
 		
 		boardMapper.updateReadcount(map);
 
@@ -265,8 +259,6 @@ public class BoardController {
 		result.put("boardlikeuser", boardlikeuser);
 		result.put("u_no", map.get("u_no"));
 		
-		System.out.println("결과"+result);
-		
 		return result;
 	}
 
@@ -274,8 +266,6 @@ public class BoardController {
 	@RequestMapping("/BoardDelete")
 	public ModelAndView boarddelete(@RequestParam HashMap<String, Object> map) {
 		
-		System.out.println(map);
-
 		boardMapper.boardDelete(map);
 
 		ModelAndView mv = new ModelAndView();
@@ -296,8 +286,6 @@ public class BoardController {
 
 		String m_name = boardMapper.selectMenuname(map);
 		
-	    System.out.println(map);
-
 		map.put("m_name", m_name);
 
 		List<BoardVo> boardView = boardMapper.boardView(map);
@@ -316,25 +304,24 @@ public class BoardController {
 	@RequestMapping("/BoardUpdate")
 	public ModelAndView update(@RequestParam MultipartFile b_img, @RequestParam HashMap<String, Object> map,
 			HttpServletRequest request) {
-
-
+		
+		System.out.println(map);
+		
 		if (!b_img.isEmpty()) {
 			ImgFile.save(map, request);
-			System.out.println(map);
 			boardMapper.boardUpdate1(map);
 		} else {
 			boardMapper.boardUpdate2(map);
 		}
-		System.out.println(map);
 
 		ModelAndView mv = new ModelAndView();
 		if(map.get("ma") == null ) {
-			mv.setViewName("redirect:/BoardView?m_no="+ map.get("m_no"));
+			mv.setViewName("redirect:/BoardView?b_idx="+map.get("b_idx")+"&m_no="+ map.get("m_no"));
 			
 			return mv;
 		}
 		else {
-			mv.setViewName("redirect:/BoardView?m_no="+ map.get("m_no")+"&u_no="+map.get("u_no")+"&ma="+map.get("ma"));
+			mv.setViewName("redirect:/BoardView?b_idx="+map.get("b_idx")+"&m_no="+ map.get("m_no")+"&u_no="+map.get("u_no")+"&ma="+map.get("ma"));
 			return mv;
 		}
 

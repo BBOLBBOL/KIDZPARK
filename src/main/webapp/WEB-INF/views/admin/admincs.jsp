@@ -95,13 +95,13 @@
 		    </thead>
 		    <tbody class="tbody-white">
 		    <c:forEach var="adminCs" items="${admincsList }">
-		    <tr>
-		      <td><a href="/UserCsView?cs_idx=${adminCs.cs_idx }&u_no=1" >${adminCs.cs_idx }</a>
-		      <td><a href="/UserCsView?cs_idx=${adminCs.cs_idx }&u_no=1" >${adminCs.cs_category}</a>
-		      <td><a href="/UserCsView?cs_idx=${adminCs.cs_idx }&u_no=1" >${adminCs.cs_title }</a>
-		      <td><a href="/UserCsView?cs_idx=${adminCs.cs_idx }&u_no=1" >${adminCs.cs_writerdate }</a>
-		      <td><a href="/UserCsView?cs_idx=${adminCs.cs_idx }&u_no=1" >${adminCs.cs_answerdate}</a>
-		    </tr>
+	          <tr>
+            <td><a href="/UserCsView?cs_idx=${adminCs.cs_idx }&u_no=${adminCs.u_no}" >${adminCs.cs_idx }</a>
+            <td><a href="/UserCsView?cs_idx=${adminCs.cs_idx }&u_no=${adminCs.u_no}" >${adminCs.cs_category}</a>
+            <td><a href="/UserCsView?cs_idx=${adminCs.cs_idx }&u_no=${adminCs.u_no}" >${adminCs.cs_title }</a>
+            <td><a href="/UserCsView?cs_idx=${adminCs.cs_idx }&u_no=${adminCs.u_no}" >${adminCs.cs_writerdate }</a>
+            <td><a href="/UserCsView?cs_idx=${adminCs.cs_idx }&u_no=${adminCs.u_no}" >${adminCs.cs_answerdate}</a>
+          </tr>
 		    </c:forEach>
 		    </tbody>
 		  </table>

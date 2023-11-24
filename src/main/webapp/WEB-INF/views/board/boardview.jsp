@@ -112,76 +112,75 @@
 										<div class="col-md-1"></div>
 										<div class="col-md-10">
 											<div class="wow fadeInUp" data-wow-delay="0.5s">
-												<form action="/BoardUpdateForm" method="post">
-													<input type="hidden" name="b_idx" value="${map.b_idx}">
-														<div class="row g-2">
+												<div class="row g-2">
 													<c:forEach var="board" items="${boardView}">
-															<div class="col-md-12">
-																<div class="form-floating" style="margin: auto;">
-																	<input type="text" class="form-control" id="b_title"
-																		value="${board.B_TITLE}" readonly="readonly">
-																</div>
-																<br>
+														<div class="col-md-12">
+															<div class="form-floating" style="margin: auto;">
+																<input type="text" class="form-control" id="b_title"
+																	value="${board.B_TITLE}" readonly="readonly">
 															</div>
-															<div class="col-md-5">
-																<div class="form-floating" style="margin: auto;">
-																	<input type="text" class="form-control" id="u_name"
-																		value="${board.U_NAME}" readonly="readonly">
-																</div>
-																<br>
+															<br>
+														</div>
+														<div class="col-md-5">
+															<div class="form-floating" style="margin: auto;">
+																<input type="text" class="form-control" id="u_name"
+																	value="${board.U_NAME}" readonly="readonly">
 															</div>
-															<div class="col-12">
-																<div class="form-floating">
-																	<textarea class="form-control" id="b_cont"
-																		style="height: 400px" readonly="readonly">${board.B_CONT}</textarea>
-																</div>
-																<br>
+															<br>
+														</div>
+														<div class="col-12">
+															<div class="form-floating">
+																<textarea class="form-control" id="b_cont"
+																	style="height: 400px" readonly="readonly">${board.B_CONT}</textarea>
 															</div>
-															<div class="col-md-12">
-																<div class="form-floating" style="margin: auto;">
-																	<c:choose>
-																		<c:when test="${board.B_IMG ne null}">
-																			<img src="img/${board.B_IMG}"
-																				style="max-width: 100%;">
-																		</c:when>
-																	</c:choose>
-																</div>
-																<br>
-																<div id="like"></div>
+															<br>
+														</div>
+														<div class="col-md-12">
+															<div class="form-floating" style="margin: auto;">
+																<c:choose>
+																	<c:when test="${board.B_IMG ne null}">
+																		<img src="img/${board.B_IMG}" style="max-width: 100%;">
+																	</c:when>
+																</c:choose>
 															</div>
+															<br>
+															<div id="like"></div>
+														</div>
+														<div class="col-3"
+															style="margin-left: 15px; margin-right: 15px;">
+															<a class="btn btn-primary w-100 py-3" onclick="goBack()">이전으로</a>
+														</div>
+														<c:if
+															test="${loginVo.u_no eq map.u_no && map.ma eq null }">
 															<div class="col-3"
 																style="margin-left: 15px; margin-right: 15px;">
-																<a class="btn btn-primary w-100 py-3" onclick="goBack()">이전으로</a>
+																<a class="btn btn-primary w-100 py-3"
+																	href="/BoardUpdateForm?b_idx=${map.b_idx}&m_no=${map.m_no}">수정</a>
 															</div>
-															<c:if test="${loginVo.u_no eq map.u_no && map.ma eq null }">
-															<div class="col-3"
-																style="margin-left: 15px; margin-right: 15px;">
-																<button class="btn btn-primary w-100 py-3" type="submit">수정</button>
-															</div>
-															
+
 															<div class="col-3"
 																style="margin-left: 15px; margin-right: 15px;">
 																<a class="btn btn-primary w-100 py-3"
 																	href="/BoardDelete?b_idx=${map.b_idx}&m_no=${map.m_no}">삭제</a>
 															</div>
-															</c:if>															
-															<c:if test="${loginVo.u_no eq map.u_no && map.ma ne null }">
+														</c:if>
+														<c:if
+															test="${loginVo.u_no eq map.u_no && map.ma ne null }">
 															<div class="col-3"
 																style="margin-left: 15px; margin-right: 15px;">
 																<a class="btn btn-primary w-100 py-3"
 																	href="/BoardUpdateForm?b_idx=${map.b_idx}&m_no=${map.m_no}&u_no=${loginVo.u_no}&ma=${map.ma}">수정</a>
 															</div>
-															
+
 															<div class="col-3"
 																style="margin-left: 15px; margin-right: 15px;">
 																<a class="btn btn-primary w-100 py-3"
 																	href="/BoardDelete?b_idx=${map.b_idx}&m_no=${map.m_no}&u_no=${loginVo.u_no}&ma=${map.ma}">삭제</a>
 															</div>
-															</c:if>															
-														
+														</c:if>
+
 													</c:forEach>
-														</div>
-												</form>
+												</div>
 											</div>
 										</div>
 										<div class="col-md-1"></div>
@@ -197,30 +196,31 @@
 		<br>
 		<!-- Contact End -->
 
-		<c:choose>
-			<c:when test="${loginVo ne null}">
-				<div class="row g-4">
-					<div class="col-12">
-						<div class="row gy-8">
-							<div class="col-lg-1"></div>
-							<div class="bg-light rounded p-3 col-lg-10">
-								<div class="bg-white rounded p-4"
-									style="border: 1px dashed rgba(0, 185, 142, .3)">
-									<div class="container-xxl py-5">
-										<div class="container">
-											<div class="row g-4">
-												<div class="col-md-1"></div>
-												<div class="col-md-10">
-													<div class="wow fadeInUp" data-wow-delay="0.5s">
-														<form action="/CommentWrite" method="post">
-															<input type="hidden" name="u_no" value="${loginVo.u_no}">
-															<input type="hidden" name="m_no" value="${map.m_no}">
-															<input type="hidden" name="b_idx" value="${map.b_idx}">
-															<div class="row g-2">
-																<div id="content"></div>
-																<div class="pagination">
-																	<div id="pageNum"></div>
-																</div>
+
+		<div class="row g-4">
+			<div class="col-12">
+				<div class="row gy-8">
+					<div class="col-lg-1"></div>
+					<div class="bg-light rounded p-3 col-lg-10">
+						<div class="bg-white rounded p-4"
+							style="border: 1px dashed rgba(0, 185, 142, .3)">
+							<div class="container-xxl py-5">
+								<div class="container">
+									<div class="row g-4">
+										<div class="col-md-1"></div>
+										<div class="col-md-10">
+											<div class="wow fadeInUp" data-wow-delay="0.5s">
+												<form action="/CommentWrite" method="post">
+													<input type="hidden" name="u_no" value="${loginVo.u_no}">
+													<input type="hidden" name="m_no" value="${map.m_no}">
+													<input type="hidden" name="b_idx" value="${map.b_idx}">
+													<div class="row g-2">
+														<div id="content"></div>
+														<div class="pagination">
+															<div id="pageNum"></div>
+														</div>
+														<c:choose>
+															<c:when test="${loginVo ne null}">
 																<div class="col-md-9">
 																	<div class="form-floating" style="margin: auto;">
 																		<input type="text" class="form-control" id="c_comment"
@@ -228,14 +228,28 @@
 																			입력하세요</label>
 																	</div>
 																</div>
-																<div class="col-2" style="margin: auto;">
-																	<button class="btn btn-primary"
-																		style="padding: 8px 12px !important;" type="submit">작성</button>
+														<div class="col-2" style="margin: auto;">
+															<button class="btn btn-primary"
+																style="padding: 8px 12px !important;" type="submit">작성</button>
+														</div>
+															</c:when>
+														</c:choose>
+														<c:choose>
+															<c:when test="${loginVo eq null}">
+																<div class="col-md-9">
+																	<div class="form-floating" style="margin: auto;">
+																		<input type="text" class="form-control" id="c_comment"
+																			name="c_comment" readonly> <label for="c_comment">로그인후 댓글을 입력할수 있습니다</label>
+																	</div>
 																</div>
-															</div>
-														</form>
+														<div class="col-2" style="margin: auto;">
+															<button class="btn btn-primary"
+																style="padding: 8px 12px !important;" type="button" onclick="nonClick(event)">작성</button>
+														</div>
+															</c:when>
+														</c:choose>
 													</div>
-												</div>
+												</form>
 											</div>
 										</div>
 									</div>
@@ -244,87 +258,81 @@
 						</div>
 					</div>
 				</div>
-			</c:when>
-		</c:choose>
+			</div>
+		</div>
 
 
 
 
 
 		<!-- Footer Start -->
-		<div
-			class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn"
-			data-wow-delay="0.1s">
-			<div class="container py-5">
-				<div class="row g-5">
-					<div class="col-lg-3 col-md-6">
-						<h5 class="text-white mb-4">Get In Touch</h5>
-						<p class="mb-2">
-							<i class="fa fa-map-marker-alt me-3"></i>그린아카데미
-						</p>
-						<p class="mb-2">
-							<i class="fa fa-phone-alt me-3"></i>010-0000-0000
-						</p>
-						<p class="mb-2">
-							<i class="fa fa-envelope me-3"></i>green@naver.com
-						</p>
-					</div>
-					<div class="col-lg-3 col-md-6">
-						<h5 class="text-white mb-4">Quick Links</h5>
-						<a class="btn btn-link text-white-50" href="/Kidzzone">예스키즈존</a> <a
-							class="btn btn-link text-white-50" href="/BoardList">게시판</a> <a
-							class="btn btn-link text-white-50" href="">채팅방</a> <a
-							class="btn btn-link text-white-50" href="">고객문의</a> <a
-							class="btn btn-link text-white-50" href="">마이 페이지</a>
-					</div>
-					<div class="col-lg-3 col-md-6">
-						<h5 class="text-white mb-4">Newsletter</h5>
-						<p>
-							어린이 관련 뉴스를 <br>이메일로 받아보세요!
-						</p>
-						<div class="position-relative mx-auto" style="max-width: 400px;">
-							<input class="form-control bg-transparent w-100 py-3 ps-4 pe-5"
-								type="text" placeholder="이메일 입력">
-							<button type="button"
-								class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">구독</button>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-6">
-						<h5 class="text-white mb-4">About</h5>
-						<p>
-							키즈파크에 오신것을 환영합니다.<br>많은 이용 부탁드립니다!
-						</p>
-						<div class="d-flex pt-2">
-							<a class="btn btn-outline-light btn-social" href=""><i
-								class="fab fa-twitter"></i></a> <a
-								class="btn btn-outline-light btn-social" href=""><i
-								class="fab fa-facebook-f"></i></a> <a
-								class="btn btn-outline-light btn-social" href=""><i
-								class="fab fa-youtube"></i></a> <a
-								class="btn btn-outline-light btn-social" href=""><i
-								class="fab fa-linkedin-in"></i></a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="container">
-				<div class="copyright">
-					<div class="row">
-						<div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-							&copy; <a class="border-bottom" href="#">KidzPark</a>, All Right
-							Reserved.
+	     <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-lg-3 col-md-6">
+                        <h5 class="text-white mb-4">Get In Touch</h5>
+                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>그린아카데미</p>
+                        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>010-0000-0000</p>
+                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>green@naver.com</p>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h5 class="text-white mb-4">Quick Links</h5>
+                        <a class="btn btn-link text-white-50" href="/Kidzzone">예스키즈존</a>
+                        <a class="btn btn-link text-white-50" href="/BoardList?m_no=1">게시판</a>
+                        <c:if test="${loginVo eq null }">
+                        <script>
+                        function showLoginAlert(event) {
+                     alert("로그인이 필요합니다!");
+                     event.preventDefault();
+                  }
+                        </script>
+                        <a class="btn btn-link text-white-50" href="/room" onclick="showLoginAlert(event)">채팅방</a>
+                        <a class="btn btn-link text-white-50" href="/UserCsList?u_no=${loginVo.u_no }" onclick="showLoginAlert(event)">고객문의</a>
+                        <a class="btn btn-link text-white-50" href="/CheckEmailForm" onclick="showLoginAlert(event)">마이 페이지</a>
+                        </c:if>
+                    </div>
+                   <div class="col-lg-3 col-md-6">
+                        <h5 class="text-white mb-4">Newsletter</h5>
+                        <p>어린이 관련 뉴스를 <br>이메일로 받아보세요! </p>
+                        <div class="position-relative mx-auto" style="max-width: 400px;">
+                            <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="이메일 입력">
+                            <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">구독</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <h5 class="text-white mb-4">About</h5>
+                       <p>키즈파크에 오신것을 환영합니다.<br>많은 이용 부탁드립니다!</p>        
+                        <div class="d-flex pt-2">
+                            <a class="btn btn-outline-light btn-social" href="https://twitter.com/?lang=ko"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/?locale=ko_KR"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-light btn-social" href="https://www.youtube.com/"><i class="fab fa-youtube"></i></a>
+                            <a class="btn btn-outline-light btn-social" href="/"><i class="fab fa-linkedin-in"></i></a>
+                        </div>            
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="copyright">
+                    <div class="row">
+                        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                            &copy; <a class="border-bottom" href="#">KidzPark</a>, All Right Reserved. 
+                     
+                        </div>
+                        <div class="col-md-6 text-center text-md-end">
+                            <div class="footer-menu">
+                                <a href="/">Home</a>
+                                <a href="/BoardList?m_no=1">게시판</a>
+                                <c:if test="${loginVo ne null }">
+                                <a href="/room" onclick="showLoginAlert(event)">채팅방</a>
+                                <a href="/UserCsList?u_no=${loginVo.u_no }" onclick="showLoginAlert(event)">고객센터</a>
+                                </c:if>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-						</div>
-						<div class="col-md-6 text-center text-md-end">
-							<div class="footer-menu">
-								<a href="">Home</a> <a href="">게시판</a> <a href="">채팅방</a> <a
-									href="">고객센터</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 		<!-- Footer End -->
 	</div>
 
@@ -474,7 +482,14 @@
 		    }
 		});
 		         }
-		
+		    
+		    function nonClick(event) {
+		        // 기본 동작을 막음
+		        event.preventDefault();
+
+		        // 원하는 작업을 수행하지 않음
+		        // (여기에 추가적인 JavaScript 로직을 작성할 수 있음)
+		    }
 	</script>
 </body>
 
