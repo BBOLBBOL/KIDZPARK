@@ -26,5 +26,6 @@ public class KidzzoneVo {
 	private String kz_img;
 	private String kz_category;
 	private String selectoption;
+	private int    kz_likeuser;
    
 }

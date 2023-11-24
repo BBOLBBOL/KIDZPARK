@@ -37,13 +37,16 @@ public class KidzzoneController {
 		
 		
 		List<KidzzoneVo> selectkiddzone = kidzzoneMapper.selectKiddzone();
-
+		
+		
+		
 		ModelAndView mv = new ModelAndView();
-
+		
 		mv.addObject("selectkiddzone", selectkiddzone);
 
 		mv.setViewName("kidzzone/kidzzone");
-
+		
+		
 		ObjectMapper mapper = new ObjectMapper();
 
 		String json = "";

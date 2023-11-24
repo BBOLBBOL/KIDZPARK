@@ -110,9 +110,9 @@ body {
 	overflow-y: auto; /* 수직 스크롤을 가능하게 설정 */
 }
 
-  .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+  .wrap {position: absolute;left: 0;bottom: 40px;width: 320px;height: 180px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
     .wrap * {padding: 0;margin: 0;}
-    .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+    .wrap .info {width: 300px;height: 165px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
     .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
     .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
     .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
@@ -352,6 +352,7 @@ body {
 	    // 페이지 로드 완료 후 updatePage 함수 실행
 	    updatePage();
 	    mysite();
+		    
 	    
 	};
 	
@@ -436,6 +437,8 @@ var geocoder = new kakao.maps.services.Geocoder();
 var markers = []; // 마커를 담을 배열
 var overlays = []; // 오버레이를 담을 배열
 
+
+
 positions.forEach(function(position) {
 	console.log("position : ", position);
 	 let kz_no = position.kz_no; // 변수를 블록 스코프로 변경
@@ -449,6 +452,8 @@ positions.forEach(function(position) {
                 position: coords
             });
             markers.push(marker);
+            
+            if (position.u_no !== null && position.kz_likeuser == 0) {
             var content = '<div class="wrap">' + 
             '    <div class="info">' + 
             '        <div class="title">' + 
@@ -463,15 +468,42 @@ positions.forEach(function(position) {
             '                <div class="ellipsis">'+position.kz_address+'</div>' +
             '                <div class="jibun ellipsis">(우)' +position.kz_postcode +
             '                <div><a href="javascript:void(0);" onclick="openReviewModal(\'' + position.kz_no + '\')" class="link">리뷰보기</a></div>' +  
-            '                <div id="Like"></div>' +  
+            '                <div id="Like">  ' +   
+            '<p style="text-align: center; font-size: 20px;"><a href="javascript:void(0);" onclick="kidzzoneLike()">🤍</a></p>'
+            '            </div>' + 
             '           <div>' + 
             '            </div>' + 
             '        </div>' + 
             '    </div>' +    
             '</div>';
-               
 
-            
+              } else if (position.u_no !== null && position.kz_likeuser == 1) {
+                  var content = '<div class="wrap">' + 
+                  '    <div class="info">' + 
+                  '        <div class="title">' + 
+                  position.kz_name + 
+                  '            <div class="close" onclick="closeOverlay('+(overlays.length)+')" title="닫기"></div>' + 
+                  '        </div>' + 
+                  '        <div class="body">' + 
+                  '            <div class="img">' +
+                  '                <img src="/img/'+position.kz_img+'" width="73" height="70">' +
+                  '           </div>' + 
+                  '            <div class="desc">' + 
+                  '                <div class="ellipsis">'+position.kz_address+'</div>' +
+                  '                <div class="jibun ellipsis">(우)' +position.kz_postcode +
+                  '                <div><a href="javascript:void(0);" onclick="openReviewModal(\'' + position.kz_no + '\')" class="link">리뷰보기</a></div>' +  
+                  '                <div id="Like"> '+    
+                  '<p style="text-align: center; font-size: 20px;"><a href="javascript:void(0);" onclick="kidzzoneUnLike()">❤️</a></p>'
+                  '            </div>' + 
+                  '           <div>' + 
+                  '            </div>' + 
+                  '        </div>' + 
+                  '    </div>' +    
+                  '</div>';
+
+                  
+              }
+               console.log(content);
             var overlay = new kakao.maps.CustomOverlay({
                 content: content,
                 map: map,
@@ -479,7 +511,6 @@ positions.forEach(function(position) {
             });
             overlays.push(overlay);
 
-       		kidzzoneLikeUser(kz_no, u_no)
 
             kakao.maps.event.addListener(marker, 'click', function() {
                 overlays.forEach(function(overlay) {
@@ -491,40 +522,6 @@ positions.forEach(function(position) {
         }
     });
 });
-
-function kidzzoneLikeUser(kz_no, u_no) {
-
-    console.log("함수시작 :  ");
-    $.ajax({
-        type: "GET",
-        url: "/KidzzoneLikeUser",
-        data: {
-            kz_no: kz_no,
-            u_no: u_no
-        },
-        success: function(response) {
-            let tag = '';
-            
-            if (response.u_no != null && response.kidzzoneLikeUser == 0) {
-            	console.log("리스폰 : ", response);
-                tag += '<p style="font-size: 20px;"><a href="javascript:void:(0);" onclick="kidzzoneLike(' + kz_no + ',' + u_no + ')">🤍</a></p>';
-            } else if (response.u_no != null && response.kidzzoneLikeUser == 1) {
-                tag += '<p style="font-size: 20px;"><a href="javascript:void:(0);" onclick="kidzzoneUnLike(' + kz_no + ',' + u_no + ')">❤️</a></p>';
-            }
-            
-            
-            console.log("Before #Like: ", $("#Like").html());
-            $("#Like").html(tag);
-            console.log("After #Like: ", $("#Like").html());
-            
-        },
-        error: function(error) {
-            console.error("오류 : ", error);
-        }
-    });
-    console.log("함수 끝 : ");
-}
-
 
 
 

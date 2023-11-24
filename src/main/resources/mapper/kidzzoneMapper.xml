@@ -21,7 +21,17 @@ WHERE RN BETWEEN #{start} AND #{end}
   <select id="selectKiddzone"
   resultType="com.kidzpark.kidzzone.domain.KidzzoneVo">
    
- SELECT *
+ SELECT 
+K.KZ_NO,
+K.KZ_NAME,
+K.KZ_POSTCODE,
+K.KZ_ADDRESS,
+K.KZ_DETAILADDRESS,
+K.KZ_EXTRAADDRESS,
+K.KZ_EXPLANATION,
+K.KZ_OPENINGTIME,
+K.KZ_IMG,
+(SELECT COUNT(U_NO) FROM ZONELIKE ZK WHERE ZK.KZ_NO  = K.KZ_NO) AS KZ_LIKEUSER
     FROM KIDZZONE K
 	
 </select>
