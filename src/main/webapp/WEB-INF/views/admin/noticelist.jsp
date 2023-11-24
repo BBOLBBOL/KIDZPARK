@@ -75,7 +75,7 @@
 				class="row g-0 align-items-center flex-column-reverse flex-md-row">
 				<div class="p-5 mt-lg-5">
 					<h1 class="display-4 animated fadeIn mb-4"
-						style="margin-top: 13%; text-align: center;">공지사항 목록</h1>
+						style="margin-top: 13%; text-align: center;">${m_name } 목록</h1>
 				</div>
 			</div>
 		</div>
@@ -126,7 +126,7 @@
 				href="/NoticeList?m_no=3" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">요리</a> <a
 				href="/NoticeList?m_no=4" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">육아</a> <a
 				href="/NoticeList?m_no=5" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">교육</a> <a
-				href="/NoticeList?m_no=6" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">공지</a>
+				href="/NoticeList?m_no=99" class="btn btn-info" style="margin-left : 10px; padding:15px 25px;">공지</a>
 				
 				
 				</div>
@@ -155,7 +155,7 @@
 				</tbody>
 			</table>
 			<div style="margin: 10px 10px auto; text-align: right; ">
-				<a href="/NoticeWriteForm?m_no=${m_no}" class="btn btn-primary" style="margin-right : 30px;">글쓰기</a>
+				<a href="/NoticeWriteForm?m_no=${m_no}" class="btn btn-primary" style="margin-right : 10px;">글쓰기</a>
 				<a type="button" class="btn btn-danger" onclick="deleteValue();">삭제</a>
 				</div>
 				

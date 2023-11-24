@@ -101,7 +101,7 @@
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" href="/CheckEmailForm">내정보 확인/수정</a></li>
 								<li><a class="dropdown-item" href="#">2</a></li>
-								<li><a class="dropdown-item" href="#">3</a></li>
+								<li><a class="dropdown-item" href="/UserLikeList?u_no=${loginVo.u_no }">내 관심매장</a></li>
 								<li><a class="dropdown-item" href="#">4</a></li>
 								<li><hr class="dropdown-divider"></li>
 								<li><a class="dropdown-item" href="/LogOut">로그 아웃</a></li>

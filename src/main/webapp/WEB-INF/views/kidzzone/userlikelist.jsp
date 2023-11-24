@@ -62,12 +62,13 @@
            margin-bottom:3%;
     }
     
-        .name {
+       .name {
         white-space: nowrap;         /* 텍스트 줄 바꿈 금지 */
         overflow: hidden;            /* 넘치는 부분 감춤 */
         text-overflow: ellipsis;     /* 넘치는 부분에 ... 표시 */
         max-width: 10em;             /* 최대 너비 설정 (10em은 예시) */
     }
+    
     
 </style>
 
@@ -84,7 +85,7 @@
 				class="row g-0 align-items-center flex-column-reverse flex-md-row">
 				<div class="p-5 mt-lg-5">
 					<h1 class="display-4 animated fadeIn mb-4"
-						style="margin-top: 13%; text-align: center;">키즈존목록</h1>
+						style="margin-top: 13%; text-align: center;">관심매장 목록</h1>
 				</div>
 			</div>
 		</div>
@@ -95,34 +96,31 @@
 		   <thead class="thead-white">
 		    <tr>
 		    <th><input type="checkbox" id="allCheck"></th>
-		     <th scope="col">키즈존No</th>
-		       <th scope="col">키즈존 이름</th>
-		       <th scope="col">키즈존 분류</th>
-		       <th scope="col">키즈존 주소</th>
-		       <th scope="col">키즈존 설명</th>
-		       <th scope="col">키즈존 영업시간</th>
+		     <th scope="col">매장이름</th>
+		       <th scope="col">카테고리</th>
+		       <th scope="col">매장설명</th>
+		       <th scope="col">매장주소</th>
+		       <th scope="col">영업시간</th>
 		    </tr>
 		    </thead>
 		    <tbody class="tbody-white">
-		    <c:forEach var="kzList" items="${kzList }">
+		    <c:forEach var="LikeList" items="${LikeList }">
 		    <tr>
-		      <td><input type="checkbox" name="rowCheck" id="rowCheck" value="${kzList.kz_no }"></td>
-		      <td>${kzList.kz_no }</td>
-		      <td>${kzList.kz_name}</td>
-		      <td>${kzList.kz_category}</td>
-		      <td class="name">${kzList.kz_address } &nbsp; ${kzList.kz_detailaddress }</td>
-		      <td class="name">${kzList.kz_explanation}</td>
-		      <td>${kzList.kz_openingtime}</td>
+		      <td><input type="checkbox" name="rowCheck" id="rowCheck" value="${LikeList.KZ_NO }"></td>
+		      <td>${LikeList.KZ_NAME }</td>
+		      <td>${LikeList.KZ_CATEGORY }</td>
+		      <td class="name">${LikeList.KZ_EXPLANATION}</td>
+		      <td class="name">${LikeList.KZ_ADDRESS } &nbsp; ${LikeList.KZ_DETAILADDRESS }</td>
+		      <td>${LikeList.KZ_OPENINGTIME }</td>
+		      
 		    </tr>
 		    </c:forEach>
 		    </tbody>
 		  </table>
 		  	<div style="margin: 10px 10px auto; text-align: right; ">
-            <a href="/KzWriteForm" class="btn btn-primary" style="margin-right : 10px;">키즈존 등록</a>
-            <a href="javascript:void(0);" class="btn btn-primary" style="margin-right : 10px;"  onclick="submitForm()">키즈존 수정</a>
             <a type="button" class="btn btn-danger" onclick="deleteValue();">삭제</a>
             </div>
-			<%@include file="/WEB-INF/views/include/adminkidzzonepaging.jsp"%>
+			<%@include file="/WEB-INF/views/include/userlikelistpaging.jsp"%>
 		</div>
 	
 	<div
@@ -229,8 +227,8 @@ $("input[id='allCheck']").click(function() {
 });
 
 function deleteValue() {
-	   var kz_no =  ${kz_no};
-	   var url  =  "/KidzzoneDelete?kz_no=" + kz_no;
+	   var u_no =  ${u_no};
+	   var url  =  "/UserLikeDelete?u_no=" + u_no;
 	   var valueArr  =  [];
 	   var list  =  $("input[name='rowCheck']");
 	   for(var i = 0; i < list.length; i++) {
@@ -266,27 +264,6 @@ function deleteValue() {
 	   }
 	}  // deleteValue
 }
-
-
-function submitForm() {
-    // 체크된 체크박스의 값을 가져오기
-    var checkedCheckbox = document.querySelector('input[name="rowCheck"]:checked');
-
-    // 체크된 체크박스가 있는지 확인
-    if (checkedCheckbox) {
-        // 체크된 경우, 선택된 kz_no 값을 가져오기
-        var kz_no = checkedCheckbox.value;
-
-        // 수정 페이지로 이동하기
-        window.location.href = "/KidzzoneUpdateForm?kz_no=" + kz_no;
-    } else {
-        // 선택된 체크박스가 없는 경우에 대한 처리를 여기에 추가할 수 있습니다.
-        alert('체크박스를 선택하세요.');
-    }
-}
-
-
-
 
 </script>
 </body>

@@ -110,11 +110,11 @@ body {
 	overflow-y: auto; /* 수직 스크롤을 가능하게 설정 */
 }
 
-  .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+   .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
     .wrap * {padding: 0;margin: 0;}
-    .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+    .wrap .info {width: 286px;height: 140px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
     .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
-    .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+    .info .title {padding: 5px 0 0 10px;height: 40px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
     .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
     .info .close:hover {cursor: pointer;}
     .info .body {position: relative;overflow: hidden;}
@@ -214,25 +214,6 @@ body {
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-		<c:forEach var="review" items="${kidzzonereview}">
-      <div class="modal-body">
-        <p>Modal body text goes here.</p>
-      </div>
-</c:forEach>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
 		<!-- Footer Start -->
 		<div
 			class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn"
@@ -309,6 +290,42 @@ body {
 		</div>
 		<!-- Footer End -->
 	</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- 리뷰 내용은 여기에 동적으로 추가됩니다. -->
+        <div id="reviewContent"></div>
+        
+        <!-- 리뷰 작성 폼 -->
+        <form id="reviewForm" enctype="multipart/form-data">
+        <input type="hidden" name="u_no" value="${loginVo.u_no }" id="u_no">
+        <input type="hidden" name="kz_no" id="kz_no">
+          <div class="mb-3">
+            <label for="reviewInput" class="form-label">리뷰 입력</label>
+            <textarea class="form-control" id="reviewInput" name="r_review" rows="3"></textarea>
+          </div>
+           <div class="mb-3">
+            <label for="imageInput" class="form-label">사진 업로드</label>
+            <input type="file" class="form-control" id="imageInput" name="r_reviewimg" accept="image/*" onchange="readURL(this)">
+            <br>
+            <img id="preview" style="width: 100px;">
+    </div>
+          <!-- 추가적인 입력 폼들을 필요에 따라 추가할 수 있습니다. -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-primary" onclick="saveReview()">저장</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 	<!-- JavaScript Libraries -->
@@ -426,100 +443,298 @@ body {
 	 var overlays = []; // 오버레이를 담을 배열
 
 	 positions.forEach(function(position) {
-	     geocoder.addressSearch(position.kz_address, function(result, status) {
-	         if (status === kakao.maps.services.Status.OK) {
-	             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-	             var marker = new kakao.maps.Marker({
-	                 map: map,
-	                 position: coords
-	             });
-	             markers.push(marker);
-	             
-	             var content = '<div class="wrap">' + 
-	             '    <div class="info">' + 
-	             '        <div class="title">' + 
-	             position.kz_name + 
-	             '            <div class="close" onclick="closeOverlay('+(overlays.length)+')" title="닫기"></div>' + 
-	             '        </div>' + 
-	             '        <div class="body">' + 
-	             '            <div class="img">' +
-	             '                <img src="img/'+position.kz_img+'" width="73" height="70">' +
-	             '           </div>' + 
-	             '            <div class="desc">' + 
-	             '                <div class="ellipsis">'+position.kz_address+'</div>' +
-	             '                <div class="jibun ellipsis">(우)' +position.kz_postcode +
-	             '                <div><a href="/KidzzoneReview?kz_no='+position.kz_no+'" data-bs-toggle="modal" data-bs-target="#exampleModal" target="_blank" class="link">리뷰보기</a></div>' + 
-	             '           <div>' + 
-	             '            </div>' + 
-	             '        </div>' + 
-	             '    </div>' +    
-	             '</div>';
-	             var overlay = new kakao.maps.CustomOverlay({
-	                 content: content,
-	                 map: map,
-	                 position: marker.getPosition()
-	             });
-	             overlays.push(overlay);
+			console.log("position : ", position);
+			 let kz_no = position.kz_no; // 변수를 블록 스코프로 변경
+			 let u_no = document.getElementById('u_no').value; // 변수를 블록 스코프로 변경
+			 
+		    geocoder.addressSearch(position.kz_address, function(result, status) {
+		        if (status === kakao.maps.services.Status.OK) {
+		            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		            var marker = new kakao.maps.Marker({
+		                map: map,
+		                position: coords
+		            });
+		            markers.push(marker);
+		            
+		            if (position.u_no !== null && position.kz_likeuser == 0) {
+		            var content = '<div class="wrap">' + 
+		            '    <div class="info">' + 
+		            '        <div class="title">' + 
+		            position.kz_name + 
+		            '            <div class="close" onclick="closeOverlay('+(overlays.length)+')" title="닫기"></div>' + 
+		            '        </div>' + 
+		            '        <div class="body">' + 
+		            '            <div class="img">' +
+		            '                <img src="/img/'+position.kz_img+'" width="73" height="70">' +
+		            '           </div>' + 
+		            '            <div class="desc">' + 
+		            '                <div class="ellipsis">'+position.kz_address+'</div>' +
+		            '                <div class="jibun ellipsis">(우)' +position.kz_postcode +
+		            '                <div><a href="javascript:void(0);" onclick="openReviewModal(\'' + position.kz_no + '\')" class="link">리뷰보기</a></div>' +  
+		            '                <div id="Like">  ' +   
+		            ' <p style="font-size: 20px;"><a href="javascript:void:(0);" onclick="kidzzoneLike(' + kz_no + ',' + u_no + ')">🤍</a></p>';
+		            '            </div>' + 
+		            '           <div>' + 
+		            '            </div>' + 
+		            '        </div>' + 
+		            '    </div>' +    
+		            '</div>';
 
-	             kakao.maps.event.addListener(marker, 'click', function() {
-	                 overlays.forEach(function(overlay) {
-	                     overlay.setMap(null);
-	                 });
-	                 overlay.setMap(map);
-	             });
-	         }
-	     });
-	 });
+		              } else if (position.u_no !== null && position.kz_likeuser == 1) {
+		                  var content = '<div class="wrap">' + 
+		                  '    <div class="info">' + 
+		                  '        <div class="title">' + 
+		                  position.kz_name + 
+		                  '            <div class="close" onclick="closeOverlay('+(overlays.length)+')" title="닫기"></div>' + 
+		                  '        </div>' + 
+		                  '        <div class="body">' + 
+		                  '            <div class="img">' +
+		                  '                <img src="/img/'+position.kz_img+'" width="73" height="70">' +
+		                  '           </div>' + 
+		                  '            <div class="desc">' + 
+		                  '                <div class="ellipsis">'+position.kz_address+'</div>' +
+		                  '                <div class="jibun ellipsis">(우)' +position.kz_postcode +
+		                  '                <div><a href="javascript:void(0);" onclick="openReviewModal(\'' + position.kz_no + '\')" class="link">리뷰보기</a></div>' +  
+		                  '                <div id="Like"> '+    
+		                  '<p style="font-size: 20px;"><a href="javascript:void:(0);" onclick="kidzzoneUnLike(' + kz_no + ',' + u_no + ')">❤️</a></p>';
+		                  '            </div>' + 
+		                  '           <div>' + 
+		                  '            </div>' + 
+		                  '        </div>' + 
+		                  '    </div>' +    
+		                  '</div>';
 
-	 // 인덱스를 기반으로 오버레이를 닫는 함수를 정의합니다
-	 function closeOverlay(index) {
-	     overlays[index].setMap(null); // 해당 인덱스의 오버레이만 닫음
-	 }
+		                  
+		              }
+		            var overlay = new kakao.maps.CustomOverlay({
+		                content: content,
+		                map: map,
+		                position: marker.getPosition()
+		            });
+		            overlays.push(overlay);
 
 
-	 // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-	 function mysite(){
+		            kakao.maps.event.addListener(marker, 'click', function() {
+		                overlays.forEach(function(overlay) {
+		                    overlay.setMap(null);
+		                });
+		                overlay.setMap(map);
+		                
+		            });
+		        }
+		    });
+		});
 
-	     navigator.geolocation.watchPosition(function (position) {
-	         try {
-	             var lat = position.coords.latitude, // 위도
-	                 lon = position.coords.longitude; // 경도
 
-	             // 현재 위치로 지도 중심 이동
-	             var center = new kakao.maps.LatLng(lat, lon);
-	             map.setCenter(center);
 
-	             // 마커 생성 및 표시
-	             var marker = new kakao.maps.Marker({
-	                 map: map,
-	                 position: center
-	             });
+		// 인덱스를 기반으로 오버레이를 닫는 함수를 정의합니다
+		function closeOverlay(index) {
+		    overlays[index].setMap(null); // 해당 인덱스의 오버레이만 닫음
+		}
 
-	             // 마커에 인포윈도우 표시
-	             var infowindow = new kakao.maps.InfoWindow({
-	                 content: '현재 위치'
-	             });
-	             infowindow.open(map, marker);
-	         } catch (error) {
-	             console.error('Error in getCurrentPosition:', error);
-	         }
-	     }, function (error) {
-	         console.error('Error in getCurrentPosition:', error);
-	     });
 
-	 }
-function moveMap(movemap){
-	geocoder.addressSearch(movemap, function (result, status) {
-        console.log(result, status);
-        // 정상적으로 검색이 완료됐으면
-          if (status === kakao.maps.services.Status.OK) {
+		// GeoLocation을 이용해서 접속 위치를 얻어옵니다
+		function mysite(){
 
-             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-        	const moveLatLon = new kakao.maps.LatLng(coords.getLat(), coords.getLng());
-            map.panTo(moveLatLon);
-        }
-	});
-}
+		    navigator.geolocation.watchPosition(function (position) {
+		        try {
+		            var lat = position.coords.latitude, // 위도
+		                lon = position.coords.longitude; // 경도
+
+		            // 현재 위치로 지도 중심 이동
+		            var center = new kakao.maps.LatLng(lat, lon);
+		            map.setCenter(center);
+
+		            // 마커 생성 및 표시
+		            var marker = new kakao.maps.Marker({
+		                map: map,
+		                position: center
+		            });
+
+		            // 마커에 인포윈도우 표시
+		            var infowindow = new kakao.maps.InfoWindow({
+		                content: '현재 위치'
+		            });
+		            infowindow.open(map, marker);
+		        } catch (error) {
+		            console.error('Error in getCurrentPosition:', error);
+		        }
+		    }, function (error) {
+		        console.error('Error in getCurrentPosition:', error);
+		    });
+
+		}
+		function moveMap(movemap){
+			geocoder.addressSearch(movemap, function (result, status) {
+		        console.log(result, status);
+		        // 정상적으로 검색이 완료됐으면
+		          if (status === kakao.maps.services.Status.OK) {
+
+		             var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		        	const moveLatLon = new kakao.maps.LatLng(coords.getLat(), coords.getLng());
+		            map.panTo(moveLatLon);
+		        }
+			});
+		}
+
+				    
+		function openReviewModal(kz_no) {
+		    var url = '/KidzzoneReview?kz_no=' + kz_no;
+
+		    // AJAX를 사용하여 데이터를 조회합니다.
+		    $.ajax({
+		        url: url,
+		        method: 'GET',
+		        success: function(data) {
+		            console.log("data : ", data.reviewList);
+
+		            // 데이터가 존재하는 경우
+		            if (data && data.reviewList.length > 0) {
+		                // 각 리뷰의 정보를 <p> 태그로 생성
+		                var reviewContentHtml = '';
+		                
+		                for (var i = 0; i < data.reviewList.length; i++) {
+		                    var review = data.reviewList[i];
+		                    var deleteButtonHtml = '<button class="btn btn-danger" onclick="deleteReview('+ review.KZ_NO + ',' + review.R_NO + ')">삭제</button>';
+		                    var reviewImgHtml = review.R_REVIEWIMG ?
+		                        '<p><strong>리뷰사진:</strong> <img src="/img/' + review.R_REVIEWIMG + '" style="width: 100px;"></p>' :
+		                        '';
+
+		                    reviewContentHtml +=
+		                        reviewImgHtml +
+		                        '<p><strong>작성자 닉네임:</strong> ' + review.U_NICKNAME + '</p>' +
+		                        '<p><strong>리뷰 작성일:</strong> ' + review.R_REVIEWDATE + '</p>' +
+		                        '<p><strong>리뷰 내용:</strong> ' + review.R_REVIEW + '</p>' +
+		                        deleteButtonHtml +
+		                        '<hr>'; // 리뷰 간에 구분선을 추가하였습니다.
+		                }
+
+		                $('.modal-title').html(review.KZ_NAME + ' 점 리뷰');
+		                
+		                // 리뷰 내용을 모달에 넣기
+		                $('#reviewContent').html(reviewContentHtml);
+		            } else {
+		                // 데이터가 없을 경우 메시지 출력
+		                $('#reviewContent').html('<p>리뷰가 없습니다.</p>');
+		                $('.modal-title').html( data.kz_name + '&nbsp; 점 리뷰');
+		            }
+		            
+		            $('#kz_no').val(kz_no);
+		            
+		            resetReviewForm();
+		            // 모달을 열기
+		            $('#exampleModal').modal('show');
+		        },
+		        error: function(error) {
+		            console.error('데이터 조회에 실패했습니다: ', error);
+		        }
+		    });
+		}
+
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					document.getElementById('preview').src = e.target.result;
+				};
+				reader.readAsDataURL(input.files[0]);
+			} else {
+				document.getElementById('preview').src = "";
+			}
+		}
+
+		function saveReview() {
+			 var kz_no = $('#kz_no').val();
+		     var formData = new FormData($('#reviewForm')[0]);
+		     formData.append('kz_no', kz_no);
+		    $.ajax({
+		        url: '/SaveReview',
+		        method: 'POST',
+		        data: formData,
+		        processData: false,
+		        contentType: false,
+		        success: function(response) {
+		            console.log('리뷰가 성공적으로 저장되었습니다.');
+		            console.log("받기 : " + response)
+		            alert("리뷰가 등록되었습니다!.")
+		            openReviewModal(kz_no);
+		        },
+		        error: function(error) {
+		            console.error('리뷰 저장에 실패했습니다: ', error);
+		        }
+		    });
+		}
+
+		function resetReviewForm() {
+		    // 폼 리셋
+		    $('#reviewForm')[0].reset();
+
+		    $('#preview').attr('src', ''); // 빈 문자열로 src 속성을 비움
+		    
+		    
+		}
+
+
+		function deleteReview(kz_no, r_no) {
+		    // AJAX를 사용하여 리뷰를 삭제하는 요청 보내기
+		    $.ajax({
+		        url: '/DeleteReview',
+		        method: 'DELETE',
+		        data: {
+		            r_no: r_no
+		        },
+		        success: function(response) {
+		            console.log('리뷰가 성공적으로 삭제되었습니다.');
+		            alert("리뷰가 삭제되었습니다!.")
+		            // 삭제 후 모달을 닫거나, 삭제된 리뷰를 화면에서 갱신할 수 있습니다.
+		            openReviewModal(kz_no);
+		        },
+		        error: function(error) {
+		            console.error('리뷰 삭제에 실패했습니다: ', error);
+		        }
+		    });
+		}
+
+
+
+
+		function kidzzoneLike(kz_no, u_no) {
+			$.ajax({
+				type : "POST",
+				url  : "/KidzzoneLike",
+				data : {
+					kz_no : kz_no,
+					u_no  : u_no
+				},
+				success : function() {			
+					console.log("관심매장 추가 완료 !");
+					alert("관심매장이 추가되었습니다!.")
+					location.reload();
+				},
+				error : function(error) {
+					console.error("관심매장 추가 실패 !", error);	
+				}
+			});
+		}
+
+		function kidzzoneUnLike(kz_no, u_no) {
+			$.ajax({
+				type : "DELETE",
+				url  : "/KidzzoneUnLike",
+				data : {
+					kz_no : kz_no,
+					u_no  : u_no
+				},
+				success : function() {
+					console.log("관심매장 삭제 완료 !");
+					alert('관심매장이 삭제 되었습니다!.')
+					location.reload();
+				},
+				error : function(error) {
+					console.error("관심매장 삭제 실패 !", error);	
+				}
+			});
+		}
 
 
 

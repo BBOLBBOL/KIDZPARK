@@ -110,11 +110,11 @@ body {
 	overflow-y: auto; /* 수직 스크롤을 가능하게 설정 */
 }
 
-  .wrap {position: absolute;left: 0;bottom: 40px;width: 320px;height: 180px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+  .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
     .wrap * {padding: 0;margin: 0;}
-    .wrap .info {width: 300px;height: 165px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+    .wrap .info {width: 286px;height: 140px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
     .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
-    .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+    .info .title {padding: 5px 0 0 10px;height: 40px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
     .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
     .info .close:hover {cursor: pointer;}
     .info .body {position: relative;overflow: hidden;}
@@ -469,7 +469,7 @@ positions.forEach(function(position) {
             '                <div class="jibun ellipsis">(우)' +position.kz_postcode +
             '                <div><a href="javascript:void(0);" onclick="openReviewModal(\'' + position.kz_no + '\')" class="link">리뷰보기</a></div>' +  
             '                <div id="Like">  ' +   
-            '<p style="text-align: center; font-size: 20px;"><a href="javascript:void(0);" onclick="kidzzoneLike()">🤍</a></p>'
+            ' <p style="font-size: 20px;"><a href="javascript:void:(0);" onclick="kidzzoneLike(' + kz_no + ',' + u_no + ')">🤍</a></p>';
             '            </div>' + 
             '           <div>' + 
             '            </div>' + 
@@ -493,7 +493,7 @@ positions.forEach(function(position) {
                   '                <div class="jibun ellipsis">(우)' +position.kz_postcode +
                   '                <div><a href="javascript:void(0);" onclick="openReviewModal(\'' + position.kz_no + '\')" class="link">리뷰보기</a></div>' +  
                   '                <div id="Like"> '+    
-                  '<p style="text-align: center; font-size: 20px;"><a href="javascript:void(0);" onclick="kidzzoneUnLike()">❤️</a></p>'
+                  '<p style="font-size: 20px;"><a href="javascript:void:(0);" onclick="kidzzoneUnLike(' + kz_no + ',' + u_no + ')">❤️</a></p>';
                   '            </div>' + 
                   '           <div>' + 
                   '            </div>' + 
@@ -503,7 +503,6 @@ positions.forEach(function(position) {
 
                   
               }
-               console.log(content);
             var overlay = new kakao.maps.CustomOverlay({
                 content: content,
                 map: map,
@@ -704,9 +703,10 @@ function kidzzoneLike(kz_no, u_no) {
 			kz_no : kz_no,
 			u_no  : u_no
 		},
-		success : function() {
-			
+		success : function() {			
 			console.log("관심매장 추가 완료 !");
+			alert("관심매장이 추가되었습니다!.")
+			location.reload();
 		},
 		error : function(error) {
 			console.error("관심매장 추가 실패 !", error);	
@@ -724,6 +724,8 @@ function kidzzoneUnLike(kz_no, u_no) {
 		},
 		success : function() {
 			console.log("관심매장 삭제 완료 !");
+			alert('관심매장이 삭제 되었습니다!.')
+			location.reload();
 		},
 		error : function(error) {
 			console.error("관심매장 삭제 실패 !", error);	

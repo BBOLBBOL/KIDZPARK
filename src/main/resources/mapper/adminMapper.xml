@@ -76,7 +76,7 @@ WHERE RN BETWEEN #{start} AND #{end} AND U_NO &lt;&gt; 99
  
  <insert id="insertFileKz">
  
- INSERT INTO KIDZZONE (KZ_NO, KZ_NAME, KZ_POSTCODE, KZ_ADDRESS, KZ_DETAILADDRESS, KZ_EXTRAADDRESS, KZ_EXPLANATION, KZ_OPENINGTIME, KZ_IMG)
+ INSERT INTO KIDZZONE (KZ_NO, KZ_NAME, KZ_POSTCODE, KZ_ADDRESS, KZ_DETAILADDRESS, KZ_EXTRAADDRESS, KZ_EXPLANATION, KZ_OPENINGTIME, KZ_CATEGORY, KZ_IMG)
  VALUES ( (SELECT NVL(MAX(KZ_NO), 0)+1 FROM KIDZZONE),
  		   #{kz_name},
  		   #{kz_postcode},
@@ -85,6 +85,7 @@ WHERE RN BETWEEN #{start} AND #{end} AND U_NO &lt;&gt; 99
  		   #{kz_extraaddress},
  		   #{kz_explanation},
  		   #{kz_openingtime},
+ 		   #{kz_category},
  		   #{kz_img}
  )
  </insert>
@@ -92,7 +93,7 @@ WHERE RN BETWEEN #{start} AND #{end} AND U_NO &lt;&gt; 99
  
   <insert id="insertNoFileKz">
  
- INSERT INTO KIDZZONE (KZ_NO, KZ_NAME, KZ_POSTCODE, KZ_ADDRESS, KZ_DETAILADDRESS, KZ_EXTRAADDRESS, KZ_EXPLANATION, KZ_OPENINGTIME)
+ INSERT INTO KIDZZONE (KZ_NO, KZ_NAME, KZ_POSTCODE, KZ_ADDRESS, KZ_DETAILADDRESS, KZ_EXTRAADDRESS, KZ_EXPLANATION, KZ_OPENINGTIME, KZ_CATEGORY)
  VALUES ( (SELECT NVL(MAX(KZ_NO), 0)+1 FROM KIDZZONE),
  		   #{kz_name},
  		   #{kz_postcode},
@@ -100,7 +101,8 @@ WHERE RN BETWEEN #{start} AND #{end} AND U_NO &lt;&gt; 99
  		   #{kz_detailaddress},
  		   #{kz_extraaddress},
  		   #{kz_explanation},
- 		   #{kz_openingtime}	   
+ 		   #{kz_openingtime},
+ 		   #{kz_category}	   
  )
  </insert>
  
@@ -247,5 +249,14 @@ WHERE KZ_NO  =  #{kz_no}
 
 </update>
 
+
+<select id="m_name"
+  resultType="String">
+   
+   SELECT  M_NAME
+   FROM    MENU
+   WHERE   M_NO = #{m_no}
+	
+</select>
  
 </mapper>

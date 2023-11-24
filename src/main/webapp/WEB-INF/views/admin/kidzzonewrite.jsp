@@ -118,7 +118,20 @@
                                         </div>
                                         <br>
                                     </div>
-                                    <div class="col-md-6">
+                                     <div class="col-md-6">
+                                        <div class="form-floating">
+                                        <select class="form-select border-1 py-3" name="kz_category" id="category">
+			     							<option value="no">카테고리</option>
+			     							<option value="음식점">음식점</option>
+			     							<option value="키즈카페" >키즈카페</option>
+			     							<option value="체험활동" >체험활동</option>
+			     							<option value="카페 문의" >카페</option>			     
+			     						</select>
+			     						</div>
+			     						</div>
+                                    
+
+                                    <div class="col-md-12">
                                         <div class="form-floating" style="margin:auto;">
                                             <input type="text" class="form-control" id="name" placeholder="" name="kz_openingtime">
                                             <label for="name">영업 시간</label>

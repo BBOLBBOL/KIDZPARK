@@ -51,6 +51,8 @@ public interface AdminMapper {
 
 	void KidzzoneUpdateNoFile(HashMap<String, Object> map);
 
+	String m_name(Map<String, Object> map);
+
 	
 	
 	

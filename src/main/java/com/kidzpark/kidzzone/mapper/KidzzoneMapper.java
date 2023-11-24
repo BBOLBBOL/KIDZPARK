@@ -44,4 +44,10 @@ public interface KidzzoneMapper {
 
 	int countKidzzoneLikeUser(HashMap<String, Object> map);
 
+	int countUserLikeList(ReviewVo vo);
+
+	List<ReviewVo> userLikeList(HashMap<String, Object> map);
+
+	void userLikeDelete(ReviewVo vo);
+
 }

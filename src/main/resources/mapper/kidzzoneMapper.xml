@@ -215,12 +215,46 @@ AND   U_NO  = #{u_no}
 
 </delete>
 
-<select id="countKidzzoneLikeUser" resultType="int">
 
-SELECT COUNT(*) FROM ZONELIKE
-WHERE KZ_NO  =  #{kz_no}
-AND   U_NO   =  #{u_no}
+<select id="countUserLikeList" resultType="int">
+
+SELECT COUNT(*)
+FROM   ZONELIKE
+WHERE  U_NO  =  #{u_no}
+
 
 </select>
+
+<select id="userLikeList" resultType="Map">
+
+SELECT * 
+FROM (
+ SELECT ROWNUM RN, A.*
+ FROM (
+  SELECT
+  K.KZ_NO,
+  K.KZ_NAME,
+  K.KZ_ADDRESS,
+  K.KZ_DETAILADDRESS,
+  K.KZ_EXPLANATION,
+  K.KZ_OPENINGTIME,
+  K.KZ_CATEGORY
+  FROM KIDZZONE K LEFT JOIN ZONELIKE ZL ON K.KZ_NO = ZL.KZ_NO 
+  LEFT JOIN PUSER P ON ZL.U_NO = P.U_NO
+  WHERE P.U_NO  =  #{u_no} 
+ ) A
+)
+WHERE RN BETWEEN #{start} AND #{end}
+
+
+</select>
+
+<delete id="userLikeDelete">
+
+DELETE FROM ZONELIKE
+WHERE KZ_NO  =  #{kz_no}
+
+</delete>
+
  
 </mapper>

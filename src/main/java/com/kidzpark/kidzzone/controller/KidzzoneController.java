@@ -298,24 +298,6 @@ public class KidzzoneController {
 		return map;
 	}
 	
-	@RequestMapping("/KidzzoneLikeUser")
-	@ResponseBody
-	public HashMap<String, Object> kidzzoneLikeUser(@RequestParam HashMap<String, Object> map) {
-		
-		HashMap<String, Object> result  =  new HashMap<String, Object>();
-		
-		int kidzzoneLikeUser  =  kidzzoneMapper.countKidzzoneLikeUser(map);
-		result.put("kidzzoneLikeUser", kidzzoneLikeUser);
-		result.put("u_no", map.get("u_no"));
-		result.put("kz_no", map.get("kz_no"));
-		
-	    
-		System.out.println(kidzzoneLikeUser);
-		System.out.println("map : " + result);
-		
-		return result;
-	}
-	
 	
 	@RequestMapping("/KidzzoneLike") 
 	@ResponseBody
@@ -337,8 +319,50 @@ public class KidzzoneController {
 		return map;
 	}
 	
+	@RequestMapping("/UserLikeList")
+	public ModelAndView userLikeList(HashMap<String, Object> map, PagingVo pds, int u_no, ReviewVo vo,
+			@RequestParam(value = "nowPage", required = false) String nowPage,
+			@RequestParam(value = "cntPerPage", required = false) String cntPerPage
+			) {
+
+		int total  =  kidzzoneMapper.countUserLikeList(vo);
+		
+		if (nowPage == null && cntPerPage == null ) {
+			nowPage  = "1";
+			cntPerPage = "8";
+		} else if(nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "8";
+		}
+		
+		pds  =  new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		map.put("pds", pds);
+		map.put("start", pds.getStart());
+		map.put("end", pds.getEnd());
+		map.put("u_no", u_no);
+		List<ReviewVo>userLikeList  =  kidzzoneMapper.userLikeList(map);
+		
+		System.out.println(userLikeList);
+		ModelAndView mv  =  new ModelAndView();
+		mv.setViewName("kidzzone/userlikelist");
+		mv.addObject("LikeList", userLikeList);
+		mv.addObject("pds", pds);
+		return mv;
+	}
 	
-	
+	@RequestMapping("/UserLikeDelete")
+	@ResponseBody
+	public int userLikeDelete(@RequestParam(value="valueArr[]") String[] valueArr, ReviewVo vo) {
+		
+		for (String value : valueArr) {
+			vo.setKz_no(Integer.parseInt(value));
+			kidzzoneMapper.userLikeDelete(vo);
+		}
+		
+		
+		return 1;
+	}
 	
 	
 }

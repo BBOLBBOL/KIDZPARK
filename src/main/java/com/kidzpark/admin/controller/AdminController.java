@@ -140,6 +140,7 @@ public class AdminController {
 			@RequestParam(value = "cntPerPage", required = false) String cntPerPage
 			) {
 		
+		
 		Map<String, Object> map  =  new HashMap<>();  
 		map.put("m_no", m_no);
 		int total  =  adminMapper.countNotice(vo);
@@ -162,12 +163,16 @@ public class AdminController {
 		
 		List<BoardVo> noticeList  =  adminMapper.noticeList(map);
 		
+		String m_name  =  adminMapper.m_name(map);
+		
 		ModelAndView mv  =  new ModelAndView();
 		mv.setViewName("admin/noticelist");
 		mv.addObject("noticeList", noticeList);
 		mv.addObject("pg", pds);
 		mv.addObject("b_idx", vo.getB_idx());
 		mv.addObject("m_no", vo.getM_no());
+		mv.addObject("m_name", m_name);
+
 		System.out.println("mv : " + mv);
 		return mv;
 	}
