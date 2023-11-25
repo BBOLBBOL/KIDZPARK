@@ -31,8 +31,9 @@ K.KZ_EXTRAADDRESS,
 K.KZ_EXPLANATION,
 K.KZ_OPENINGTIME,
 K.KZ_IMG,
-(SELECT COUNT(U_NO) FROM ZONELIKE ZK WHERE ZK.KZ_NO  = K.KZ_NO) AS KZ_LIKEUSER
-    FROM KIDZZONE K
+
+(SELECT COUNT(U_NO) FROM ZONELIKE ZK WHERE ZK.KZ_NO  = K.KZ_NO AND ZK.U_NO = #{u_no}) AS KZ_LIKEUSER
+    FROM KIDZZONE K 
 	
 </select>
 
@@ -45,17 +46,18 @@ SELECT COUNT(*) FROM KIDZZONE
  
   <select id="selectKiddzoneSearch" resultType="com.kidzpark.kidzzone.domain.KidzzoneVo" parameterType="map">
   
-SELECT *
-	FROM KIDZZONE
+SELECT K.*,
+(SELECT COUNT(U_NO) FROM ZONELIKE ZK WHERE ZK.KZ_NO  = K.KZ_NO AND ZK.U_NO = #{u_no}) AS KZ_LIKEUSER
+	FROM KIDZZONE K
 	WHERE 1 = 1
  <if test="searchOption != 'all' and searchKeyword != ''">
         AND UPPER(${searchOption}) LIKE '%' || UPPER(#{searchKeyword}) || '%'
     </if>
     <if test="kz_location != 'all'">
-        AND KZ_ADDRESS LIKE '%' || #{kz_location} || '%'
+        AND K.KZ_ADDRESS LIKE '%' || #{kz_location} || '%'
     </if>
     <if test="kz_category != 'all'">
-        AND KZ_CATEGORY LIKE #{kz_category}
+        AND K.KZ_CATEGORY LIKE #{kz_category}
         </if>
 		
 </select>
