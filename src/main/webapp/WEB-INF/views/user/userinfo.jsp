@@ -189,6 +189,11 @@ input[type="text"], input[type="password"] {
 					</td>
 				</tr>
 				<tr>
+					<td><span class="redFont"></span>등급:</td>
+					<td><input type="text" name="u_grade" id="u_grade" style="width: 200px" value="${info.u_grade}" readonly>
+					</td>
+				</tr>
+				<tr>
 					<td><span class="redFont">*</span>주소:</td>
 					<td>
 						<div>

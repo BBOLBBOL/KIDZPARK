@@ -4,7 +4,22 @@
 
 <select id="login"
       resultType="com.kidzpark.user.domain.UserVo">
-      SELECT *
+      SELECT 
+U_NO,
+U_ID,
+U_PW,
+U_NAME,
+U_POSTCODE,
+U_ADDRESS,
+U_DETAILADDRESS,
+U_EXTRAADDRESS,
+U_NICKNAME,
+U_PHONE,
+U_PROFILEIMG,
+U_EMAIL,
+U_LOGINCOUNT,
+TO_CHAR(U_LOGINDATE, 'YYYY-MM-DD') U_LOGINDATE,
+U_GRADE
        FROM  PUSER
       WHERE U_ID = #{ u_id }
        AND  U_PW = #{ u_pw }
@@ -57,7 +72,6 @@ INSERT INTO PUSER (
     ,U_PROFILEIMG
     ,U_EMAIL
     ,U_LOGINCOUNT
-    ,U_WRITECOUNT
     ,U_GRADE
 ) VALUES (
     ( SELECT NVL(MAX(U_NO),0)+1 FROM PUSER)
@@ -73,8 +87,7 @@ INSERT INTO PUSER (
     , NULL
     ,#{u_email}
     ,0
-    ,0
-    ,0
+    ,'A'
 )
 </insert>
 
@@ -93,7 +106,6 @@ INSERT INTO PUSER (
     ,U_PROFILEIMG
     ,U_EMAIL
     ,U_LOGINCOUNT
-    ,U_WRITECOUNT
     ,U_GRADE
 ) VALUES (
     ( SELECT NVL(MAX(U_NO),0)+1 FROM PUSER)
@@ -109,8 +121,7 @@ INSERT INTO PUSER (
     ,#{u_profileimg}
     ,#{u_email}
     ,0
-    ,0
-    ,0
+    ,'A'
 )
 </insert>
 
@@ -118,6 +129,32 @@ INSERT INTO PUSER (
 	UPDATE PUSER SET 
 	U_PW = #{u_pw}
 	WHERE U_ID = #{u_id} 
+</update>
+
+
+
+<update id="updateUser" parameterType="com.kidzpark.user.domain.UserVo">
+
+UPDATE PUSER 
+SET    U_LOGINDATE  =  SYSDATE,
+       U_LOGINCOUNT = (U_LOGINCOUNT + 1)
+WHERE TRUNC(U_LOGINDATE) != TRUNC(SYSDATE)		       
+    AND  U_NO  =  #{u_no}
+</update>
+
+
+<update id="updateGrade" parameterType="com.kidzpark.user.domain.UserVo">
+
+UPDATE PUSER 
+SET   U_GRADE =
+CASE 
+    WHEN  U_LOGINCOUNT > 30 THEN 'D'
+    WHEN U_LOGINCOUNT > 15 THEN 'C'
+    WHEN U_LOGINCOUNT > 5 THEN 'B'
+    ELSE 'A'
+    END
+WHERE TRUNC(U_LOGINDATE) != TRUNC(SYSDATE)		       
+    AND  U_NO  =  #{u_no}
 </update>
 
 

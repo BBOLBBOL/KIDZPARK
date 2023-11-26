@@ -94,7 +94,7 @@
                     </c:when>
                     <c:when test="${loginVo ne null and loginVo.u_no ne 99}">
 						<li style="list-style-type: none">
-							<b> ${loginVo.u_name} 님 환영합니다 </b>
+							<b> ${loginVo.u_nickname} 님 환영합니다 </b>
 						</li>
 						<li style="list-style-type: none" class="nav-item">
 						  <img src="img/${loginVo.u_profileimg}" style="max-width: 80px; max-height: 80px; margin-right:10px;" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
@@ -110,7 +110,7 @@
 					
 					 <c:when test="${loginVo.u_no eq 99}">
 					 	<li style="list-style-type: none">
-							<b> ${loginVo.u_name} 님 환영합니다 </b>
+							<b> ${loginVo.u_nickname} 님 환영합니다 </b>
 						</li>
 						<li style="list-style-type: none" class="nav-item">					
 						 <img src="/img/logon.png" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"">

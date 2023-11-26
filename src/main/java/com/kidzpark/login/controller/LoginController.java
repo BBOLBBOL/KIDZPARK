@@ -2,6 +2,8 @@ package com.kidzpark.login.controller;
 
 
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,10 +57,18 @@ public class LoginController {
 			session.removeAttribute("loginVo");
 		}
 		
+		// 유저 로그인 카운트 날짜 확인 
+
+		
+		
 		// 로그인 입력값으로 DB조회후 확인
 		UserVo loginVo = loginMapper.login( vo );
 		if ( loginVo != null ) {
 			session.setAttribute("loginVo", loginVo);
+			System.out.println(loginVo);
+			loginMapper.updateUser(loginVo);
+			loginMapper.updateGrade(loginVo);
+
 			returnURL = "redirect:/";
 		} else {
 			model.addAttribute("loginFail", "아이디나 비밀번호가 잘못되었습니다. 다시 시도하세요.");
@@ -141,7 +151,7 @@ public class LoginController {
 	public String MailSend(String u_email) {
 		int number = mailService.sendMail(u_email);
 	       String num = "" + number;
-	       
+	       System.out.println(num);
 		return num;
 	}
 	

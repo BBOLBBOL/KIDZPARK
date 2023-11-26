@@ -204,8 +204,8 @@ body {
 					<!-- 지도 화면 구현 끝 -->
 					<div class="chat-list" style="margin-top: 3%; max-width: 300px;">
 						<div id="content"></div>
-						<div class="pagination">
-							<div id="pageNum"></div>
+						<div class="pagination" style="text-align: center;">
+							<div id="pageNum" style="width: 50%; margin: auto;"></div>
 						</div>
 					</div>
 				</div>
@@ -397,7 +397,7 @@ body {
 		            '                <div class="jibun ellipsis">(우)' +position.kz_postcode +
 		            '                <div><a href="javascript:void(0);" onclick="openReviewModal(\'' + position.kz_no + '\')" class="link">리뷰보기</a></div>' +  
 		            '                <div id="Like">  ' +   
-		            ' <p style="font-size: 20px;"><a href="javascript:void:(0);" onclick="kidzzoneLike(' + kz_no + ',' + u_no + ')">🤍</a></p>';
+		            ' <p style="font-size: 20px;"><a href="javascript:void:(0);" onclick="kidzzoneLike(' + kz_no + ',' + u_no + ')">🤍'+ position.kz_like +'️</a></p>';
 		            '            </div>' + 
 		            '           <div>' + 
 		            '            </div>' + 
@@ -421,7 +421,7 @@ body {
 		                  '                <div class="jibun ellipsis">(우)' +position.kz_postcode +
 		                  '                <div><a href="javascript:void(0);" onclick="openReviewModal(\'' + position.kz_no + '\')" class="link">리뷰보기</a></div>' +  
 		                  '                <div id="Like"> '+    
-		                  '<p style="font-size: 20px;"><a href="javascript:void:(0);" onclick="kidzzoneUnLike(' + kz_no + ',' + u_no + ')">❤️</a></p>';
+		                  '<p style="font-size: 20px;"><a href="javascript:void:(0);" onclick="kidzzoneUnLike(' + kz_no + ',' + u_no + ')">❤'+ position.kz_like +'️</a></p>';
 		                  '            </div>' + 
 		                  '           <div>' + 
 		                  '            </div>' + 
