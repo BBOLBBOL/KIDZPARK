@@ -20,8 +20,8 @@ CREATE TABLE puser (
   u_profileimg VARCHAR2(255),
   u_email VARCHAR2(150),
   u_logincount NUMBER,
-  u_writecount NUMBER,
-  u_grade NUMBER
+  u_logindate DATE default SYSDATE,
+  u_grade VARCHAR2(20)
 );
 
 CREATE TABLE menu (
@@ -40,8 +40,8 @@ CREATE TABLE board (
   b_update DATE,
   m_no NUMBER(6),
   u_no NUMBER(6),
-  FOREIGN KEY (m_no) REFERENCES menu(m_no),
-  FOREIGN KEY (u_no) REFERENCES puser(u_no)
+  FOREIGN KEY (m_no) REFERENCES menu(m_no) ON DELETE CASCADE,
+  FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE
 );
 
 CREATE TABLE commt (
@@ -49,7 +49,9 @@ CREATE TABLE commt (
   c_comment VARCHAR2(400),
   c_commentDate DATE,
   u_no NUMBER,
-  FOREIGN KEY (u_no) REFERENCES puser(u_no)
+  b_idx NUMBER,
+  FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE,
+  FOREIGN KEY (b_idx) REFERENCES board(b_idx) ON DELETE CASCADE
 );
 
 CREATE TABLE chatroom (
@@ -63,15 +65,15 @@ CREATE TABLE chat (
   chr_message VARCHAR2(255),
   chr_submitTime DATE,
   u_no NUMBER,
-  FOREIGN KEY (chr_no) REFERENCES chatroom(chr_no),
-  FOREIGN KEY (u_no) REFERENCES puser(u_no)
+  FOREIGN KEY (chr_no) REFERENCES chatroom(chr_no) ON DELETE CASCADE,
+  FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE
 );
 
 CREATE TABLE chatmember(
 chr_no number,
 u_no number,
-FOREIGN KEY (chr_no) REFERENCES chatroom(chr_no),
-FOREIGN KEY (u_no) REFERENCES puser(u_no)
+FOREIGN KEY (chr_no) REFERENCES chatroom(chr_no) ON DELETE CASCADE,
+FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE
 );
 
 CREATE TABLE kidzzone (
@@ -83,7 +85,8 @@ CREATE TABLE kidzzone (
   kz_extraaddress VARCHAR2(100),
   kz_explanation VARCHAR2(400),
   kz_openingtime VARCHAR2(150),
-  kz_img VARCHAR2(255)
+  kz_img VARCHAR2(255),
+  kz_category VARCHAR2(40)
 );
 
 CREATE TABLE zonereview (
@@ -92,16 +95,16 @@ CREATE TABLE zonereview (
   r_reviewimg VARCHAR2(255),
   kz_no NUMBER,
   u_no NUMBER,
-  FOREIGN KEY (kz_no) REFERENCES kidzzone(kz_no),
-  FOREIGN KEY (u_no) REFERENCES puser(u_no)
+  r_no NUMBER
+  FOREIGN KEY (kz_no) REFERENCES kidzzone(kz_no) ON DELETE CASCADE,
+  FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE
 );
 
 CREATE TABLE zonelike (
-  kz_like NUMBER,
   kz_no NUMBER,
   u_no NUMBER,
-  FOREIGN KEY (kz_no) REFERENCES kidzzone(kz_no),
-  FOREIGN KEY (u_no) REFERENCES puser(u_no)
+  FOREIGN KEY (kz_no) REFERENCES kidzzone(kz_no) ON DELETE CASCADE,
+  FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE
 );
 
 CREATE TABLE cservice (
@@ -111,19 +114,20 @@ cs_title VARCHAR2(150),
 cs_cont VARCHAR2(400),
 cs_img VARCHAR2(255),
 cs_writerdate DATE,
-  FOREIGN KEY (u_no) REFERENCES puser(u_no)
+cs_category VARCHAR2(40),
+  FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE
 );
   
 CREATE TABLE csanswer(
 cs_idx NUMBER,
 cs_answer VARCHAR2(400),
 cs_answerdate DATE,
-  FOREIGN KEY (cs_idx) REFERENCES cservice(cs_idx)
+  FOREIGN KEY (cs_idx) REFERENCES cservice(cs_idx) ON DELETE CASCADE
   );
 
 CREATE TABLE boardlike(
   b_idx number,
   u_no  number,
-  FOREIGN KEY (b_idx) REFERENCES board(b_idx),
-  FOREIGN KEY (u_no) REFERENCES puser(u_no)
-)
+  FOREIGN KEY (b_idx) REFERENCES board(b_idx) ON DELETE CASCADE,
+  FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE
+);
