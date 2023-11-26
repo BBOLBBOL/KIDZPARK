@@ -51,7 +51,7 @@ public class KidzzoneController {
 
 		
 		
-		System.out.println("셀렉트 키즈존 씨@빨 : " + selectkiddzone);
+		
 		
 		ModelAndView mv = new ModelAndView();
 		
@@ -71,7 +71,7 @@ public class KidzzoneController {
 		}
 		mv.addObject("json", json);
 		
-		System.out.println( "json : " + json);
+		
 
 		return mv;
 
@@ -98,7 +98,7 @@ public class KidzzoneController {
 
 		List<KidzzoneVo> selectkiddzone = kidzzoneMapper.selectKiddzonelist(pg);
 		
-		System.out.println(pg);
+		
 
 		result.put("selectkiddzone", selectkiddzone);
 		result.put("pg", pg);
@@ -136,7 +136,7 @@ public class KidzzoneController {
 			String json = "";
 			try {
 				json = mapper.writeValueAsString(mv.getModel());
-				System.out.println(json);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -144,7 +144,7 @@ public class KidzzoneController {
 			
 			mv.addObject("map", map);
 
-			System.out.println("전부");
+			
 
 			return mv;
 
@@ -175,13 +175,13 @@ public class KidzzoneController {
 			String json = "";
 			try {
 				json = mapper.writeValueAsString(mv.getModel());
-				System.out.println(json);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			mv.addObject("json", json);
 
-			System.out.println("검색");
+			
 
 			return mv;
 		}
@@ -223,7 +223,7 @@ public class KidzzoneController {
 
 			result.put("selectkiddzone", selectkiddzone);
 			result.put("pg", pg);
-			System.out.println(result);
+			
 			return result;
 		} else {
 
@@ -255,7 +255,7 @@ public class KidzzoneController {
 
 			result.put("selectkiddzone", selectkiddzone);
 			result.put("pg", pg);
-			System.out.println("result : "+ result);
+			
 			return result;
 		}
 
@@ -275,8 +275,7 @@ public class KidzzoneController {
 		    map.put("reviewList", reviewList);
 		    map.put("kz_name", kz_name);
 		    
-			System.out.println("List : " + reviewList);
-			System.out.println("kz_name : " + kz_name);
+
 			
 			
 			return map;
@@ -302,7 +301,7 @@ public class KidzzoneController {
 		} else {
 			kidzzoneMapper.insertReviewNoFile(map);
 		}
-		System.out.println("map : " + map);
+		
 		
 		return map;
 	}
@@ -365,7 +364,7 @@ public class KidzzoneController {
 		map.put("u_no", u_no);
 		List<ReviewVo>userLikeList  =  kidzzoneMapper.userLikeList(map);
 		
-		System.out.println(userLikeList);
+		
 		ModelAndView mv  =  new ModelAndView();
 		mv.setViewName("kidzzone/userlikelist");
 		mv.addObject("LikeList", userLikeList);

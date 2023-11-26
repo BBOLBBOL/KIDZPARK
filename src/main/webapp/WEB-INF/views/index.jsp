@@ -85,14 +85,16 @@
 
 
         <!-- Search Start -->
-        <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
-            <div class="container">
-                <div class="row g-2">
-                    <div class="col-md-10">
-                        <div class="row g-2">
-                           <div class="col-md-4">
+       <form action="/KidzzoneSearch" method="post">
+		<div class="container-fluid bg-primary mb-5 wow fadeIn"
+			data-wow-delay="0.1s" style="padding: 35px;">
+			<div class="container">
+				<div class="row g-2">
+					<div class="col-md-10">
+						<div class="row g-2">
+							<div class="col-md-3">
 								<select class="form-select border-0 py-3" name="kz_location">
-									<option selected>지역</option>
+									<option value="all" selected>지역</option>
 									<option value="서울">서울</option>
 									<option value="부산">부산</option>
 									<option value="인천">인천</option>
@@ -102,24 +104,35 @@
 									<option value="울산">울산</option>
 								</select>
 							</div>
-                            <div class="col-md-4">
-                                <select class="form-select border-0 py-3" name="selectoption">
-                                    <option value="all" selected >매장 검색</option>
-                                    <option value="kz_name">매장 이름</option>
-                                    <option value="kz_address">매장 주소</option>
-                                </select>
-                            </div>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control border-0 py-3" placeholder="Search Keyword">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-dark border-0 w-100 py-3">Search</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+							<div class="col-md-3">
+								<select class="form-select border-0 py-3" name="kz_category">
+									<option value="all" selected>카테고리</option>
+									<option value="카페">카페</option>
+									<option value="음식점">음식점</option>
+									<option value="키즈카페">키즈카페</option>
+									<option value="체험활동">체험활동</option>
+								</select>
+							</div>
+							<div class="col-md-3">
+								<select class="form-select border-0 py-3" name="searchOption">
+									<option value="all" selected>검색</option>
+									<option value="KZ_NAME">매장 이름</option>
+									<option value="KZ_ADDRESS">매장 주소</option>
+								</select>
+							</div>
+							<div class="col-md-3">
+								<input type="text" class="form-control border-0 py-3"
+									name="searchKeyword" placeholder="Search Keyword">
+							</div>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<button type="submit" class="btn btn-dark border-0 w-100 py-3">Search</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>
         <!-- Search End -->
 
 

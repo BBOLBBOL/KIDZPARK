@@ -45,7 +45,7 @@ public class ChatController {
 		roomList = chatMapper.getRoom(map);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("chat/room");
-		System.out.println(roomList);
+		
 		return mv;
 	}
 	
@@ -75,7 +75,7 @@ public class ChatController {
 	@RequestMapping("/getRoom")
 	public @ResponseBody List<Room> getRoom(@RequestParam HashMap<Object, Object> map){
 		roomList = chatMapper.getRoom(map);
-		System.out.println("roomList : " + roomList);
+		
 		return roomList;
 	}
 	
@@ -88,7 +88,7 @@ public class ChatController {
 		ModelAndView mv = new ModelAndView();
 		int chr_no = Integer.parseInt((String) map.get("chr_no"));
 		
-		System.out.println(map);
+		
 		
 		UserVo loggedInUser = (UserVo) session.getAttribute("loginVo");
 	    String u_nickname = loggedInUser.getU_nickname();
@@ -116,7 +116,7 @@ public class ChatController {
 	}
 	@RequestMapping("/saveMessageToDB")
 	public @ResponseBody String saveMessageToDB(@RequestBody ChatMessage message) {
-		//System.out.println("message : " + message);
+		//
 	    chatMapper.insertMessage(message);
 	    return "success";
 	}
@@ -125,7 +125,7 @@ public class ChatController {
 	@ResponseBody
 	public int getChatroomMembers(@RequestParam HashMap<Object, Object> map) {
 		int members =  chatMapper.countChatroommember(map);
-		System.out.println("map : "+ map);
+		
         return members;
 	}
 	

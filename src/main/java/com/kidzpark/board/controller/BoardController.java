@@ -305,7 +305,7 @@ public class BoardController {
 	public ModelAndView update(@RequestParam MultipartFile b_img, @RequestParam HashMap<String, Object> map,
 			HttpServletRequest request) {
 		
-		System.out.println(map);
+		
 		
 		if (!b_img.isEmpty()) {
 			ImgFile.save(map, request);

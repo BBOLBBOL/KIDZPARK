@@ -84,16 +84,14 @@ public class LoginController {
 			@RequestParam HashMap<String, Object> map
 			,HttpServletRequest   request){
 		
-		System.out.println("request : " + request);
-		System.out.println("u_profileimg : " + u_profileimg);
-		System.out.println("map0 : " + map);	
+
 		
 		if( !u_profileimg.isEmpty() ) {
 			ImgFile.save( map, request );
-			System.out.println("map1 : " + map);
+			
 			loginMapper.insertJoin2(map);
 		} else {
-			System.out.println("map2 : " + map);
+			
 			loginMapper.insertJoin1(map);
 		}
 		
@@ -143,7 +141,7 @@ public class LoginController {
 	public String MailSend(String u_email) {
 		int number = mailService.sendMail(u_email);
 	       String num = "" + number;
-	       System.out.println("mail 안의 num : " + num);
+	       
 		return num;
 	}
 	
@@ -172,7 +170,7 @@ public class LoginController {
 	@GetMapping("/FindId")
 	public ResponseEntity<String> overlapCheck(String u_id,  HttpSession session) {
 		
-		System.out.println("FindId의 u_id : " + u_id);
+		
 		
 		if(loginMapper.idCheck(u_id) != 0) {
 		    Map<String, Object> authStatus = new HashMap<>();
@@ -191,7 +189,7 @@ public class LoginController {
 		public ModelAndView SendPw(String u_id, HttpSession session) {
 		    Map<String, Object> authStatus = (Map<String, Object>) session.getAttribute("authStatus");
 		    u_id = String.valueOf(authStatus.get("u_id"));
-		    System.out.println("SendPwForm 안의 u_id : "+u_id);
+		    
 		    ModelAndView mv = new ModelAndView();
 		    
 		    if(authStatus == null || !u_id.equals(authStatus.get("u_id"))) {
@@ -200,20 +198,19 @@ public class LoginController {
 		    }
 			mv.setViewName("login/sendpw");
 			mv.addObject("u_id", u_id);
-			System.out.println("SendPwForm 안의 mv : " + mv);
+			
 		    return mv;
 		}
 		
 		// u_id의 이메일이 맞는지 확인 후 인증번호 전송
 		@GetMapping("/SendEmail")
 		public ResponseEntity<String> emailCheck(String u_id, String u_email){
-			System.out.println("SendEmail 의 u_id : " + u_id);
-			System.out.println("SendEmail 의 u_email : " + u_email);
+
 		    boolean emailCheck = findService.emailCheck(u_id, u_email);
 		    if(emailCheck) {
 		    	int number = mailService.sendMail(u_email);
 		    	 String num = "" + number;
-		    	 System.out.println("num : " + num);
+		    	 
 		    	 return new ResponseEntity<>(num, HttpStatus.OK);
 		    } else {
 		    	 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -221,24 +218,24 @@ public class LoginController {
 		}
 		@RequestMapping("/ChangePwForm")	
 		public ModelAndView changePwForm(@RequestParam String u_id) {
-			System.out.println("changepwform 안의 u_id : " + u_id);
+			
 			
 			ModelAndView mv = new ModelAndView();
 			mv.setViewName("login/changepw");
 			mv.addObject("u_id", u_id);
-			System.out.println("mv : " + mv);
+			
 			return mv;
 		}
 		
 		@RequestMapping("/ChangePw")
 		public ModelAndView changePw(UserVo vo) {
-			System.out.println("vo : " + vo);
+			
 			
 			loginMapper.updatePw(vo);
 			
 			ModelAndView mv = new ModelAndView();
 			mv.setViewName("redirect:/LoginForm");
-			System.out.println("ChangePw안의 mv : " + mv);
+			
 			
 			return mv;
 		} 
