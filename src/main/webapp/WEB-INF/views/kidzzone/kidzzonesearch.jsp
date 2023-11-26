@@ -637,6 +637,7 @@ body {
 					location.reload();
 				},
 				error : function(error) {
+					alert("로그인이 필요합니다 !");
 					console.error("관심매장 추가 실패 !", error);	
 				}
 			});

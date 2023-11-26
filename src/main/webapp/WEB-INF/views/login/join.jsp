@@ -167,30 +167,30 @@ input[type="text"], input[type="password"] {
             </tr>
             <tr>
                <td><span class="redFont">*</span>아이디:</td>
-               <td><input type="text" name="u_id" id="u_id" style="width: 200px"  required>
+               <td><input type="text" name="u_id" id="u_id" style="width: 200px" value="sky" required>
                   <button type="button" onclick="checkId()" class="btn btn-dark">중복체크</button>
                </td>
             </tr>
             <tr>
                <td><span class="redFont">*</span>비밀번호:</td>
-               <td><input type="password" name="u_pw" id="user_pw1" style="width: 200px"  required>
+               <td><input type="password" name="u_pw" id="user_pw1" style="width: 200px" value="qwer1234!" required>
                   <span id=pwdcheck_1></span>
                </td>
             </tr>
             <tr>
                <td><span class="redFont">*</span>비밀번호 확인:</td>
-               <td><input type="password" id="user_pw2" style="width: 200px"  required> 
+               <td><input type="password" id="user_pw2" style="width: 200px" value="qwer1234!" required> 
                   <span id="pwdcheck_2"></span></td>
             </tr>
             <tr>
                <td><span class="redFont">*</span>이름:</td>
-               <td><input type="text" name="u_name" id="u_name" style="width: 200px"  required></td>
+               <td><input type="text" name="u_name" id="u_name" style="width: 200px" value="김영준" required></td>
             </tr>
             <tr>
                <td><span class="redFont">*</span>이메일 입력:</td>
                <td>
                   <input type="text" name="u_email" id="u_email" style="width: 200px"  placeholder="이메일 입력" value="jsoiyl922@gmail.com" required>
-                  <button type="button" id="sendBtn" name="sendBtn" onclick="sendNumber()">인증번호 받기</button>
+                  <button type="button" id="sendBtn" name="sendBtn" onclick="checkEmailAvailability()">인증번호 받기</button>
                </td>
             </tr>
             <br>
@@ -204,18 +204,18 @@ input[type="text"], input[type="password"] {
                   <br><input type="text" id="Confirm" name="Confirm"  style="display: none;"  value="">
             <tr>
                <td><span class="redFont">*</span>닉네임:</td>
-               <td><input type="text" name="u_nickname" id="u_nickname" onBlur="nickname()" style="width: 200px"  required>
+               <td><input type="text" name="u_nickname" id="u_nickname" onBlur="nickname()" style="width: 200px" value="하늘" required>
                   <span id="nick_m"></span></td>
             </tr>
             <tr>
                <td><span class="redFont">*</span>주소:</td>
                <td>
                   <div>
-                     <input type="text" id="u_postcode"      name="u_postcode"      placeholder="우편번호"  style="width: 200px" required>
+                     <input type="text" id="u_postcode"      name="u_postcode"      placeholder="우편번호"  style="width: 200px" value="38054" required>
                       <input type="button" onclick="u_execDaumPostcode()" value="우편번호 찾기"><br>
-                     <input type="text" id="u_address"       name="u_address"       placeholder="주소"  style="width: 100%;"  required><br>
-                     <input type="text" id="u_detailaddress" name="u_detailaddress" placeholder="상세주소"  style="width: 55%;"><br>
-                     <input type="text" id="u_extraaddress"  name="u_extraaddress"  placeholder="참고항목"  style="width: 55%;">
+                     <input type="text" id="u_address"       name="u_address"       placeholder="주소"  style="width: 100%;" value="경북 경주시 건천읍 하늘마루길 18-10" required><br>
+                     <input type="text" id="u_detailaddress" name="u_detailaddress" placeholder="상세주소" value="101동 101호" style="width: 55%;"><br>
+                     <input type="text" id="u_extraaddress"  name="u_extraaddress"  placeholder="참고항목" value="하늘" style="width: 55%;">
                   </div>
                </td>
             </tr>
@@ -223,7 +223,7 @@ input[type="text"], input[type="password"] {
                <td><span class="redFont">*</span>연락처:</td>
                <td>
                   <div>
-                     <input type="text" name="u_phone" placeholder="(-)빼고 입력" style="width: 200px;"  required>
+                     <input type="text" name="u_phone" placeholder="(-)빼고 입력" style="width: 200px;" value="01044445555" required>
                   </div>
                </td>
             </tr>
@@ -329,7 +329,7 @@ $("#user_pw2").blur(
              }); // ajax end
        } // idcheck end
        
-       /*function checkEmailAvailability() {
+       function checkEmailAvailability() {
            var u_email = $('#u_email').val();
 
            $.ajax({
@@ -337,12 +337,16 @@ $("#user_pw2").blur(
                type: 'get',
                data: { u_email: u_email },
                success: function (result) {
-                   var message = (result == 0) ? "중복되지 않은 이메일입니다" : "이메일을 다시 입력해주세요";
-                   $("#email_m").text(message);
 
-                   if (result != 0) {
+                      if (result == 0){
+                   sendNumber();
+                   isIdAvailable = true;}
+                      else {
+                       alert('중복된 이메일 입니다');
+                       isIdAvailable = false;
                        $('#u_email').val('');
                    }
+                   $('#u_email').prop('readonly', isIdAvailable);
                },
                error: function () {
                    alert("error");
@@ -350,22 +354,7 @@ $("#user_pw2").blur(
            });
        }
 
-       function validateEmail(email) {
-           var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-           return emailRegex.test(email);
-       }
-
-       $('#u_email').blur(function () {
-           var emailInput = $(this).val();
-
-           if (!validateEmail(emailInput)) {
-               $("#email_m").text("이메일을 다시 입력해주세요");
-               return;
-           }
-
-           checkEmailAvailability();
-       });*/
-       
+     
        function sendNumber(){
           $("#number1").show();
             $.ajax({

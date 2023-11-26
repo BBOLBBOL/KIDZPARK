@@ -587,6 +587,7 @@ function saveReview() {
         },
         error: function(error) {
             console.error('리뷰 저장에 실패했습니다: ', error);
+            alert("로그인이 필요합니다 !.")
         }
     });
 }
@@ -619,6 +620,7 @@ function deleteReview(kz_no, r_no) {
         },
         error: function(error) {
             console.error('리뷰 삭제에 실패했습니다: ', error);
+           	
         }
     });
 }
@@ -640,6 +642,7 @@ function kidzzoneLike(kz_no, u_no) {
 			location.reload();
 		},
 		error : function(error) {
+			alert("로그인이 필요합니다 !");
 			console.error("관심매장 추가 실패 !", error);	
 		}
 	});
@@ -660,6 +663,7 @@ function kidzzoneUnLike(kz_no, u_no) {
 		},
 		error : function(error) {
 			console.error("관심매장 삭제 실패 !", error);	
+			
 		}
 	});
 }
