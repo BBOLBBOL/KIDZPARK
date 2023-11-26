@@ -335,8 +335,8 @@ public class BoardController {
 	boardMapper.commentWrite(map);
 	
 	mv.addObject("map",map);
-	
-	mv.setViewName("redirect:/BoardView?b_idx=" + map.get("b_idx") +"&u_no="+ map.get("u_no")+"&m_no=" + map.get("m_no"));
+	System.out.println("map : " + map );
+	mv.setViewName("redirect:/BoardView?b_idx=" + map.get("b_idx") +"&u_no="+ map.get("u_no2")+"&m_no=" + map.get("m_no"));
 	
 	
 	

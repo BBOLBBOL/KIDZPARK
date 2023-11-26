@@ -129,17 +129,17 @@
 						<th scope="col">제목</th>
 						<th scope="col">글쓴이</th>
 						<th scope="col">작성일</th>
-						<th scope="col">조회</th>
+						<th scope="col">조회수</th>
 					</tr>
 				</thead>
 				<tbody class="tbody-white">
 					<c:forEach var="notice" items="${noticeList}">
 						<tr style="background-color: #ffebee;">
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=99" >${notice.b_like}</a></td>
 							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=99">${notice.b_title}</a></td>
 							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=99">관리자</a></td>
 							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=99" >${notice.b_writedate}</a></td>
 							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=99" >${notice.b_readcount}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=99" >${notice.b_like}</a></td>
 						</tr>
 					</c:forEach>
 					

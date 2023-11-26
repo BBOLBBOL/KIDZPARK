@@ -212,23 +212,25 @@
 											<div class="wow fadeInUp" data-wow-delay="0.5s">
 												<form action="/CommentWrite" method="post">
 													<input type="hidden" name="u_no" value="${loginVo.u_no}" id="u_no">
+													<input type="hidden" name="u_no2" value="${map.u_no}" id="u_no">
 													<input type="hidden" name="m_no" value="${map.m_no}">
 													<input type="hidden" name="b_idx" value="${map.b_idx}">
 													<div class="row g-2">
 														<div id="content"></div>
-														<div class="pagination">
-															<div id="pageNum"></div>
+														<div class="pagination" style="text-align: center; ">
+															<div id="pageNum" style="width: 50%; margin: auto;"></div>
 														</div>
 														<c:choose>
 															<c:when test="${loginVo ne null}">
-																<div class="col-md-9">
+																<div class="col-md-12">
 																	<div class="form-floating" style="margin: auto;">
 																		<input type="text" class="form-control" id="c_comment"
 																			name="c_comment"> <label for="c_comment">댓글을
 																			입력하세요</label>
 																	</div>
+																	<br>	
 																</div>
-														<div class="col-2" style="margin: auto;">
+														<div class="col-2" style="margin: auto; width: auto;">
 															<button class="btn btn-primary"
 																style="padding: 8px 12px !important;" type="submit">작성</button>
 														</div>
@@ -236,13 +238,13 @@
 														</c:choose>
 														<c:choose>
 															<c:when test="${loginVo eq null}">
-																<div class="col-md-9">
+																<div class="col-md-12">
 																	<div class="form-floating" style="margin: auto;">
 																		<input type="text" class="form-control" id="c_comment"
 																			name="c_comment" readonly> <label for="c_comment">로그인후 댓글을 입력할수 있습니다</label>
 																	</div>
 																</div>
-														<div class="col-2" style="margin: auto;">
+														<div class="col-2" style="margin: auto; width: auto;">
 															<button class="btn btn-primary"
 																style="padding: 8px 12px !important;" type="button" onclick="nonClick(event)">작성</button>
 														</div>
@@ -384,10 +386,14 @@
 		    success: function(response) {	    	
 		        let tag = '';
 		        for(let position of response.commentlist) {
-		            tag += '<div class="col-md-9">'
-		            tag += '<div class="form-floating" style="margin: auto;"> <input type="text" class="form-control"'
-		            tag += 'value="'+ position.C_COMMENT + '" readonly="readonly"></div><br></div><div class="col-2"style="margin:auto;"><input type="text"' 
-		            tag += 'class="form-control" value="'+ position.U_NAME + '" readonly="readonly"><br></div>'
+		        	tag += '<div class="col-2" style="text-align: center; margin: auto;">';
+		        	tag += '<div style="margin: auto; width: 80%;">';
+		        	tag += '<input type="text" class="form-control" style="text-align: center;" value="' + position.U_NAME + '" readonly="readonly">';
+		        	tag += '</div><br></div>';
+
+		        	tag += '<div class="col-12" style="text-align: center;">';
+		        	tag += '<textarea class="form-control" readonly="readonly">' + position.C_COMMENT + '</textarea>';
+		        	tag += '<br><hr><br></div>';
 		        }
 		        
 		        // 페이지 내용 갱신

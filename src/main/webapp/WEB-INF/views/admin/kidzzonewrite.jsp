@@ -125,7 +125,7 @@
 			     							<option value="음식점">음식점</option>
 			     							<option value="키즈카페" >키즈카페</option>
 			     							<option value="체험활동" >체험활동</option>
-			     							<option value="카페 문의" >카페</option>			     
+			     							<option value="카페" >카페</option>			     
 			     						</select>
 			     						</div>
 			     						</div>
@@ -305,7 +305,21 @@
 					}).open();
 		}
 	
-	
+		function confirmSubmit() {
+			var category = document.getElementById('category').value;
+			if(confirm('등록하시겠습니까?')) {
+				if( category != "no"){
+				alert("등록되었습니다");
+				}		else{
+					alert("카테고리를 선택해주세요")
+					event.preventDefault();
+					}
+			} else {
+				alert("등록 실패!")
+				event.preventDefault();
+			}
+			
+		}	
 	
 	
 	</script>
