@@ -309,12 +309,12 @@ public class KidzzoneController {
 	
 	@DeleteMapping("/DeleteReview")
 	@ResponseBody
-	public HashMap<String, Object> deleteReview(@RequestParam int r_no,
+	public HashMap<String, Object> deleteReview(@RequestParam int r_no, @RequestParam int u_no,
 			@RequestParam HashMap<String, Object> map
 			) {
 		
 		map.put("r_no", r_no);
-		
+		map.put("u_no", u_no);
 		kidzzoneMapper.deleteReview(map);
 		
 		return map;

@@ -146,7 +146,7 @@
 						<tr>
 						    <td><input type="checkbox" name="rowCheck" id="rowCheck" value="${notice.b_idx }"></td>
 							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=${m_no}">${notice.b_title}</a></td>
-							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=${m_no}">관리자</a></td>
+							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=${m_no}">${notice.u_nickname }</a></td>
 							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=${m_no}" >${notice.b_writedate}</a></td>
 							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=${m_no}" >${notice.b_readcount}</a></td>
 							<td><a href="/BoardView?b_idx=${notice.b_idx}&u_no=${notice.u_no }&m_no=${m_no}" >${notice.b_like}</a></td>

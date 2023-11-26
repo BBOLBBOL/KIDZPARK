@@ -227,19 +227,20 @@ AND   U_NO  = ${u_no}
 
   <select id="getnoticelist"
   resultType="com.kidzpark.board.domain.BoardVo">
-
    SELECT  
-   B_IDX,
-B_TITLE,
-B_CONT,
-B_IMG,
-B_READCOUNT,
-TO_CHAR(B_WRITEDATE, 'YYYY-MM-DD') B_WRITEDATE,
-M_NO,
-U_NO
-   FROM    BOARD
-   WHERE   M_NO = 99
-     ORDER BY B_WRITEDATE DESC
+    B.B_IDX,
+B.B_TITLE,
+B.B_CONT,
+B.B_IMG,
+B.B_READCOUNT,
+TO_CHAR(B.B_WRITEDATE, 'YYYY-MM-DD') B_WRITEDATE,
+(SELECT COUNT(U_NO) FROM BOARDLIKE BL WHERE B.B_IDX = BL.B_IDX) 
+AS B_LIKE,
+B.M_NO,
+B.U_NO
+   FROM    BOARD B
+   WHERE   B.M_NO = 99
+     ORDER BY B.B_WRITEDATE DESC
 </select>
 
   <select id="countboardlike"

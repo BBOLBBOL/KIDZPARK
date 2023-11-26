@@ -211,7 +211,7 @@
 										<div class="col-md-10">
 											<div class="wow fadeInUp" data-wow-delay="0.5s">
 												<form action="/CommentWrite" method="post">
-													<input type="hidden" name="u_no" value="${loginVo.u_no}">
+													<input type="hidden" name="u_no" value="${loginVo.u_no}" id="u_no">
 													<input type="hidden" name="m_no" value="${map.m_no}">
 													<input type="hidden" name="b_idx" value="${map.b_idx}">
 													<div class="row g-2">
@@ -284,12 +284,13 @@
 	<script>
 	
 		function boardlikeuser(){
+			let u_no = document.getElementById('u_no').value; // 변수를 블록 스코프로 변경
 			$.ajax({
 				type: "GET",
 	   			 url: "/Boardlikeuser", // 요청 URL
 	   			 data: {
     				b_idx: ${map.b_idx},
-    				u_no: ${map.u_no}
+    				u_no: u_no
 	   			 },
 	   			success: function(response) {	    	
 			        let tag = '';
@@ -309,12 +310,13 @@
 		}
 	
 	    function boardUnLike(){
+	    	let u_no = document.getElementById('u_no').value; // 변수를 블록 스코프로 변경
 	    	$.ajax({
 				type: "DELETE",
 	   			 url: "/BoardUnLike", // 요청 URL
 	   			 data: {
     				b_idx: ${map.b_idx},
-    				u_no: ${map.u_no}
+    				u_no: u_no
 	   			 },
 	   			success: function() {	
 	   				console.log("성공");
@@ -327,12 +329,13 @@
 	    }
 	    
 	    function boardLike(){
+	    	let u_no = document.getElementById('u_no').value; // 변수를 블록 스코프로 변경
 	    	$.ajax({
 				type: "POST",
 	   			 url: "/BoardLike", // 요청 URL
 	   			 data: {
     				b_idx: ${map.b_idx},
-    				u_no: ${map.u_no}
+    				u_no: u_no
 	   			 },
 	   			success: function() {	    
 	   				console.log("성공");

@@ -186,6 +186,7 @@ ORDER BY R_REVIEWDATE ASC
  
  DELETE FROM ZONEREVIEW
  WHERE R_NO  =  #{r_no}
+ AND   U_NO  =  #{u_no}
 
  
  </delete>

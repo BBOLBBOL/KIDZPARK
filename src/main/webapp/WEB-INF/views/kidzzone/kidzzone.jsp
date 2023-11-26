@@ -518,9 +518,10 @@ function openReviewModal(kz_no) {
                 // 각 리뷰의 정보를 <p> 태그로 생성
                 var reviewContentHtml = '';
                 
+                let u_no = document.getElementById('u_no').value; // 변수를 블록 스코프로 변경
                 for (var i = 0; i < data.reviewList.length; i++) {
                     var review = data.reviewList[i];
-                    var deleteButtonHtml = '<button class="btn btn-danger" onclick="deleteReview('+ review.KZ_NO + ',' + review.R_NO + ')">삭제</button>';
+                    var deleteButtonHtml = (review.U_NO == u_no) ? '<button class="btn btn-danger" onclick="deleteReview('+ review.KZ_NO + ',' + review.R_NO + ')">삭제</button>' : '';
                     var reviewImgHtml = review.R_REVIEWIMG ?
                         '<p><strong>리뷰사진:</strong> <img src="/img/' + review.R_REVIEWIMG + '" style="width: 100px;"></p>' :
                         '';
@@ -602,11 +603,13 @@ function resetReviewForm() {
 
 function deleteReview(kz_no, r_no) {
     // AJAX를 사용하여 리뷰를 삭제하는 요청 보내기
+    let u_no = document.getElementById('u_no').value; // 변수를 블록 스코프로 변경
     $.ajax({
         url: '/DeleteReview',
         method: 'DELETE',
         data: {
-            r_no: r_no
+            r_no: r_no,
+            u_no : u_no
         },
         success: function(response) {
             console.log('리뷰가 성공적으로 삭제되었습니다.');
