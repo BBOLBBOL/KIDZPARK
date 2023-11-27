@@ -43,11 +43,12 @@ SELECT
 	,P.U_NICKNAME
  FROM  CHAT C LEFT JOIN PUSER P ON C.U_NO = P.U_NO 
  WHERE C.CHR_NO = #{chr_no}
+ ORDER BY C.CHAT_NO
 </select>
 
 <insert id="insertMessage">
-	INSERT INTO CHAT (CHR_NO, CHR_MESSAGE, CHR_SUBMITTIME, U_NO)
-	VALUES( #{chr_no}, #{chr_message}, SYSDATE, #{u_no} )
+	INSERT INTO CHAT (CHAT_NO, CHR_NO, CHR_MESSAGE, CHR_SUBMITTIME, U_NO)
+	VALUES( ( SELECT  NVL(MAX(CHAT_NO), 0)+1 FROM CHAT ), #{chr_no}, #{chr_message}, SYSDATE, #{u_no} )
 </insert>
 
 <insert id="joinChatroom">

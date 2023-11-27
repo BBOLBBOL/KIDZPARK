@@ -95,7 +95,7 @@ CREATE TABLE zonereview (
   r_reviewimg VARCHAR2(255),
   kz_no NUMBER,
   u_no NUMBER,
-  r_no NUMBER
+  r_no NUMBER,
   FOREIGN KEY (kz_no) REFERENCES kidzzone(kz_no) ON DELETE CASCADE,
   FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE
 );

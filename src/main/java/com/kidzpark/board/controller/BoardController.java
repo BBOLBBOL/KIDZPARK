@@ -47,11 +47,11 @@ public class BoardController {
 		int total = boardMapper.countboard(map);
 		if (nowPage == null && cntPerPage == null) {
 			nowPage = "1";
-			cntPerPage = "5";
+			cntPerPage = "7";
 		} else if (nowPage == null) {
 			nowPage = "1";
 		} else if (cntPerPage == null) {
-			cntPerPage = "5";
+			cntPerPage = "7";
 		}
 
 		pg = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));

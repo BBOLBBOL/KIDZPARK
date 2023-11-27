@@ -243,6 +243,7 @@
 																		<input type="text" class="form-control" id="c_comment"
 																			name="c_comment" readonly> <label for="c_comment">로그인후 댓글을 입력할수 있습니다</label>
 																	</div>
+																	<br>
 																</div>
 														<div class="col-2" style="margin: auto; width: auto;">
 															<button class="btn btn-primary"
@@ -388,7 +389,7 @@
 		        for(let position of response.commentlist) {
 		        	tag += '<div class="col-2" style="text-align: center; margin: auto;">';
 		        	tag += '<div style="margin: auto; width: 80%;">';
-		        	tag += '<input type="text" class="form-control" style="text-align: center;" value="' + position.U_NAME + '" readonly="readonly">';
+		        	tag += '<input type="text" class="form-control" style="text-align: center;" value="' + position.U_NICKNAME + '" readonly="readonly">';
 		        	tag += '</div><br></div>';
 
 		        	tag += '<div class="col-12" style="text-align: center;">';

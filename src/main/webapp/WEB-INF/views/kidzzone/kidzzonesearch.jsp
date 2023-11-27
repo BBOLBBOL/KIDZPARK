@@ -437,6 +437,8 @@ body {
 		                position: marker.getPosition()
 		            });
 		            overlays.push(overlay);
+                    overlay.setMap(null);
+
 
 
 		            kakao.maps.event.addListener(marker, 'click', function() {

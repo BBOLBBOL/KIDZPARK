@@ -30,7 +30,7 @@ U.U_NICKNAME,
 AS B_LIKE
    FROM    BOARD B LEFT JOIN PUSER U ON B.U_NO = U.U_NO
    WHERE   B.M_NO = #{m_no}
-     ORDER BY B_WRITEDATE DESC
+     ORDER BY B_IDX DESC
     ) A
 )
 WHERE RN BETWEEN #{pg.start} AND #{pg.end} 
@@ -59,7 +59,7 @@ AS B_LIKE
    <if test="searchOption != 'all' and searchKeyword != ''">
         AND UPPER(${searchOption}) LIKE '%' || UPPER(#{searchKeyword}) || '%'
     </if>
-      ORDER BY B_WRITEDATE DESC
+      ORDER BY B_IDX DESC
     ) A
 )
 WHERE RN BETWEEN #{pg.start} AND #{pg.end} 
@@ -240,7 +240,7 @@ B.M_NO,
 B.U_NO
    FROM    BOARD B
    WHERE   B.M_NO = 99
-     ORDER BY B.B_WRITEDATE DESC
+     ORDER BY B.B_IDX DESC
 </select>
 
   <select id="countboardlike"
@@ -295,7 +295,7 @@ AS B_LIKE
    FROM    BOARD B LEFT JOIN PUSER U ON B.U_NO = U.U_NO
    WHERE   B.M_NO = #{m_no}
    AND     B.U_NO = #{u_no}
-     ORDER BY B_WRITEDATE DESC
+     ORDER BY B_IDX DESC
     ) A
 )
 WHERE RN BETWEEN #{pg.start} AND #{pg.end}   
@@ -325,7 +325,7 @@ AS B_LIKE
    <if test="searchOption != 'all' and searchKeyword != ''">
         AND UPPER(${searchOption}) LIKE '%' || UPPER(#{searchKeyword}) || '%'
     </if>
-      ORDER BY B_WRITEDATE DESC
+      ORDER BY B_IDX DESC
     ) A
 )
 WHERE RN BETWEEN #{pg.start} AND #{pg.end} 

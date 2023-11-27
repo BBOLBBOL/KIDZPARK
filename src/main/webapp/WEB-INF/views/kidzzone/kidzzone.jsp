@@ -437,6 +437,8 @@ positions.forEach(function(position) {
                 position: marker.getPosition()
             });
             overlays.push(overlay);
+            overlay.setMap(null);
+
 
 
             kakao.maps.event.addListener(marker, 'click', function() {
@@ -469,7 +471,7 @@ function mysite(){
             // 현재 위치로 지도 중심 이동
             var center = new kakao.maps.LatLng(lat, lon);
             map.setCenter(center);
-
+			console.log("현재 위치 ", center);
             // 마커 생성 및 표시
             var marker = new kakao.maps.Marker({
                 map: map,
@@ -489,6 +491,7 @@ function mysite(){
     });
 
 }
+
 function moveMap(movemap){
 	geocoder.addressSearch(movemap, function (result, status) {
         console.log(result, status);
@@ -523,7 +526,7 @@ function openReviewModal(kz_no) {
                     var review = data.reviewList[i];
                     var deleteButtonHtml = (review.U_NO == u_no) ? '<button class="btn btn-danger" onclick="deleteReview('+ review.KZ_NO + ',' + review.R_NO + ')">삭제</button>' : '';
                     var reviewImgHtml = review.R_REVIEWIMG ?
-                        '<p><strong>리뷰사진:</strong> <img src="/img/' + review.R_REVIEWIMG + '" style="width: 100px;"></p>' :
+                        '<p><strong></strong> <img src="/img/' + review.R_REVIEWIMG + '" style="width: 100px;"></p>' :
                         '';
 
                     reviewContentHtml +=
