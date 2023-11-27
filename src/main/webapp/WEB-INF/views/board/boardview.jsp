@@ -115,18 +115,20 @@
 												<div class="row g-2">
 													<c:forEach var="board" items="${boardView}">
 														<div class="col-md-12">
+														<h6 style="text-align: right;">${board.B_WRITEDATE}</h6>
 															<div class="form-floating" style="margin: auto;">
 																<input type="text" class="form-control" id="b_title"
 																	value="${board.B_TITLE}" readonly="readonly">
 															</div>
 															<br>
 														</div>
-														<div class="col-md-5">
+														<div class="col-md-4">
 															<div class="form-floating" style="margin: auto;">
 																<input type="text" class="form-control" id="u_name"
 																	value="${board.U_NICKNAME}" readonly="readonly">
 															</div>
 															<br>
+															
 														</div>
 														<div class="col-12">
 															<div class="form-floating">
@@ -218,7 +220,7 @@
 													<div class="row g-2">
 														<div id="content"></div>
 														<div class="pagination" style="text-align: center; ">
-															<div id="pageNum" style="width: 50%; margin: auto;"></div>
+															<div id="pageNum" style="width: 50%; margin: auto;"></div><br><br><br><br>
 														</div>
 														<c:choose>
 															<c:when test="${loginVo ne null}">
@@ -233,6 +235,7 @@
 														<div class="col-2" style="margin: auto; width: auto;">
 															<button class="btn btn-primary"
 																style="padding: 8px 12px !important;" type="submit">작성</button>
+																
 														</div>
 															</c:when>
 														</c:choose>
@@ -387,14 +390,14 @@
 		    success: function(response) {	    	
 		        let tag = '';
 		        for(let position of response.commentlist) {
-		        	tag += '<div class="col-2" style="text-align: center; margin: auto;">';
+		        	tag += '<hr><br><div class="col-2" style="text-align: center; margin: auto;">';
 		        	tag += '<div style="margin: auto; width: 80%;">';
 		        	tag += '<input type="text" class="form-control" style="text-align: center;" value="' + position.U_NICKNAME + '" readonly="readonly">';
 		        	tag += '</div><br></div>';
 
 		        	tag += '<div class="col-12" style="text-align: center;">';
 		        	tag += '<textarea class="form-control" readonly="readonly">' + position.C_COMMENT + '</textarea>';
-		        	tag += '<br><hr><br></div>';
+		        	tag += '<br><br></div>';
 		        }
 		        
 		        // 페이지 내용 갱신

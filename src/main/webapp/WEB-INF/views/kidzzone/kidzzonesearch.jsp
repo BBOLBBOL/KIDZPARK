@@ -520,11 +520,12 @@ body {
 		                // 각 리뷰의 정보를 <p> 태그로 생성
 		                var reviewContentHtml = '';
 		                
+		                let u_no = document.getElementById('u_no').value; // 변수를 블록 스코프로 변경
 		                for (var i = 0; i < data.reviewList.length; i++) {
 		                    var review = data.reviewList[i];
-		                    var deleteButtonHtml = '<button class="btn btn-danger" onclick="deleteReview('+ review.KZ_NO + ',' + review.R_NO + ')">삭제</button>';
+		                    var deleteButtonHtml = (review.U_NO == u_no) ? '<button class="btn btn-danger" onclick="deleteReview('+ review.KZ_NO + ',' + review.R_NO + ')">삭제</button>' : '';
 		                    var reviewImgHtml = review.R_REVIEWIMG ?
-		                        '<p><strong>리뷰사진:</strong> <img src="/img/' + review.R_REVIEWIMG + '" style="width: 100px;"></p>' :
+		                        '<p><strong></strong> <img src="/img/' + review.R_REVIEWIMG + '" style="width: 100px;"></p>' :
 		                        '';
 
 		                    reviewContentHtml +=
@@ -588,6 +589,7 @@ body {
 		        },
 		        error: function(error) {
 		            console.error('리뷰 저장에 실패했습니다: ', error);
+		            alert("로그인이 필요합니다 !.")
 		        }
 		    });
 		}
@@ -604,11 +606,13 @@ body {
 
 		function deleteReview(kz_no, r_no) {
 		    // AJAX를 사용하여 리뷰를 삭제하는 요청 보내기
+		    let u_no = document.getElementById('u_no').value; // 변수를 블록 스코프로 변경
 		    $.ajax({
 		        url: '/DeleteReview',
 		        method: 'DELETE',
 		        data: {
-		            r_no: r_no
+		            r_no: r_no,
+		            u_no : u_no
 		        },
 		        success: function(response) {
 		            console.log('리뷰가 성공적으로 삭제되었습니다.');
@@ -618,6 +622,7 @@ body {
 		        },
 		        error: function(error) {
 		            console.error('리뷰 삭제에 실패했습니다: ', error);
+		           	
 		        }
 		    });
 		}
@@ -635,8 +640,9 @@ body {
 				},
 				success : function() {			
 					console.log("관심매장 추가 완료 !");
-					alert("관심매장이 추가되었습니다!.")
-					location.reload();
+					alert("관심매장이 추가되었습니다!.");
+					window.location.href = "UserLikeList?u_no=" + u_no;
+				
 				},
 				error : function(error) {
 					alert("로그인이 필요합니다 !");
@@ -655,11 +661,12 @@ body {
 				},
 				success : function() {
 					console.log("관심매장 삭제 완료 !");
-					alert('관심매장이 삭제 되었습니다!.')
+					alert('관심매장이 삭제 되었습니다!.');
 					location.reload();
 				},
 				error : function(error) {
 					console.error("관심매장 삭제 실패 !", error);	
+					
 				}
 			});
 		}
