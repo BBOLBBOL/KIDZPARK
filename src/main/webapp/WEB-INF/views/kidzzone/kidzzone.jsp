@@ -339,6 +339,9 @@ body {
 	});
 		    
 	         }
+
+	    
+
 	
 
 	
@@ -366,7 +369,7 @@ var geocoder = new kakao.maps.services.Geocoder();
 var markers = []; // 마커를 담을 배열
 var overlays = []; // 오버레이를 담을 배열
 
-
+var content  = '';
 
 positions.forEach(function(position) {
 	console.log("position : ", position);
@@ -383,7 +386,7 @@ positions.forEach(function(position) {
             markers.push(marker);
             
             if (position.u_no !== null && position.kz_likeuser == 0) {
-            var content = '<div class="wrap">' + 
+            content = '<div class="wrap">' + 
             '    <div class="info">' + 
             '        <div class="title">' + 
             position.kz_name + 
@@ -461,6 +464,8 @@ function closeOverlay(index) {
 }
 
 
+
+
 // GeoLocation을 이용해서 접속 위치를 얻어옵니다
 function mysite(){
 
@@ -497,8 +502,31 @@ function moveMap(movemap){
         console.log(result, status);
         // 정상적으로 검색이 완료됐으면
           if (status === kakao.maps.services.Status.OK) {
-
+				
              var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+        	 var marker = new kakao.maps.Marker({
+                  map: map,
+                  position: coords
+              });
+              markers.push(marker);
+        	  
+        	  
+        	  
+              var overlay = new kakao.maps.CustomOverlay({
+                  content: content,
+                  map: map,
+                  position: marker.getPosition()
+              });
+              overlays.push(overlay);
+
+        	  
+        	  
+        	  overlays.forEach(function(overlay) {
+                  overlay.setMap(map);
+              }); 
+              
+        	  
+        	  
         	const moveLatLon = new kakao.maps.LatLng(coords.getLat(), coords.getLng());
             map.panTo(moveLatLon);
             
