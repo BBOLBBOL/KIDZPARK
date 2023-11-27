@@ -504,27 +504,6 @@ function moveMap(movemap){
           if (status === kakao.maps.services.Status.OK) {
 				
              var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-        	 var marker = new kakao.maps.Marker({
-                  map: map,
-                  position: coords
-              });
-              markers.push(marker);
-        	  
-        	  
-        	  
-              var overlay = new kakao.maps.CustomOverlay({
-                  content: content,
-                  map: map,
-                  position: marker.getPosition()
-              });
-              overlays.push(overlay);
-
-        	  
-        	  
-        	  overlays.forEach(function(overlay) {
-                  overlay.setMap(map);
-              }); 
-              
         	  
         	  
         	const moveLatLon = new kakao.maps.LatLng(coords.getLat(), coords.getLng());
@@ -670,8 +649,9 @@ function kidzzoneLike(kz_no, u_no) {
 		},
 		success : function() {			
 			console.log("관심매장 추가 완료 !");
-			alert("관심매장이 추가되었습니다!.")
-			location.reload();
+			alert("관심매장이 추가되었습니다!.");
+			window.location.href = "UserLikeList?u_no=" + u_no;
+		
 		},
 		error : function(error) {
 			alert("로그인이 필요합니다 !");
@@ -690,7 +670,7 @@ function kidzzoneUnLike(kz_no, u_no) {
 		},
 		success : function() {
 			console.log("관심매장 삭제 완료 !");
-			alert('관심매장이 삭제 되었습니다!.')
+			alert('관심매장이 삭제 되었습니다!.');
 			location.reload();
 		},
 		error : function(error) {
