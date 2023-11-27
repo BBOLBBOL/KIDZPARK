@@ -289,7 +289,7 @@ body {
     let cntPerPage = pg.cntPerPage; // 페이지당 항목 수
     
 	$(document).on('click', '#pageNum a', function(e) {
-		e.preventDefault();
+		//e.preventDefault();
 	    nowPage = $(this).text(); // 클릭한 버튼의 페이지 번호
 	    updatePage(); // AJAX 요청 재실행
 	});
@@ -337,6 +337,7 @@ body {
 	        console.log("오류: ", textStatus, errorThrown); // 오류 정보 출력
 	    }
 	});
+		    
 	         }
 	
 
@@ -463,10 +464,11 @@ function closeOverlay(index) {
 // GeoLocation을 이용해서 접속 위치를 얻어옵니다
 function mysite(){
 
-    navigator.geolocation.watchPosition(function (position) {
-        try {
+	navigator.geolocation.getCurrentPosition((position) => {
+       
             var lat = position.coords.latitude, // 위도
                 lon = position.coords.longitude; // 경도
+            
 
             // 현재 위치로 지도 중심 이동
             var center = new kakao.maps.LatLng(lat, lon);
@@ -483,9 +485,7 @@ function mysite(){
                 content: '현재 위치'
             });
             infowindow.open(map, marker);
-        } catch (error) {
-            console.error('Error in getCurrentPosition:', error);
-        }
+       
     }, function (error) {
         console.error('Error in getCurrentPosition:', error);
     });
@@ -501,6 +501,7 @@ function moveMap(movemap){
              var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
         	const moveLatLon = new kakao.maps.LatLng(coords.getLat(), coords.getLng());
             map.panTo(moveLatLon);
+            
         }
 	});
 }

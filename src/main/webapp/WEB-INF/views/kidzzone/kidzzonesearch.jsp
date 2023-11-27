@@ -463,7 +463,7 @@ body {
 		// GeoLocation을 이용해서 접속 위치를 얻어옵니다
 		function mysite(){
 
-		    navigator.geolocation.watchPosition(function (position) {
+			navigator.geolocation.getCurrentPosition((position) => {
 		        try {
 		            var lat = position.coords.latitude, // 위도
 		                lon = position.coords.longitude; // 경도
