@@ -289,9 +289,9 @@ body {
     let cntPerPage = pg.cntPerPage; // 페이지당 항목 수
     
 	$(document).on('click', '#pageNum a', function(e) {
-		//e.preventDefault();
+		e.preventDefault();
 	    nowPage = $(this).text(); // 클릭한 버튼의 페이지 번호
-	    updatePage(); // AJAX 요청 재실행
+	    updatePage();             
 	});
 	    
 	    function updatePage() {  	
@@ -356,7 +356,7 @@ var positions = data.selectkiddzone;
 var mapContainer = document.getElementById('map'); // 지도를 표시할 div
 var mapOption = {
     center: new kakao.maps.LatLng(35.157759003, 129.059317193), // 기본 지도 중심좌표
-    level: 3 // 지도의 확대 레벨
+    level: 4 // 지도의 확대 레벨
 };
 
 
