@@ -79,17 +79,17 @@ public class UserCsController {
 			@RequestParam HashMap<String, Object> map,
 			HttpServletRequest request
 			) {
-		System.out.println(cs_img);
+		
 		if(!cs_img.isEmpty() ) {
 			ImgFile.save(map, request);
-			System.out.println("map 1 : " + map);
+			
 			csMapper.insertCsFile(map);
 		} else {
-			System.out.println("map 2 : " + map);
+			
 			csMapper.insertCsNoFile(map);
 		}
 		
-		System.out.println("map file : " + map );
+		
 		
 		ModelAndView mv  =  new ModelAndView();
 		mv.setViewName("redirect:/UserCsList?u_no=" + map.get("u_no"));
@@ -102,7 +102,7 @@ public class UserCsController {
 		String cs_answer  =  vo.getCs_answer();
 		
 		List<CsVo> csView  =  csMapper.csView(vo);
-		System.out.println("csView : " + csView);
+		
 		ModelAndView mv  =  new ModelAndView();
 		mv.setViewName("cs/usercsview");
 		mv.addObject("view", csView);

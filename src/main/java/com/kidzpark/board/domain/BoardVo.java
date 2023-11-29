@@ -23,6 +23,7 @@ public class BoardVo {
    private int    b_readcount;
    private String b_writedate;
    private String b_update;
+   private String u_nickname;
    @NonNull
    private int    m_no;
    private int    u_no;

@@ -104,7 +104,7 @@ input[type="password"]{
 		    </form>
        </div>
 
-      </div>
+      
 
 
     <!-- JavaScript Libraries -->

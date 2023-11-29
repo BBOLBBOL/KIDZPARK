@@ -41,21 +41,21 @@ public class UserController {
 	public String checkEmail(String u_email) {
 		int number = mailService.sendMail(u_email);
 	       String num = "" + number;
-	       System.out.println("Checkmail 안의 num : " + num);
+	       
 		return num;
 	}
 	
 	@RequestMapping("/Check")
 	@ResponseBody
 	public int Check (UserVo vo) {
-		System.out.println("UserVo1 : " + vo);
+		
 		int result  = userMapper.Check(vo);
 		return result;
 	}
 	
 	@RequestMapping("/UserInfo")
 	public ModelAndView userInfo(UserVo vo) {
-		System.out.println("userInfo in vo" + vo);
+		
 		List<UserVo> infoList = userMapper.userInfo(vo);	
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("user/userinfo");
@@ -65,7 +65,7 @@ public class UserController {
 	
 	@RequestMapping("/UserUpdateForm")
 	public ModelAndView updateForm(UserVo vo) {
-		System.out.println("UserVo2 : " + vo);
+		
 		
 		//List<UserVo> infoList = userMapper.userInfo(vo);
 		//System.out.println("infoList : " + infoList);
@@ -89,7 +89,7 @@ public class UserController {
 	
 	@GetMapping("/UpdatePwForm")
 	public ModelAndView updatePwForm(UserVo vo) {
-		System.out.println("UpdatePwForm in vo" + vo);
+		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("vo", vo);
 		mv.setViewName("user/updatepw");
@@ -99,12 +99,12 @@ public class UserController {
 	@PostMapping("/UpdatePw")
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> updatePw(UserVo vo) {
-		System.out.println("UpdatePw in vo : " + vo);
+		
 		userMapper.updatePw(vo);
 		
 		String u_pw = vo.getU_pw();
 		
-		System.out.println("u_pw : " + u_pw);
+		
 		
 		Map<String, Object> response = new HashMap<>();
         response.put("updated", true);
@@ -116,10 +116,10 @@ public class UserController {
 	public ModelAndView userUpdate(@RequestParam MultipartFile u_profileimg, @RequestParam HashMap<String, Object> map, HttpServletRequest request){
 		if( !u_profileimg.isEmpty() ) {
 			ImgFile.save( map, request );
-			System.out.println("map1 : " + map);
+			
 			userMapper.userUpdate1(map);
 		} else {
-			System.out.println("map2 : " + map);
+			
 			userMapper.userUpdate2(map);
 		}
 		ModelAndView mv = new ModelAndView();

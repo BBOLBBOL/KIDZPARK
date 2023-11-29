@@ -12,7 +12,7 @@ public interface KidzzoneMapper {
 
 	int countKiddzone(KidzzoneVo vo);
 
-	List<KidzzoneVo> selectKiddzone();
+	List<KidzzoneVo> selectKiddzone(int u_no);
 
 	List<KidzzoneVo> selectKiddzonelist(PagingVo pg);
 
@@ -49,5 +49,7 @@ public interface KidzzoneMapper {
 	List<ReviewVo> userLikeList(HashMap<String, Object> map);
 
 	void userLikeDelete(ReviewVo vo);
+
+	
 
 }

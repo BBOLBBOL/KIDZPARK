@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,8 @@ import com.kidzpark.kidzzone.domain.KidzzoneVo;
 import com.kidzpark.kidzzone.domain.ReviewVo;
 import com.kidzpark.kidzzone.mapper.KidzzoneMapper;
 import com.kidzpark.paging.PagingVo;
+import com.kidzpark.user.domain.UserVo;
+import com.kidzpark.user.mapper.LoginMapper;
 
 @Controller
 public class KidzzoneController {
@@ -31,12 +34,22 @@ public class KidzzoneController {
 	@Autowired
 	private KidzzoneMapper kidzzoneMapper;
 
+	
 	@ResponseBody
 	@RequestMapping(value = "/Kidzzone", method = RequestMethod.GET)
-	public ModelAndView kidzzone(KidzzoneVo vo) {
+	public ModelAndView kidzzone(KidzzoneVo vo, HttpServletRequest request) {
 		
+		 HttpSession session = request.getSession();
+		 UserVo loginVo  =  (UserVo) session.getAttribute("loginVo");
+		 int u_no  =  (loginVo != null) ? loginVo.getU_no() : 0;
 		
-		List<KidzzoneVo> selectkiddzone = kidzzoneMapper.selectKiddzone();
+		 
+		 
+		 
+		List<KidzzoneVo> selectkiddzone = kidzzoneMapper.selectKiddzone(u_no);
+		
+
+		
 		
 		
 		
@@ -52,13 +65,13 @@ public class KidzzoneController {
 		String json = "";
 		try {
 			json = mapper.writeValueAsString(mv.getModel());
-			System.out.println(json);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		mv.addObject("json", json);
 		
-		System.out.println( "json : " + json);
+		
 
 		return mv;
 
@@ -85,7 +98,7 @@ public class KidzzoneController {
 
 		List<KidzzoneVo> selectkiddzone = kidzzoneMapper.selectKiddzonelist(pg);
 		
-		System.out.println(pg);
+		
 
 		result.put("selectkiddzone", selectkiddzone);
 		result.put("pg", pg);
@@ -94,7 +107,7 @@ public class KidzzoneController {
 
 	@RequestMapping("/KidzzoneSearch")
 	@ResponseBody
-	public ModelAndView KidzzoneSearch(KidzzoneVo vo, @RequestParam("searchOption") String searchOption,
+	public ModelAndView KidzzoneSearch(KidzzoneVo vo, @RequestParam("searchOption") String searchOption, HttpServletRequest request,
 			@RequestParam("kz_category") String kz_category, @RequestParam("kz_location") String kz_location,
 			@RequestParam("searchKeyword") String searchKeyword) {
 
@@ -105,8 +118,12 @@ public class KidzzoneController {
 			map.put("searchKeyword", searchKeyword);
 			map.put("searchOption", searchOption);
 			map.put("kz_category", kz_category);
-
-			List<KidzzoneVo> selectkiddzone = kidzzoneMapper.selectKiddzone();
+			
+			 HttpSession session = request.getSession();
+			 UserVo loginVo  =  (UserVo) session.getAttribute("loginVo");
+			 int u_no  =  (loginVo != null) ? loginVo.getU_no() : 0;
+			
+			List<KidzzoneVo> selectkiddzone = kidzzoneMapper.selectKiddzone(u_no);
 
 			ModelAndView mv = new ModelAndView();
 
@@ -119,7 +136,7 @@ public class KidzzoneController {
 			String json = "";
 			try {
 				json = mapper.writeValueAsString(mv.getModel());
-				System.out.println(json);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -127,7 +144,7 @@ public class KidzzoneController {
 			
 			mv.addObject("map", map);
 
-			System.out.println("전부");
+			
 
 			return mv;
 
@@ -138,7 +155,11 @@ public class KidzzoneController {
 			map.put("searchKeyword", searchKeyword);
 			map.put("searchOption", searchOption);
 			map.put("kz_category", kz_category);
-
+			HttpSession session = request.getSession();
+			UserVo loginVo  =  (UserVo) session.getAttribute("loginVo");
+			int u_no  =  (loginVo != null) ? loginVo.getU_no() : 0;
+			map.put("u_no", u_no);
+			
 			List<KidzzoneVo> selectkiddzone = kidzzoneMapper.selectKiddzoneSearch(map);
 
 			ModelAndView mv = new ModelAndView();
@@ -154,13 +175,13 @@ public class KidzzoneController {
 			String json = "";
 			try {
 				json = mapper.writeValueAsString(mv.getModel());
-				System.out.println(json);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			mv.addObject("json", json);
 
-			System.out.println("검색");
+			
 
 			return mv;
 		}
@@ -202,7 +223,7 @@ public class KidzzoneController {
 
 			result.put("selectkiddzone", selectkiddzone);
 			result.put("pg", pg);
-			System.out.println(result);
+			
 			return result;
 		} else {
 
@@ -214,6 +235,7 @@ public class KidzzoneController {
 			map.put("searchKeyword", searchKeyword);
 			map.put("searchOption", searchOption);
 			map.put("kz_category", kz_category);
+			
 
 			int total = kidzzoneMapper.countKiddzoneSearch2(map);
 			if (nowPage == null && cntPerPage == null) {
@@ -233,7 +255,7 @@ public class KidzzoneController {
 
 			result.put("selectkiddzone", selectkiddzone);
 			result.put("pg", pg);
-			System.out.println("result : "+ result);
+			
 			return result;
 		}
 
@@ -253,8 +275,7 @@ public class KidzzoneController {
 		    map.put("reviewList", reviewList);
 		    map.put("kz_name", kz_name);
 		    
-			System.out.println("List : " + reviewList);
-			System.out.println("kz_name : " + kz_name);
+
 			
 			
 			return map;
@@ -280,19 +301,19 @@ public class KidzzoneController {
 		} else {
 			kidzzoneMapper.insertReviewNoFile(map);
 		}
-		System.out.println("map : " + map);
+		
 		
 		return map;
 	}
 	
 	@DeleteMapping("/DeleteReview")
 	@ResponseBody
-	public HashMap<String, Object> deleteReview(@RequestParam int r_no,
+	public HashMap<String, Object> deleteReview(@RequestParam int r_no, @RequestParam int u_no,
 			@RequestParam HashMap<String, Object> map
 			) {
 		
 		map.put("r_no", r_no);
-		
+		map.put("u_no", u_no);
 		kidzzoneMapper.deleteReview(map);
 		
 		return map;
@@ -343,7 +364,7 @@ public class KidzzoneController {
 		map.put("u_no", u_no);
 		List<ReviewVo>userLikeList  =  kidzzoneMapper.userLikeList(map);
 		
-		System.out.println(userLikeList);
+		
 		ModelAndView mv  =  new ModelAndView();
 		mv.setViewName("kidzzone/userlikelist");
 		mv.addObject("LikeList", userLikeList);

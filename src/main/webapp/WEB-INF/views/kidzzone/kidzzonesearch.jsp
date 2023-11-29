@@ -204,87 +204,15 @@ body {
 					<!-- 지도 화면 구현 끝 -->
 					<div class="chat-list" style="margin-top: 3%; max-width: 300px;">
 						<div id="content"></div>
-						<div class="pagination">
-							<div id="pageNum"></div>
+						<div class="pagination" style="text-align: center;">
+							<div id="pageNum" style="width: 50%; margin: auto;"></div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-- Footer Start -->
-		<div
-			class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn"
-			data-wow-delay="0.1s">
-			<div class="container py-5">
-				<div class="row g-5">
-					<div class="col-lg-3 col-md-6">
-						<h5 class="text-white mb-4">Get In Touch</h5>
-						<p class="mb-2">
-							<i class="fa fa-map-marker-alt me-3"></i>그린아카데미
-						</p>
-						<p class="mb-2">
-							<i class="fa fa-phone-alt me-3"></i>010-0000-0000
-						</p>
-						<p class="mb-2">
-							<i class="fa fa-envelope me-3"></i>green@naver.com
-						</p>
-					</div>
-					<div class="col-lg-3 col-md-6">
-						<h5 class="text-white mb-4">Quick Links</h5>
-						<a class="btn btn-link text-white-50" href="">예스키즈존</a> <a
-							class="btn btn-link text-white-50" href="">게시판</a> <a
-							class="btn btn-link text-white-50" href="">채팅방</a> <a
-							class="btn btn-link text-white-50" href="">고객문의</a> <a
-							class="btn btn-link text-white-50" href="">마이 페이지</a>
-					</div>
-					<div class="col-lg-3 col-md-6">
-						<h5 class="text-white mb-4">Newsletter</h5>
-						<p>
-							어린이 관련 뉴스를 <br>이메일로 받아보세요!
-						</p>
-						<div class="position-relative mx-auto" style="max-width: 400px;">
-							<input class="form-control bg-transparent w-100 py-3 ps-4 pe-5"
-								type="text" placeholder="이메일 입력">
-							<button type="button"
-								class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">구독</button>
-						</div>
-					</div>
-					<div class="col-lg-3 col-md-6">
-						<h5 class="text-white mb-4">About</h5>
-						<p>
-							키즈파크에 오신것을 환영합니다.<br>많은 이용 부탁드립니다!
-						</p>
-						<div class="d-flex pt-2">
-							<a class="btn btn-outline-light btn-social" href=""><i
-								class="fab fa-twitter"></i></a> <a
-								class="btn btn-outline-light btn-social" href=""><i
-								class="fab fa-facebook-f"></i></a> <a
-								class="btn btn-outline-light btn-social" href=""><i
-								class="fab fa-youtube"></i></a> <a
-								class="btn btn-outline-light btn-social" href=""><i
-								class="fab fa-linkedin-in"></i></a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="container">
-				<div class="copyright">
-					<div class="row">
-						<div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-							&copy; <a class="border-bottom" href="#">KidzPark</a>, All Right
-							Reserved.
-
-						</div>
-						<div class="col-md-6 text-center text-md-end">
-							<div class="footer-menu">
-								<a href="">Home</a> <a href="">게시판</a> <a href="">채팅방</a> <a
-									href="">고객센터</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<%@include file="/WEB-INF/views/include/footer.jsp"%>
 		<!-- Footer End -->
 	</div>
 
@@ -426,7 +354,7 @@ body {
 	 var mapContainer = document.getElementById('map'); // 지도를 표시할 div
 	 var mapOption = {
 	     center: new kakao.maps.LatLng(35.157759003, 129.059317193), // 기본 지도 중심좌표
-	     level: 3 // 지도의 확대 레벨
+	     level: 4 // 지도의 확대 레벨
 	 };
 
 
@@ -469,7 +397,7 @@ body {
 		            '                <div class="jibun ellipsis">(우)' +position.kz_postcode +
 		            '                <div><a href="javascript:void(0);" onclick="openReviewModal(\'' + position.kz_no + '\')" class="link">리뷰보기</a></div>' +  
 		            '                <div id="Like">  ' +   
-		            ' <p style="font-size: 20px;"><a href="javascript:void:(0);" onclick="kidzzoneLike(' + kz_no + ',' + u_no + ')">🤍</a></p>';
+		            ' <p style="font-size: 20px;"><a href="javascript:void:(0);" onclick="kidzzoneLike(' + kz_no + ',' + u_no + ')">🤍'+ position.kz_like +'️</a></p>';
 		            '            </div>' + 
 		            '           <div>' + 
 		            '            </div>' + 
@@ -493,7 +421,7 @@ body {
 		                  '                <div class="jibun ellipsis">(우)' +position.kz_postcode +
 		                  '                <div><a href="javascript:void(0);" onclick="openReviewModal(\'' + position.kz_no + '\')" class="link">리뷰보기</a></div>' +  
 		                  '                <div id="Like"> '+    
-		                  '<p style="font-size: 20px;"><a href="javascript:void:(0);" onclick="kidzzoneUnLike(' + kz_no + ',' + u_no + ')">❤️</a></p>';
+		                  '<p style="font-size: 20px;"><a href="javascript:void:(0);" onclick="kidzzoneUnLike(' + kz_no + ',' + u_no + ')">❤'+ position.kz_like +'️</a></p>';
 		                  '            </div>' + 
 		                  '           <div>' + 
 		                  '            </div>' + 
@@ -509,6 +437,8 @@ body {
 		                position: marker.getPosition()
 		            });
 		            overlays.push(overlay);
+                    overlay.setMap(null);
+
 
 
 		            kakao.maps.event.addListener(marker, 'click', function() {
@@ -533,7 +463,7 @@ body {
 		// GeoLocation을 이용해서 접속 위치를 얻어옵니다
 		function mysite(){
 
-		    navigator.geolocation.watchPosition(function (position) {
+			navigator.geolocation.getCurrentPosition((position) => {
 		        try {
 		            var lat = position.coords.latitude, // 위도
 		                lon = position.coords.longitude; // 경도
@@ -590,11 +520,12 @@ body {
 		                // 각 리뷰의 정보를 <p> 태그로 생성
 		                var reviewContentHtml = '';
 		                
+		                let u_no = document.getElementById('u_no').value; // 변수를 블록 스코프로 변경
 		                for (var i = 0; i < data.reviewList.length; i++) {
 		                    var review = data.reviewList[i];
-		                    var deleteButtonHtml = '<button class="btn btn-danger" onclick="deleteReview('+ review.KZ_NO + ',' + review.R_NO + ')">삭제</button>';
+		                    var deleteButtonHtml = (review.U_NO == u_no) ? '<button class="btn btn-danger" onclick="deleteReview('+ review.KZ_NO + ',' + review.R_NO + ')">삭제</button>' : '';
 		                    var reviewImgHtml = review.R_REVIEWIMG ?
-		                        '<p><strong>리뷰사진:</strong> <img src="/img/' + review.R_REVIEWIMG + '" style="width: 100px;"></p>' :
+		                        '<p><strong></strong> <img src="/img/' + review.R_REVIEWIMG + '" style="width: 100px;"></p>' :
 		                        '';
 
 		                    reviewContentHtml +=
@@ -658,6 +589,7 @@ body {
 		        },
 		        error: function(error) {
 		            console.error('리뷰 저장에 실패했습니다: ', error);
+		            alert("로그인이 필요합니다 !.")
 		        }
 		    });
 		}
@@ -674,11 +606,13 @@ body {
 
 		function deleteReview(kz_no, r_no) {
 		    // AJAX를 사용하여 리뷰를 삭제하는 요청 보내기
+		    let u_no = document.getElementById('u_no').value; // 변수를 블록 스코프로 변경
 		    $.ajax({
 		        url: '/DeleteReview',
 		        method: 'DELETE',
 		        data: {
-		            r_no: r_no
+		            r_no: r_no,
+		            u_no : u_no
 		        },
 		        success: function(response) {
 		            console.log('리뷰가 성공적으로 삭제되었습니다.');
@@ -688,6 +622,7 @@ body {
 		        },
 		        error: function(error) {
 		            console.error('리뷰 삭제에 실패했습니다: ', error);
+		           	
 		        }
 		    });
 		}
@@ -705,10 +640,12 @@ body {
 				},
 				success : function() {			
 					console.log("관심매장 추가 완료 !");
-					alert("관심매장이 추가되었습니다!.")
-					location.reload();
+					alert("관심매장이 추가되었습니다!.");
+					window.location.href = "UserLikeList?u_no=" + u_no;
+				
 				},
 				error : function(error) {
+					alert("로그인이 필요합니다 !");
 					console.error("관심매장 추가 실패 !", error);	
 				}
 			});
@@ -724,11 +661,12 @@ body {
 				},
 				success : function() {
 					console.log("관심매장 삭제 완료 !");
-					alert('관심매장이 삭제 되었습니다!.')
+					alert('관심매장이 삭제 되었습니다!.');
 					location.reload();
 				},
 				error : function(error) {
 					console.error("관심매장 삭제 실패 !", error);	
+					
 				}
 			});
 		}

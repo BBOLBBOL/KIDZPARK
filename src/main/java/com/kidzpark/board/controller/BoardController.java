@@ -47,11 +47,11 @@ public class BoardController {
 		int total = boardMapper.countboard(map);
 		if (nowPage == null && cntPerPage == null) {
 			nowPage = "1";
-			cntPerPage = "5";
+			cntPerPage = "7";
 		} else if (nowPage == null) {
 			nowPage = "1";
 		} else if (cntPerPage == null) {
-			cntPerPage = "5";
+			cntPerPage = "7";
 		}
 
 		pg = new PagingVo(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
@@ -305,7 +305,7 @@ public class BoardController {
 	public ModelAndView update(@RequestParam MultipartFile b_img, @RequestParam HashMap<String, Object> map,
 			HttpServletRequest request) {
 		
-		System.out.println(map);
+		
 		
 		if (!b_img.isEmpty()) {
 			ImgFile.save(map, request);
@@ -335,8 +335,8 @@ public class BoardController {
 	boardMapper.commentWrite(map);
 	
 	mv.addObject("map",map);
-	
-	mv.setViewName("redirect:/BoardView?b_idx=" + map.get("b_idx") +"&u_no="+ map.get("u_no")+"&m_no=" + map.get("m_no"));
+	System.out.println("map : " + map );
+	mv.setViewName("redirect:/BoardView?b_idx=" + map.get("b_idx") +"&u_no="+ map.get("u_no2")+"&m_no=" + map.get("m_no"));
 	
 	
 	

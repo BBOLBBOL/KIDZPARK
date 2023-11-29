@@ -83,7 +83,7 @@ public class AdminController {
 		int u_no  =  vo.getU_no();
 		List<UserVo> userList  =  adminMapper.userList(pds);
 		
-		System.out.println(userList);
+		
 		
 		ModelAndView mv  =  new ModelAndView();
 		mv.setViewName("admin/userlist");
@@ -173,7 +173,7 @@ public class AdminController {
 		mv.addObject("m_no", vo.getM_no());
 		mv.addObject("m_name", m_name);
 
-		System.out.println("mv : " + mv);
+		
 		return mv;
 	}
 	

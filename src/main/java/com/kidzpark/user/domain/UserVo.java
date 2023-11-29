@@ -26,8 +26,8 @@ public class UserVo {
 	private String u_profileimg;
 	private String u_email;
 	private int    u_logincount;
-	private int    u_writecount;
-	private int    u_grade;
+	private String    u_logindate;
+	private String    u_grade;
 	private String u_nickname;
 	private String u_phone;
 }

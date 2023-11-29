@@ -24,5 +24,10 @@ public interface LoginMapper {
 	void updatePw(UserVo vo);
 
 	int pCheck(String u_phone);
+
+    void updateUser(UserVo vo);
+
+	void updateGrade(UserVo loginVo);
+
 	
 }
