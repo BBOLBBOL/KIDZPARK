@@ -1,133 +1,71 @@
-BEGIN
-  FOR cur_rec IN (SELECT table_name FROM user_tables) LOOP
-    EXECUTE IMMEDIATE 'DROP TABLE ' || cur_rec.table_name || ' CASCADE CONSTRAINTS';
-  END LOOP;
-END;
-/
--- 위에는 모든 테이블 삭제 명령어
+CREATE TABLE MUSER (
 
-CREATE TABLE puser (
-  u_no NUMBER(6) PRIMARY KEY,
-  u_id VARCHAR2(150) UNIQUE,
-  u_pw VARCHAR2(30),
-  u_name VARCHAR2(30),
-  u_postcode NUMBER(10),
-  u_address VARCHAR2(150),
-  u_detailaddress VARCHAR2(150),
-  u_extraaddress VARCHAR2(100),
-  u_nickname VARCHAR2(50) UNIQUE,
-  u_phone NUMBER(15),
-  u_profileimg VARCHAR2(255),
-  u_email VARCHAR2(150),
-  u_logincount NUMBER,
-  u_logindate DATE default SYSDATE,
-  u_grade VARCHAR2(20)
+U_NO NUMBER(6,0) PRIMARY KEY,
+U_ID VARCHAR2(30),
+U_PW VARCHAR2(50),
+U_NAME VARCHAR2(20),
+U_NICKNAME VARCHAR2(20),
+U_EMAIL VARCHAR2(50),
+U_PROFILEIMG VARCHAR2(50),
+U_BDAY VARCHAR2(40)
+
+
+
+
 );
 
-CREATE TABLE menu (
-  m_no NUMBER(6) PRIMARY KEY,
-  m_name VARCHAR2(100),
-  m_seq NUMBER(3)
+
+create table movie (
+
+m_no number (10,0) primary key,
+m_id number(10,0),
+m_title varchar2(100),
+m_img   varchar2(200) default 'https://image.tmdb.org/t/p/original',
+m_release_date varchar2(50),
+m_vote_average number(6,0),
+m_vote_count   number(6,0)
+
+
 );
 
-CREATE TABLE board (
-  b_idx NUMBER PRIMARY KEY,
-  b_title VARCHAR2(255),
-  b_cont VARCHAR2(4000),
-  b_img VARCHAR2(255),
-  b_readcount NUMBER,
-  b_writedate DATE,
-  b_update DATE,
-  m_no NUMBER(6),
-  u_no NUMBER(6),
-  FOREIGN KEY (m_no) REFERENCES menu(m_no) ON DELETE CASCADE,
-  FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE
+create table moviereview (
+
+r_no  number(6,0) primary key,
+r_review varchar2(50),
+u_no number(6,0),
+m_no number(6,0),
+foreign key (u_no) references muser(u_no) ON DELETE CASCADE,
+foreign key (m_no) references movie(m_no) ON DELETE CASCADE
+
+
 );
 
-CREATE TABLE commt (
-  c_idx NUMBER(6) PRIMARY KEY,
-  c_comment VARCHAR2(400),
-  c_commentDate DATE,
-  u_no NUMBER,
-  b_idx NUMBER,
-  FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE,
-  FOREIGN KEY (b_idx) REFERENCES board(b_idx) ON DELETE CASCADE
+
+create table movielike (
+m_no number(6,0),
+u_no number(6,0),
+foreign key (u_no) references muser(u_no) ON DELETE CASCADE,
+foreign key (m_no) references movie(m_no) ON DELETE CASCADE
 );
 
-CREATE TABLE chatroom (
-  chr_no NUMBER(6) PRIMARY KEY,
-  chr_title VARCHAR2(255),
-  chr_opendate DATE
-);
 
-CREATE TABLE chat (
-  chr_no NUMBER(6),
-  chr_message VARCHAR2(255),
-  chr_submitTime DATE,
-  u_no NUMBER,
-  FOREIGN KEY (chr_no) REFERENCES chatroom(chr_no) ON DELETE CASCADE,
-  FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE
-);
-
-CREATE TABLE chatmember(
-chr_no number,
-u_no number,
-FOREIGN KEY (chr_no) REFERENCES chatroom(chr_no) ON DELETE CASCADE,
-FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE
-);
-
-CREATE TABLE kidzzone (
-  kz_no NUMBER PRIMARY KEY,
-  kz_name VARCHAR2(255),
-  kz_postcode NUMBER(10),
-  kz_address VARCHAR2(150),
-  kz_detailaddress VARCHAR2(250),
-  kz_extraaddress VARCHAR2(100),
-  kz_explanation VARCHAR2(400),
-  kz_openingtime VARCHAR2(150),
-  kz_img VARCHAR2(255),
-  kz_category VARCHAR2(40)
-);
-
-CREATE TABLE zonereview (
-  r_review VARCHAR2(4000),
-  r_reviewdate DATE,
-  r_reviewimg VARCHAR2(255),
-  kz_no NUMBER,
-  u_no NUMBER,
-  r_no NUMBER,
-  FOREIGN KEY (kz_no) REFERENCES kidzzone(kz_no) ON DELETE CASCADE,
-  FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE
-);
-
-CREATE TABLE zonelike (
-  kz_no NUMBER,
-  u_no NUMBER,
-  FOREIGN KEY (kz_no) REFERENCES kidzzone(kz_no) ON DELETE CASCADE,
-  FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE
-);
-
-CREATE TABLE cservice (
-cs_idx NUMBER PRIMARY KEY,
-u_no NUMBER,
-cs_title VARCHAR2(150),
-cs_cont VARCHAR2(400),
-cs_img VARCHAR2(255),
+create table cservice (
+cs_idx number(6,0) primary key,
+u_no number(6,0),
+cs_title varchar2(50),
+cs_cont varchar2(300),
+cs_img  varchar2(255),
 cs_writerdate DATE,
-cs_category VARCHAR2(40),
-  FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE
+cs_category varchar2(30),
+FOREIGN KEY (u_no) REFERENCES muser(u_no) ON DELETE CASCADE
+
 );
-  
+
 CREATE TABLE csanswer(
-cs_idx NUMBER,
-cs_answer VARCHAR2(400),
+cs_idx NUMBER(6,0),
+cs_answer VARCHAR2(300),
+cs_img varchar2(255),
 cs_answerdate DATE,
   FOREIGN KEY (cs_idx) REFERENCES cservice(cs_idx) ON DELETE CASCADE
   );
 
-CREATE TABLE boardlike(
-  b_idx number,
-  u_no  number,
-  FOREIGN KEY (b_idx) REFERENCES board(b_idx) ON DELETE CASCADE,
-  FOREIGN KEY (u_no) REFERENCES puser(u_no) ON DELETE CASCADE
-);

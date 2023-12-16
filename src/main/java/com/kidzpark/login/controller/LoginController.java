@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kidzpark.user.domain.ImgFile;
+import com.kidzpark.user.domain.UserService;
 import com.kidzpark.user.domain.UserVo;
 import com.kidzpark.user.mapper.LoginMapper;
 import com.kidzpark.user.service.FindService;
@@ -42,6 +44,13 @@ public class LoginController {
 	@Autowired
 	private MailService mailService;
 	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	
 	@RequestMapping("/LoginForm")  
 	   public String loginForm() {
 	      return "login/login";
@@ -52,7 +61,7 @@ public class LoginController {
 		
 		HttpSession session = request.getSession();
 		String returnURL = "";
-
+		
 		if( session.getAttribute("loginVo") != null ) {
 			session.removeAttribute("loginVo");
 		}
@@ -63,18 +72,20 @@ public class LoginController {
 		
 		// 로그인 입력값으로 DB조회후 확인
 		UserVo loginVo = loginMapper.login( vo );
-		if ( loginVo != null ) {
+		if ( loginVo != null && passwordEncoder.matches(vo.getU_pw(), loginVo.getU_pw())) {		
 			session.setAttribute("loginVo", loginVo);
-			System.out.println(loginVo);
+	
 			loginMapper.updateUser(loginVo);
 			loginMapper.updateGrade(loginVo);
-
+			
 			returnURL = "redirect:/";
+			
 		} else {
 			model.addAttribute("loginFail", "아이디나 비밀번호가 잘못되었습니다. 다시 시도하세요.");
 			returnURL = "redirect:/LoginForm";
 		}
 		
+		System.out.println();
 		return returnURL;
 	}
 	// 로그아웃
@@ -94,15 +105,15 @@ public class LoginController {
 			@RequestParam HashMap<String, Object> map
 			,HttpServletRequest   request){
 		
-
+		
 		
 		if( !u_profileimg.isEmpty() ) {
 			ImgFile.save( map, request );
 			
-			loginMapper.insertJoin2(map);
+			userService.insertJoin2(map);
 		} else {
 			
-			loginMapper.insertJoin1(map);
+			userService.insertJoin1(map);
 		}
 		
 		ModelAndView mv = new ModelAndView();

@@ -22,7 +22,6 @@ TO_CHAR(U_LOGINDATE, 'YYYY-MM-DD') U_LOGINDATE,
 U_GRADE
        FROM  PUSER
       WHERE U_ID = #{ u_id }
-       AND  U_PW = #{ u_pw }
 </select>
  
 <select id="idCheck"
